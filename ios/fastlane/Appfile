@@ -1,4 +1,4 @@
-app_identifier("com.reddwarf.music") # The bundle identifier of your app
+app_identifier("com.reddwarf.musicapp") # The bundle identifier of your app
 apple_id("343735881@qq.com") # Your Apple email address
 
 itc_team_id("122421975") # App Store Connect Team ID
