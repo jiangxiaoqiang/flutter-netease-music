@@ -1,0 +1,8 @@
+app_identifier("tech.soit.queit.app.quiet") # The bundle identifier of your app
+apple_id("343735881@qq.com") # Your Apple email address
+
+itc_team_id("122421975") # App Store Connect Team ID
+team_id("6JP4P88ZJB") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
