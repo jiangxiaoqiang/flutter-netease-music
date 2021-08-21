@@ -50,6 +50,10 @@ dependencies:
   hooks_riverpod: ^1.0.0-dev.6
   flutter_json_view: ^0.2.1
   flutter_hooks: ^0.18.0
+  wheel:
+    git:
+      url: https://github.com/jiangxiaoqiang/wheel.git
+      ref: main
 
 dev_dependencies:
   flutter_test:
