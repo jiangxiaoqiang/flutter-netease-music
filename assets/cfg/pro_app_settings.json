@@ -1,4 +1,4 @@
 {
-  "baseUrl": "https://api.poemhub.top",
-  "appId": 1
+    "baseUrl": "https://music-api.poemhub.top",
+    "appId": 4
 }

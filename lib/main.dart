@@ -17,8 +17,15 @@ import 'package:quiet/pages/splash/page_splash.dart';
 import 'package:quiet/repository/netease.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wheel/wheel.dart';
 
 void main() {
+  CommonUtils.initialApp(ConfigType.PRO).whenComplete(() => {
+    loadApp()
+  });
+}
+
+void loadApp(){
   WidgetsFlutterBinding.ensureInitialized();
   neteaseRepository = NeteaseRepository();
   api.debugPrint = debugPrint;

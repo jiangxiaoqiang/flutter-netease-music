@@ -6,6 +6,7 @@ import 'package:quiet/pages/account/page_need_login.dart';
 import 'package:quiet/pages/playlist/music_list.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/netease.dart';
+import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///每日推荐歌曲页面
@@ -23,6 +24,9 @@ class DailyPlaylistPage extends StatelessWidget {
                     .cast<Map>()
                     .map(mapJsonToMusic)
                     .toList();
+                list.forEach((element) {
+                  ReddwarfMusic.savePlayingMusic(element);
+                });
                 return MusicTileConfiguration(
                     token: 'playlist_daily_recommend',
                     musics: list,
