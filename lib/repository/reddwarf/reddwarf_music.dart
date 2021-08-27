@@ -13,7 +13,7 @@ class ReddwarfMusic {
   static Future<void> savePlayingMusic(Music music) async {
     try {
       Map jsonMap = music.toJson();
-      final response = await RestClient.postHttp("/music/user/v1/play-record",jsonMap);
+      final response = await RestClient.postHttp("/music/user/v1/save-play-record",jsonMap);
       if(RestClient.respSuccess(response)){
 
       }
