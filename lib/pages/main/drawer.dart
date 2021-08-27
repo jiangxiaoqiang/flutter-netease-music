@@ -28,7 +28,7 @@ class MainNavigationDrawer extends StatelessWidget {
                         icon: const Icon(Icons.settings),
                         title: const Text("设置"),
                         onTap: () {
-                          Navigator.pushNamed(context, ROUTE_SETTING);
+                          Navigator.pushNamed(context, pageSetting);
                         },
                       ),
                       const Divider(height: 0, indent: 16),
@@ -85,12 +85,14 @@ class MainNavigationDrawerTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 IconTheme(
-                  data: IconThemeData(size: 36, color: foreground),
+                  data: IconThemeData(size: 32, color: foreground),
                   child: icon,
                 ),
                 const SizedBox(height: 8),
                 DefaultTextStyle(
-                    style: TextStyle(color: foreground), child: title),
+                  style: context.textTheme.caption!.copyWith(color: foreground),
+                  child: title,
+                ),
               ],
             ),
           ),
