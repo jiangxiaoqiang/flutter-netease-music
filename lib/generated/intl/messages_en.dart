@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "alreadyBuy": MessageLookupByLibrary.simpleMessage("Payed"),
         "cloudMusic": MessageLookupByLibrary.simpleMessage("Could Space"),
         "collectionLike": MessageLookupByLibrary.simpleMessage("Collections"),
+        "copyRightOverlay": MessageLookupByLibrary.simpleMessage(
+            "Only used for personal study and research, commercial and illegal purposes are prohibited"),
         "createdSongList":
             MessageLookupByLibrary.simpleMessage("Created Song List"),
         "delete": MessageLookupByLibrary.simpleMessage("delete"),
@@ -53,15 +55,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("login with phone"),
         "my": MessageLookupByLibrary.simpleMessage("My"),
         "myDjs": MessageLookupByLibrary.simpleMessage("Dj"),
+        "myMusic": MessageLookupByLibrary.simpleMessage("My Music"),
         "nextStep": MessageLookupByLibrary.simpleMessage("next step"),
+        "personalFM": MessageLookupByLibrary.simpleMessage("Personal FM"),
         "playInNext": MessageLookupByLibrary.simpleMessage("play in next"),
         "playlistLoginDescription": MessageLookupByLibrary.simpleMessage(
             "Login to discover your playlists."),
         "playlistShareContent": m1,
+        "projectDescription": MessageLookupByLibrary.simpleMessage(
+            "OpenSource project https://github.com/boyan01/flutter-netease-music"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
         "selectRegionDiaCode":
             MessageLookupByLibrary.simpleMessage("select region code"),
         "shareContentCopied": MessageLookupByLibrary.simpleMessage(
             "Share content has copied to clipboard."),
+        "skipLogin": MessageLookupByLibrary.simpleMessage("Skip login"),
         "tipsAutoRegisterIfUserNotExist":
             MessageLookupByLibrary.simpleMessage("未注册手机号登陆后将自动创建账号"),
         "todo": MessageLookupByLibrary.simpleMessage("TBD")
