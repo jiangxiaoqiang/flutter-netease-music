@@ -6,6 +6,7 @@ import 'package:music_player/music_player.dart';
 import 'package:quiet/component/player/lryic.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/part/part.dart';
+import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 export 'package:quiet/component/player/bottom_player_bar.dart';
@@ -87,7 +88,14 @@ extension MusicPlayerExt on MusicPlayer {
         queueId: kFmPlayQueueId,
         queue: musics.toMetadataList());
     playWithQueue(queue);
+    saveToReddwarf(musics);
   }
+}
+
+void saveToReddwarf(List<Music> musics){
+  musics.forEach((element) {
+    ReddwarfMusic.savePlayingMusic(element);
+  });
 }
 
 extension MusicPlayerValueExt on MusicPlayerValue {
