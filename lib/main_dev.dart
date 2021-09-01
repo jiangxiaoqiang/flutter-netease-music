@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:music_player/music_player.dart';
-import 'package:quiet/app.dart';
-import 'package:quiet/component.dart';
 import 'package:quiet/repository/netease.dart';
 import 'package:wheel/wheel.dart';
 
+import 'app.dart';
+import 'component/player/interceptors.dart';
+
 void main() {
-  CommonUtils.initialApp(ConfigType.PRO).whenComplete(() => {
+  CommonUtils.initialApp(ConfigType.DEV).whenComplete(() => {
     loadApp()
   });
 }
@@ -24,4 +25,3 @@ void playerBackgroundService() {
     playQueueInterceptor: QuietPlayQueueInterceptor(),
   );
 }
-
