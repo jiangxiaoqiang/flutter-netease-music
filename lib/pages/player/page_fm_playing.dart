@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:quiet/component.dart';
 import 'package:quiet/material.dart';
@@ -63,10 +64,8 @@ class _CenterSectionState extends State<_CenterSection> {
   Widget build(BuildContext context) {
     return Expanded(
       child: AnimatedCrossFade(
-        crossFadeState:
-            _showLyric ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild,
-            Key bottomChildKey) {
+        crossFadeState: _showLyric ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild, Key bottomChildKey) {
           return Stack(
             clipBehavior: Clip.none,
             children: <Widget>[
@@ -144,17 +143,12 @@ class _FmCover extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 200),
                 child: Text(
                   music.artistString,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .caption!
-                      .copyWith(fontSize: 13),
+                  style: Theme.of(context).primaryTextTheme.caption!.copyWith(fontSize: 13),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Icon(Icons.chevron_right,
-                  size: 17,
-                  color: Theme.of(context).primaryTextTheme.caption!.color),
+              Icon(Icons.chevron_right, size: 17, color: Theme.of(context).primaryTextTheme.caption!.color),
             ],
           ),
         )
@@ -167,6 +161,7 @@ class _FmControllerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryIconTheme.color;
+    SystemChrome.setEnabledSystemUIOverlays([]);
 
     final iconPlayPause = PlayingIndicator(
       playing: IconButton(
@@ -239,8 +234,7 @@ class _FmControllerBar extends StatelessWidget {
                           threadId: CommentThreadId(
                             context.player.value.current!.id,
                             CommentType.song,
-                            payload: CommentThreadPayload.music(
-                                context.player.value.current!),
+                            payload: CommentThreadPayload.music(context.player.value.current!),
                           ),
                         )));
               }),
