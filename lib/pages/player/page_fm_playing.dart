@@ -7,6 +7,7 @@ import 'package:quiet/pages/artists/page_artist_detail.dart';
 import 'package:quiet/pages/comments/page_comment.dart';
 import 'package:quiet/repository/cached_image.dart';
 import 'package:quiet/repository/netease.dart';
+import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
 
 import 'background.dart';
 import 'player_progress.dart';
@@ -21,6 +22,8 @@ class PagePlayingFm extends StatelessWidget {
         Navigator.of(context).pop();
       });
       return Container();
+    } else {
+      ReddwarfMusic.savePlayingMusic(current);
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,
