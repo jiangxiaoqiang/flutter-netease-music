@@ -25,5 +25,21 @@ class ReddwarfMusic {
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");
     }
   }
+
+  static Future<void> likePlayingMusic(Music music) async {
+    try {
+      Map jsonMap = music.toJson();
+      final response = await RestClient.postHttp("/music/music/user/v1/like",jsonMap);
+      if(RestClient.respSuccess(response)){
+
+      }
+    } on Exception catch (e) {
+      // only executed if error is of type Exception
+      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+    } catch (error) {
+      // executed for errors of all types other than Exception
+      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
+    }
+  }
 }
 

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_player/music_player.dart';
 import 'package:quiet/component/netease/netease.dart';
 import 'package:quiet/part/part.dart';
+import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
 
 import 'user.dart';
 
@@ -122,6 +123,7 @@ class LikeButton extends ConsumerWidget {
         }
         if (!isLiked) {
           ref.read(userFavoriteMusicListProvider.notifier).likeMusic(music);
+          ReddwarfMusic.likePlayingMusic(music);
         } else {
           ref.read(userFavoriteMusicListProvider.notifier).dislikeMusic(music);
         }
