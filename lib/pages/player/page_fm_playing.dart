@@ -22,8 +22,6 @@ class PagePlayingFm extends StatelessWidget {
         Navigator.of(context).pop();
       });
       return Container();
-    } else {
-      ReddwarfMusic.savePlayingMusic(current);
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,
