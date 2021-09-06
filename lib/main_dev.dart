@@ -8,7 +8,7 @@ import 'component/player/interceptors.dart';
 
 void main() {
   CommonUtils.initialApp(ConfigType.DEV).whenComplete(() => {
-    loadApp()
+    loadApp(ConfigType.DEV)
   });
 }
 
