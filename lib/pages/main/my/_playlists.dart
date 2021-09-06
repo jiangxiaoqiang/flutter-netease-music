@@ -9,7 +9,7 @@ import 'package:quiet/repository/netease.dart';
 
 import '../playlist_tile.dart';
 
-enum PlayListType { created, favorite }
+enum PlayListType { created, favorite, discovery }
 
 class PlayListsGroupHeader extends StatelessWidget {
   const PlayListsGroupHeader({Key? key, required this.name, this.count})
@@ -113,6 +113,7 @@ class _MyPlayListsHeader extends StatelessWidget
         tabs: [
           Tab(text: context.strings.createdSongList),
           Tab(text: context.strings.favoriteSongList),
+          Tab(text: context.strings.discoverySongList),
         ],
       ),
     );

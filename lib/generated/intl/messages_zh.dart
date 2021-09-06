@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "copyRightOverlay":
             MessageLookupByLibrary.simpleMessage("只用作个人学习研究，禁止用于商业及非法用途"),
         "createdSongList": MessageLookupByLibrary.simpleMessage("创建歌单"),
+        "discoverySongList": MessageLookupByLibrary.simpleMessage("最近发现"),
         "delete": MessageLookupByLibrary.simpleMessage("删除"),
         "discover": MessageLookupByLibrary.simpleMessage("发现"),
         "errorToFetchData": MessageLookupByLibrary.simpleMessage("获取数据失败"),

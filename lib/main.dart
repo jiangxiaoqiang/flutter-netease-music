@@ -11,7 +11,8 @@ void main() {
 
 /// The entry of dart background service
 /// NOTE: this method will be invoked by native (Android/iOS)
-@pragma('vm:entry-point') // avoid Tree Shaking
+/// avoid Tree Shaking
+@pragma('vm:entry-point')
 void playerBackgroundService() {
   CommonUtils.initialApp(ConfigType.PRO).whenComplete(() => {
     loadRepository()
