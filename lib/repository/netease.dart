@@ -125,7 +125,7 @@ class NeteaseRepository {
   ///PlayListDetail 中的 tracks 都是空数据
   Future<Result<List<PlaylistDetail>>> userPlaylist(int? userId, [int offset = 0, int limit = 1000]) async {
     final response = await doRequest("/user/playlist", {"offset": offset, "uid": userId, "limit": limit});
-
+    ReddwarfMusic.playlist();
     return _map(response, (Map result) {
       final List<PlaylistDetail> list =
           (result["playlist"] as List).cast<Map>().map((e) => PlaylistDetail.fromJson(e)).toList();
