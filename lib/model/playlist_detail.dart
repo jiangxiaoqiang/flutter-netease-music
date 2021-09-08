@@ -2,19 +2,8 @@ import 'package:quiet/model/model.dart';
 import 'package:quiet/repository/netease.dart';
 
 class PlaylistDetail {
-  PlaylistDetail(
-      this.id,
-      this.musicList,
-      this.creator,
-      this.name,
-      this.coverUrl,
-      this.trackCount,
-      this.description,
-      this.subscribed,
-      this.subscribedCount,
-      this.commentCount,
-      this.shareCount,
-      this.playCount);
+  PlaylistDetail(this.id, this.musicList, this.creator, this.name, this.coverUrl, this.trackCount, this.description,
+      this.subscribed, this.subscribedCount, this.commentCount, this.shareCount, this.source, this.playCount);
 
   ///null when playlist not complete loaded
   final List<Music>? musicList;
@@ -37,10 +26,11 @@ class PlaylistDetail {
 
   int? shareCount;
 
+  int? source;
+
   int? playCount;
 
-  bool get loaded =>
-      trackCount == 0 || (musicList != null && musicList!.length == trackCount);
+  bool get loaded => trackCount == 0 || (musicList != null && musicList!.length == trackCount);
 
   ///tag fro hero transition
   String get heroTag => "playlist_hero_$id";
@@ -54,8 +44,7 @@ class PlaylistDetail {
   static PlaylistDetail fromJson(Map playlist) {
     return PlaylistDetail(
         playlist["id"],
-        mapJsonListToMusicList(playlist["tracks"],
-            artistKey: "ar", albumKey: "al"),
+        mapJsonListToMusicList(playlist["tracks"], artistKey: "ar", albumKey: "al"),
         playlist["creator"],
         playlist["name"],
         playlist["coverImgUrl"],
@@ -65,6 +54,7 @@ class PlaylistDetail {
         playlist["subscribedCount"],
         playlist["commentCount"],
         playlist["shareCount"],
+        playlist["source"],
         playlist["playCount"]);
   }
 
@@ -74,11 +64,7 @@ class PlaylistDetail {
     }
     return PlaylistDetail(
         map['id'],
-        (map['musicList'] as List?)
-            ?.cast<Map<String, dynamic>>()
-            .map((m) => Music.fromJson(m))
-            .cast<Music>()
-            .toList(),
+        (map['musicList'] as List?)?.cast<Map<String, dynamic>>().map((m) => Music.fromJson(m)).cast<Music>().toList(),
         map['creator'],
         map['name'],
         map['coverUrl'],
@@ -88,6 +74,7 @@ class PlaylistDetail {
         map['subscribedCount'],
         map['commentCount'],
         map['shareCount'],
+        map['source'],
         map['playCount']);
   }
 
@@ -104,6 +91,7 @@ class PlaylistDetail {
       'subscribedCount': subscribedCount,
       'commentCount': commentCount,
       'shareCount': shareCount,
+      'source': source,
       'playCount': playCount
     };
   }
