@@ -44,8 +44,7 @@ class ReddwarfMusic {
 
   static Future<void> playlist() async {
     try {
-      Map jsonMap = new Map();
-      final response = await RestClient.postHttp("/music/playlist/v1/playlist",jsonMap);
+      final response = await RestClient.getHttp("/music/playlist/v1/playlist");
       if(RestClient.respSuccess(response)){
 
       }
