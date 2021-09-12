@@ -1,3 +1,18 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:netease_music_api/netease_cloud_music.dart' as api;
+import 'package:path_provider/path_provider.dart';
+import 'package:quiet/model/playlist_detail.dart';
+import 'package:quiet/model/user_detail_bean.dart';
+import 'package:quiet/pages/comments/page_comment.dart';
+import 'package:quiet/part/part.dart';
+import 'package:quiet/repository/objects/music_count.dart';
+import 'package:quiet/repository/objects/music_video_detail.dart';
+import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
+
 export 'package:async/async.dart' show Result;
 export 'package:async/async.dart' show ValueResult;
 export 'package:async/async.dart' show ErrorResult;
@@ -50,6 +65,24 @@ class ReddwarfMusic {
           }
         });
         return list1;
+      }
+    } on Exception catch (e) {
+      // only executed if error is of type Exception
+      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+    } catch (error) {
+      // executed for errors of all types other than Exception
+      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
+    }
+    return null;
+  }
+
+  static Future<Result<PlaylistDetail>?> playlistDetail() async {
+    try {
+      final response = await RestClient.getHttp("/music/playlist/v1/playlist/detail/1");
+      if (RestClient.respSuccess(response)) {
+        Map result = (response.data["result"] as Map);
+        PlaylistDetail? detail = PlaylistDetail.fromMap(result);
+        return Result.value(detail!);
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception

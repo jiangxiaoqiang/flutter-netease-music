@@ -157,6 +157,17 @@ class NeteaseRepository {
     });
   }
 
+  ///根据歌单id获取歌单详情，包括歌曲
+  ///
+  /// [s] 歌单最近的 s 个收藏者
+  Future<Result<PlaylistDetail>?> playlistDetailDiffSource(int? source, int id, {int s = 5}) async {
+    if (source == 3) {
+      return ReddwarfMusic.playlistDetail();
+    } else {
+      return playlistDetail(id);
+    }
+  }
+
   ///id 歌单id
   ///return true if action success
   Future<bool> playlistSubscribe(int? id, bool subscribe) async {

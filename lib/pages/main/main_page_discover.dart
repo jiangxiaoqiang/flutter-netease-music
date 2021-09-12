@@ -10,8 +10,7 @@ class MainPageDiscover extends StatefulWidget {
   State<StatefulWidget> createState() => CloudPageState();
 }
 
-class CloudPageState extends State<MainPageDiscover>
-    with AutomaticKeepAliveClientMixin {
+class CloudPageState extends State<MainPageDiscover> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -43,8 +42,7 @@ class _NavigationLine extends StatelessWidget {
               context.secondaryNavigator!.pushNamed(pageFmPlaying);
               return;
             }
-            showLoaderOverlay(context, neteaseRepository!.getPersonalFmMusics())
-                .then((musics) {
+            showLoaderOverlay(context, neteaseRepository!.getPersonalFmMusics()).then((musics) {
               context.player.playFm(musics!);
               context.secondaryNavigator!.pushNamed(pageFmPlaying);
             }).catchError((error, stacktrace) {
@@ -81,10 +79,7 @@ class _Header extends StatelessWidget {
           const Padding(padding: EdgeInsets.only(left: 8)),
           Text(
             text,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1!
-                .copyWith(fontWeight: FontWeight.w800),
+            style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w800),
           ),
           const Icon(Icons.chevron_right),
         ],
@@ -141,16 +136,13 @@ class _SectionPlaylist extends StatelessWidget {
       builder: (context, result) {
         final List<Map> list = (result["result"] as List).cast();
         return LayoutBuilder(builder: (context, constraints) {
-          assert(constraints.maxWidth.isFinite,
-              "can not layout playlist item in infinite width container.");
+          assert(constraints.maxWidth.isFinite, "can not layout playlist item in infinite width container.");
           final parentWidth = constraints.maxWidth - 8;
           const int count = /* false ? 6 : */ 3;
-          final double width =
-              (parentWidth ~/ count).toDouble().clamp(80.0, 200.0);
+          final double width = (parentWidth ~/ count).toDouble().clamp(80.0, 200.0);
           final double spacing = (parentWidth - width * count) / (count + 1);
           return Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: 4 + spacing.roundToDouble()),
+            padding: EdgeInsets.symmetric(horizontal: 4 + spacing.roundToDouble()),
             child: Wrap(
               spacing: spacing,
               children: list.map<Widget>((p) {
@@ -199,6 +191,7 @@ class _PlayListItemView extends StatelessWidget {
       onTap: () {
         context.secondaryNavigator!.push(MaterialPageRoute(builder: (context) {
           return PlaylistDetailPage(
+            playlist["source"],
             playlist["id"],
           );
         }));
@@ -217,8 +210,7 @@ class _PlayListItemView extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: FadeInImage(
-                    placeholder:
-                        const AssetImage("assets/playlist_playlist.9.png"),
+                    placeholder: const AssetImage("assets/playlist_playlist.9.png"),
                     image: CachedImage(playlist["picUrl"]),
                     fit: BoxFit.cover,
                   ),
@@ -249,10 +241,7 @@ class _SectionNewSongs extends StatelessWidget {
     return Loader<Map>(
       loadTask: () => neteaseRepository!.personalizedNewSong(),
       builder: (context, result) {
-        final List<Music> songs = (result["result"] as List)
-            .cast<Map>()
-            .map(_mapJsonToMusic)
-            .toList();
+        final List<Music> songs = (result["result"] as List).cast<Map>().map(_mapJsonToMusic).toList();
         return MusicTileConfiguration(
           musics: songs,
           token: 'playlist_main_newsong',

@@ -13,8 +13,7 @@ class PlaylistResultSection extends StatefulWidget {
   _PlaylistResultSectionState createState() => _PlaylistResultSectionState();
 }
 
-class _PlaylistResultSectionState extends State<PlaylistResultSection>
-    with AutomaticKeepAliveClientMixin {
+class _PlaylistResultSectionState extends State<PlaylistResultSection> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -22,8 +21,7 @@ class _PlaylistResultSectionState extends State<PlaylistResultSection>
   Widget build(BuildContext context) {
     super.build(context);
     return AutoLoadMoreList(loadMore: (offset) async {
-      final result = await neteaseRepository!
-          .search(widget.query, NeteaseSearchType.playlist, offset: offset);
+      final result = await neteaseRepository!.search(widget.query, NeteaseSearchType.playlist, offset: offset);
       if (result.isValue) {
         return LoadMoreResult(result.asValue!.value["result"]["playlists"]);
       }
@@ -41,13 +39,12 @@ class _PlayListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String subTitle =
-        "${item["trackCount"]}首 by ${item["creator"]["nickname"]},"
+    String subTitle = "${item["trackCount"]}首 by ${item["creator"]["nickname"]},"
         "播放${getFormattedNumber(item["playCount"])}次";
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return PlaylistDetailPage(item["id"]);
+          return PlaylistDetailPage(item["source"], item["id"]);
         }));
       },
       child: Container(
@@ -60,9 +57,7 @@ class _PlayListTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: Image(
-                      image: CachedImage(item["coverImgUrl"]),
-                      fit: BoxFit.cover),
+                  child: Image(image: CachedImage(item["coverImgUrl"]), fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -74,8 +69,7 @@ class _PlayListTile extends StatelessWidget {
                 Spacer(),
                 Text(item["name"], maxLines: 1),
                 Spacer(),
-                Text(subTitle,
-                    maxLines: 1, style: Theme.of(context).textTheme.caption),
+                Text(subTitle, maxLines: 1, style: Theme.of(context).textTheme.caption),
                 Spacer(),
                 Divider(height: 0)
               ],

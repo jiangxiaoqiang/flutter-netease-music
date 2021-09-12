@@ -17,6 +17,7 @@ class _ItemTitle extends StatelessWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 final playlist = payload!.obj as PlaylistDetail;
                 return PlaylistDetailPage(
+                  playlist.source,
                   playlist.id!,
                   playlist: playlist,
                 );
@@ -183,8 +184,7 @@ class _ItemCommentState extends State<_ItemComment> {
                   ListTile(
                     title: const Text("复制"),
                     onTap: () {
-                      Clipboard.setData(
-                          ClipboardData(text: widget.comment.content));
+                      Clipboard.setData(ClipboardData(text: widget.comment.content));
                       Navigator.pop(context);
                       toast('复制成功');
                     },
@@ -207,10 +207,7 @@ class _ItemCommentState extends State<_ItemComment> {
                       child: InkResponse(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  UserDetailPage(userId: user.userId)));
+                          context, MaterialPageRoute(builder: (context) => UserDetailPage(userId: user.userId)));
                     },
                     child: Image(
                       image: CachedImage(user.avatarUrl!),
@@ -251,9 +248,8 @@ class _ItemCommentState extends State<_ItemComment> {
                         child: Icon(
                           Icons.thumb_up,
                           size: 15,
-                          color: widget.comment.liked!
-                              ? Theme.of(context).accentColor
-                              : Theme.of(context).disabledColor,
+                          color:
+                              widget.comment.liked! ? Theme.of(context).accentColor : Theme.of(context).disabledColor,
                         ),
                       )
                     ],

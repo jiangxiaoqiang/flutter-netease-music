@@ -44,8 +44,7 @@ class PlaylistTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.secondaryNavigator!.push(MaterialPageRoute(
-            builder: (context) =>
-                PlaylistDetailPage(playlist!.id!, playlist: playlist)));
+            builder: (context) => PlaylistDetailPage(playlist!.source, playlist!.id!, playlist: playlist)));
       },
       child: SizedBox(
         height: 60,
@@ -66,8 +65,7 @@ class PlaylistTile extends StatelessWidget {
                     style: const TextStyle(fontSize: 15),
                   ),
                   const Padding(padding: EdgeInsets.only(top: 4)),
-                  Text("${playlist!.trackCount}首",
-                      style: Theme.of(context).textTheme.caption),
+                  Text("${playlist!.trackCount}首", style: Theme.of(context).textTheme.caption),
                   const Spacer(),
                 ],
               ),
@@ -77,8 +75,7 @@ class PlaylistTile extends StatelessWidget {
                 itemBuilder: (context) {
                   return const [
                     PopupMenuItem(value: PlaylistOp.share, child: Text("分享")),
-                    PopupMenuItem(
-                        value: PlaylistOp.edit, child: Text("编辑歌单信息")),
+                    PopupMenuItem(value: PlaylistOp.edit, child: Text("编辑歌单信息")),
                     PopupMenuItem(value: PlaylistOp.delete, child: Text("删除")),
                   ];
                 },
@@ -89,8 +86,7 @@ class PlaylistTile extends StatelessWidget {
                       toast("未接入。");
                       break;
                     case PlaylistOp.edit:
-                      context.secondaryNavigator!
-                          .push(MaterialPageRoute(builder: (context) {
+                      context.secondaryNavigator!.push(MaterialPageRoute(builder: (context) {
                         return PlaylistEditPage(playlist);
                       }));
                       break;

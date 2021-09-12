@@ -41,10 +41,7 @@ class _Leaderboard extends StatelessWidget {
         itemCount: data.length - 4,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 10 / 13.5,
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 8),
+            crossAxisCount: 3, childAspectRatio: 10 / 13.5, mainAxisSpacing: 4, crossAxisSpacing: 8),
         itemBuilder: (context, int i) {
           return _ItemLeaderBoard2(data[i + 4]);
         }));
@@ -65,10 +62,7 @@ class _ItemTitle extends StatelessWidget {
       margin: const EdgeInsets.only(top: 8, left: 16, bottom: 4),
       child: Text(
         title,
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1!
-            .copyWith(fontWeight: FontWeight.w800),
+        style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w800),
       ),
     );
   }
@@ -84,7 +78,7 @@ class _ItemLeaderBoard2 extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return PlaylistDetailPage(row["id"]);
+          return PlaylistDetailPage(row["source"], row["id"]);
         }));
       },
       child: SizedBox(
@@ -148,7 +142,7 @@ class _ItemLeaderboard1 extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return PlaylistDetailPage(row["id"]);
+          return PlaylistDetailPage(row["source"], row["id"]);
         }));
       },
       child: Container(
