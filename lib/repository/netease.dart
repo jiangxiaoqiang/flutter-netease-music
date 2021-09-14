@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
@@ -411,6 +412,7 @@ class NeteaseRepository {
   /// 获取私人 FM 推荐歌曲。一次两首歌曲。
   ///
   Future<List<Music>?> getPersonalFmMusics() async {
+    final List<Music> resultMusic = List.empty(growable: true);
     final result = await doRequest('/personal_fm');
     if (result.isError) {
       throw result.asError!.error;
@@ -418,11 +420,15 @@ class NeteaseRepository {
     final data = result.asValue!.value["data"];
     final List<Music>? recommand = mapJsonListToMusicList(data as List?);
     if (recommand != null) {
-      recommand.forEach((element) {
+      recommand.forEach((element) async {
+        bool isLegacyMusic = await ReddwarfMusic.legacyMusic(element);
+        if(!isLegacyMusic){
+          resultMusic.add(element);
+        }
         ReddwarfMusic.savePlayingMusic(element);
       });
     }
-    return recommand;
+    return resultMusic;
   }
 
   ///[path] request path
