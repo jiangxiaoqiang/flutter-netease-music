@@ -412,7 +412,6 @@ class NeteaseRepository {
   /// 获取私人 FM 推荐歌曲。一次两首歌曲。
   ///
   Future<List<Music>?> getPersonalFmMusics() async {
-    final List<Music> resultMusic = List.empty(growable: true);
     final result = await doRequest('/personal_fm');
     if (result.isError) {
       throw result.asError!.error;
@@ -421,14 +420,14 @@ class NeteaseRepository {
     final List<Music>? recommand = mapJsonListToMusicList(data as List?);
     if (recommand != null) {
       recommand.forEach((element) async {
-        bool isLegacyMusic = await ReddwarfMusic.legacyMusic(element);
+       /* bool isLegacyMusic = await ReddwarfMusic.legacyMusic(element);
         if(!isLegacyMusic){
           resultMusic.add(element);
-        }
+        }*/
         ReddwarfMusic.savePlayingMusic(element);
       });
     }
-    return resultMusic;
+    return recommand;
   }
 
   ///[path] request path
