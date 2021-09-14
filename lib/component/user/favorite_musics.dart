@@ -5,6 +5,7 @@ import 'package:quiet/component.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/netease.dart';
+import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
 
 final userFavoriteMusicListProvider =
     StateNotifierProvider<UserFavoriteMusicListNotifier, List<int>>(
@@ -28,6 +29,7 @@ class UserFavoriteMusicListNotifier extends CacheableStateNotifier<List<int>> {
 
   ///取消红心歌曲
   Future<void> dislikeMusic(Music music) async {
+    //ReddwarfMusic.likePlayingMusic(music);
     final succeed = await neteaseRepository!.like(music.id, false);
     if (succeed) {
       state = List.from(state)..remove(music.id);
