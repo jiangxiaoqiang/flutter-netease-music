@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
@@ -420,14 +419,23 @@ class NeteaseRepository {
     final List<Music>? recommand = mapJsonListToMusicList(data as List?);
     if (recommand != null) {
       recommand.forEach((element) async {
-       /* bool isLegacyMusic = await ReddwarfMusic.legacyMusic(element);
-        if(!isLegacyMusic){
-          resultMusic.add(element);
-        }*/
         ReddwarfMusic.savePlayingMusic(element);
       });
     }
-    return recommand;
+    return getAvaliableFmMusics(recommand);
+  }
+
+  Future<List<Music>?> getAvaliableFmMusics(List<Music>? recommand) async {
+    final List<Music> resultMusic = List.empty(growable: true);
+    if (recommand != null) {
+      for (int i = 0; i < recommand.length; i++) {
+        bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommand[i]);
+        if (!isLegacyMusic) {
+          resultMusic.add(recommand[i]);
+        }
+      }
+    }
+    return resultMusic;
   }
 
   ///[path] request path
