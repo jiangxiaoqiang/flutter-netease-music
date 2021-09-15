@@ -210,7 +210,7 @@ class _FmControllerBar extends StatelessWidget {
               ),
               onPressed: () {
                 toast('已加入不喜欢列表，以后将减少类似的推荐。');
-                //ReddwarfMusic.dislikePlayingMusic(context.player.value.current!);
+                ReddwarfMusic.dislikePlayingMusic(context.player.value.current!);
                 context.transportControls.skipToNext();
               }),
           LikeButton.current(context),

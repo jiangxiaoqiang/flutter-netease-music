@@ -1,15 +1,16 @@
 import 'dart:async';
+
+import 'package:quiet/model/model.dart';
 import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
+import 'package:wheel/wheel.dart' show AppLogHandler, RestApiError, RestClient;
+
 export 'package:async/async.dart' show Result;
 export 'package:async/async.dart' show ValueResult;
 export 'package:async/async.dart' show ErrorResult;
 export 'package:quiet/repository/cached_image.dart';
 export 'package:quiet/repository/local_cache_data.dart';
-
-import 'package:quiet/model/model.dart';
-import 'package:wheel/wheel.dart' show AppLogHandler, RestApiError, RestClient;
 
 class ReddwarfMusic {
   static Future<void> savePlayingMusic(Music music) async {
