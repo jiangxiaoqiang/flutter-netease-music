@@ -61,7 +61,7 @@ class ReddwarfMusic {
   static Future<void> incrementPlayCount(Music music) async {
     try {
       Map jsonMap = music.toJson();
-      final response = await RestClient.postHttp("/music/songs/v1/playcount/increment", jsonMap);
+      final response = await RestClient.postHttp("/music/songs/v1/playcount/increment/" + music.id.toString(), jsonMap);
       if (RestClient.respSuccess(response)) {}
     } on Exception catch (e) {
       // only executed if error is of type Exception
