@@ -58,6 +58,20 @@ class ReddwarfMusic {
     }
   }
 
+  static Future<void> incrementPlayCount(Music music) async {
+    try {
+      Map jsonMap = music.toJson();
+      final response = await RestClient.postHttp("/music/songs/v1/playcount/increment", jsonMap);
+      if (RestClient.respSuccess(response)) {}
+    } on Exception catch (e) {
+      // only executed if error is of type Exception
+      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+    } catch (error) {
+      // executed for errors of all types other than Exception
+      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
+    }
+  }
+
   static Future<void> dislikePlayingMusic(Music music) async {
     try {
       Map jsonMap = music.toJson();

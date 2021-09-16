@@ -10,6 +10,7 @@ import 'package:quiet/pages/comments/page_comment.dart';
 import 'package:quiet/pages/page_playing_list.dart';
 import 'package:quiet/pages/player/page_playing_landscape.dart';
 import 'package:quiet/part/part.dart';
+import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
 
 import 'background.dart';
 import 'cover.dart';
@@ -45,8 +46,7 @@ class PlayingPage extends StatelessWidget {
                 DurationProgressBar(),
                 PlayerControllerBar(),
                 SizedBox(
-                  height: MediaQuery.of(context).viewInsets.bottom +
-                      MediaQuery.of(context).viewPadding.bottom,
+                  height: MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).viewPadding.bottom,
                 ),
               ],
             ),
@@ -177,8 +177,7 @@ class PlayingOperationBar extends StatelessWidget {
               }
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return CommentPage(
-                  threadId: CommentThreadId(music.id, CommentType.song,
-                      payload: CommentThreadPayload.music(music)),
+                  threadId: CommentThreadId(music.id, CommentType.song, payload: CommentThreadPayload.music(music)),
                 );
               }));
             }),
@@ -210,10 +209,8 @@ class _CenterSectionState extends State<_CenterSection> {
   Widget build(BuildContext context) {
     return Expanded(
       child: AnimatedCrossFade(
-        crossFadeState:
-            _showLyric ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild,
-            Key bottomChildKey) {
+        crossFadeState: _showLyric ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild, Key bottomChildKey) {
           return Stack(
             clipBehavior: Clip.none,
             children: <Widget>[
@@ -251,34 +248,28 @@ class _CenterSectionState extends State<_CenterSection> {
 }
 
 class PlayingLyricView extends StatelessWidget {
-  const PlayingLyricView({Key? key, this.onTap, required this.music})
-      : super(key: key);
+  const PlayingLyricView({Key? key, this.onTap, required this.music}) : super(key: key);
   final VoidCallback? onTap;
 
   final Music music;
 
   @override
   Widget build(BuildContext context) {
-    return ProgressTrackingContainer(
-        builder: _buildLyric, player: context.player);
+    return ProgressTrackingContainer(builder: _buildLyric, player: context.player);
   }
 
   Widget _buildLyric(BuildContext context) {
-    final TextStyle style = Theme.of(context)
-        .textTheme
-        .bodyText2!
-        .copyWith(height: 2, fontSize: 16, color: Colors.white);
+    final TextStyle style =
+        Theme.of(context).textTheme.bodyText2!.copyWith(height: 2, fontSize: 16, color: Colors.white);
     final playingLyric = PlayingLyric.of(context);
 
     if (playingLyric.hasLyric) {
       return LayoutBuilder(builder: (context, constraints) {
-        final normalStyle =
-            style.copyWith(color: style.color!.withOpacity(0.7));
+        final normalStyle = style.copyWith(color: style.color!.withOpacity(0.7));
         //歌词顶部与尾部半透明显示
         return ShaderMask(
           shaderCallback: (rect) {
-            return ui.Gradient.linear(Offset(rect.width / 2, 0),
-                Offset(rect.width / 2, constraints.maxHeight), [
+            return ui.Gradient.linear(Offset(rect.width / 2, 0), Offset(rect.width / 2, constraints.maxHeight), [
               const Color(0x00FFFFFF),
               style.color!,
               style.color!,
@@ -298,11 +289,7 @@ class PlayingLyricView extends StatelessWidget {
               highlight: style.color,
               position: context.playbackState.computedPosition,
               onTap: onTap,
-              size: Size(
-                  constraints.maxWidth,
-                  constraints.maxHeight == double.infinity
-                      ? 0
-                      : constraints.maxHeight),
+              size: Size(constraints.maxWidth, constraints.maxHeight == double.infinity ? 0 : constraints.maxHeight),
               playing: context.playbackState.isPlaying,
             ),
           ),
@@ -358,10 +345,7 @@ class PlayingTitle extends StatelessWidget {
                     constraints: const BoxConstraints(maxWidth: 200),
                     child: Text(
                       music.artistString,
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 13),
+                      style: Theme.of(context).primaryTextTheme.bodyText2!.copyWith(fontSize: 13),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -377,8 +361,10 @@ class PlayingTitle extends StatelessWidget {
           PopupMenuButton(
             itemBuilder: (context) {
               return const [
+                PopupMenuItem(child: Text("下载"), value: 0),
                 PopupMenuItem(
-                  child: Text("下载"),
+                  child: Text("腻了"),
+                  value: 1,
                 ),
               ];
             },
@@ -386,6 +372,13 @@ class PlayingTitle extends StatelessWidget {
               Icons.more_vert,
               color: Theme.of(context).primaryIconTheme.color,
             ),
+            onSelected: (result) {
+              if (result == 0) {
+
+              } else if (result == 1) {
+                ReddwarfMusic.incrementPlayCount(music);
+              } else {}
+            },
           ),
           LandscapeWidgetSwitcher(landscape: (context) {
             return CloseButton(onPressed: () {
