@@ -372,11 +372,14 @@ class PlayingTitle extends StatelessWidget {
               Icons.more_vert,
               color: Theme.of(context).primaryIconTheme.color,
             ),
-            onSelected: (result) {
+            onSelected: (result) async {
               if (result == 0) {
 
               } else if (result == 1) {
-                ReddwarfMusic.incrementPlayCount(music);
+                bool success = await ReddwarfMusic.incrementPlayCount(music);
+                if(success){
+                  context.transportControls.skipToNext();
+                }
               } else {}
             },
           ),
