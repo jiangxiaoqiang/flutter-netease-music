@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:music_player/music_player.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:quiet/material.dart';
 import 'package:quiet/material/player.dart';
 import 'package:quiet/pages/artists/page_artist_detail.dart';
@@ -378,6 +379,7 @@ class PlayingTitle extends StatelessWidget {
               } else if (result == 1) {
                 bool success = await ReddwarfMusic.incrementPlayCount(music);
                 if(success){
+                  toast('已成功标记此歌曲');
                   context.transportControls.skipToNext();
                 }
               } else {}
