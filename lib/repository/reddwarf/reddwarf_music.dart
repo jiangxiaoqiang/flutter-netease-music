@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:quiet/model/fav_music.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/part/part.dart';
@@ -93,15 +95,15 @@ class ReddwarfMusic {
     try {
       final response = await RestClient.getHttp("/music/playlist/v1/playlist");
       if (RestClient.respSuccess(response)) {
-        List reddwarflist = (response.data["result"] as List);
-        List<PlaylistDetail> list1 = new List.empty(growable: true);
-        reddwarflist.forEach((element) {
-          PlaylistDetail? detail = PlaylistDetail.fromMap(element);
+        final List reddwarfList = response.data["result"] as List;
+        final List<PlaylistDetail> playListResult = List.empty(growable: true);
+        for (final element in reddwarfList) {
+          final PlaylistDetail? detail = PlaylistDetail.fromMap(element);
           if (detail != null) {
-            list1.add(detail);
+            playListResult.add(detail);
           }
-        });
-        return list1;
+        }
+        return playListResult;
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception
@@ -120,6 +122,29 @@ class ReddwarfMusic {
         Map result = (response.data["result"] as Map);
         PlaylistDetail? detail = PlaylistDetail.fromMap(result);
         return Result.value(detail!);
+      }
+    } on Exception catch (e) {
+      // only executed if error is of type Exception
+      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+    } catch (error) {
+      // executed for errors of all types other than Exception
+      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
+    }
+    return null;
+  }
+
+  static Future<Result<List<int>>?> likeMusicIdList() async {
+    try {
+      final response = await RestClient.getHttp("/music/user/v1/fav/list");
+      if (RestClient.respSuccess(response)) {
+        String result = response.data["result"];
+        List<int> ids = List.empty(growable: true);
+        var lists = json.decode(result);
+        lists.forEach((element) {
+          FavMusic favMusic =  FavMusic.fromJson(element);
+          ids.add(favMusic.sourceId);
+        });
+        return Result.value(ids);
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception

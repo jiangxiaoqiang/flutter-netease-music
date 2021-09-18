@@ -350,8 +350,12 @@ class NeteaseRepository {
   ///获取用户红心歌曲id列表
   Future<Result<List<int>>> likedList(int? userId) async {
     final response = await doRequest("/likelist", {"uid": userId});
+    Result<List<int>>? reddwarf_response = await ReddwarfMusic.likeMusicIdList();
     return _map(response, (dynamic t) {
-      return (t["ids"] as List).cast();
+      List<int> ids = List.empty(growable: true);
+      ids.addAll((t["ids"] as List).cast());
+      ids.addAll(reddwarf_response!.asValue!.value);
+      return ids;
     });
   }
 
