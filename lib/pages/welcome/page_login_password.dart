@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:quiet/material/dialogs.dart';
 import 'package:quiet/pages/account/account.dart';
+import 'package:quiet/repository/reddwarf/user/reddwarf_user.dart';
 
 import 'page_welcome.dart';
 
@@ -68,10 +69,10 @@ class _PageLoginPasswordState extends ConsumerState<PageLoginPassword> {
       return;
     }
     final account = ref.read(userProvider.notifier);
-    final result =
-        await showLoaderOverlay(context, account.login(widget.phone, password));
+    final result = await showLoaderOverlay(context, account.login(widget.phone, password));
     if (result.isValue) {
       //退出登录流程,表示我们登录成功了
+      ReddwarfUser.login(widget.phone!,password);
       Navigator.of(context, rootNavigator: true).pop(true);
     } else {
       toast('登录失败:${result.asError!.error}');
