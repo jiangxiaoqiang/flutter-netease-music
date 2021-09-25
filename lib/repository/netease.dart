@@ -427,7 +427,24 @@ class NeteaseRepository {
         ReddwarfMusic.savePlayingMusic(element);
       });
     }
+    //patch();
     return getAvaliableFmMusics(recommand);
+  }
+
+  Future<void> patch() async {
+    for(int i =0;i<190;i++) {
+      int mid = await ReddwarfTemp.getPatchMusic();
+      if (mid > 0) {
+        final song = await neteaseRepository!.getMusicDetail(mid);
+        if (song.isValue) {
+          final metadata = mapJsonToMusic(song.asValue!.value,
+              artistKey: "ar", albumKey: "al")
+              .metadata;
+          Music mc = Music.fromMetadata(metadata);
+          ReddwarfTemp.savePatchMusic(mc);
+        }
+      }
+    }
   }
 
   Future<List<Music>?> getAvaliableFmMusics(List<Music>? recommand) async {

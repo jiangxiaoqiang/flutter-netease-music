@@ -95,21 +95,12 @@ extension MusicPlayerExt on MusicPlayer {
 }
 
 void saveToReddwarf(List<Music> musics){
-  musics.forEach((element) async {
+  musics.forEach((element) {
     ReddwarfMusic.savePlayingMusic(element);
-    int mid = await ReddwarfTemp.getPatchMusic();
-    if(mid > 0){
-      final song = await neteaseRepository!.getMusicDetail(mid);
-      if (song.isValue) {
-        final metadata = mapJsonToMusic(song.asValue!.value,
-            artistKey: "ar", albumKey: "al")
-            .metadata;
-        Music mc = Music.fromMetadata(metadata);
-        ReddwarfTemp.savePatchMusic(mc);
-      }
-    }
   });
 }
+
+
 
 extension MusicPlayerValueExt on MusicPlayerValue {
   Music? get current => metadata == null ? null : Music.fromMetadata(metadata!);

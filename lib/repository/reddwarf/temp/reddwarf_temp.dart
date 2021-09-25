@@ -17,7 +17,7 @@ class ReddwarfTemp {
       if (RestClient.respSuccess(response)) {
         final List music = response.data["result"] ;
         Map<String,dynamic> musicItem = music.first;
-        int intid = musicItem["source_id"];
+        int intid = int.parse(musicItem["source_id"]);
         return intid;
       }
     } on Exception catch (e) {
