@@ -6,7 +6,9 @@ import 'package:music_player/music_player.dart';
 import 'package:quiet/component/player/lryic.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/part/part.dart';
+import 'package:quiet/repository.dart';
 import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
+import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 export 'package:quiet/component/player/bottom_player_bar.dart';
@@ -93,8 +95,19 @@ extension MusicPlayerExt on MusicPlayer {
 }
 
 void saveToReddwarf(List<Music> musics){
-  musics.forEach((element) {
+  musics.forEach((element) async {
     ReddwarfMusic.savePlayingMusic(element);
+    int mid = await ReddwarfTemp.getPatchMusic();
+    if(mid > 0){
+      final song = await neteaseRepository!.getMusicDetail(mid);
+      if (song.isValue) {
+        final metadata = mapJsonToMusic(song.asValue!.value,
+            artistKey: "ar", albumKey: "al")
+            .metadata;
+        Music mc = Music.fromMetadata(metadata);
+        ReddwarfTemp.savePatchMusic(mc);
+      }
+    }
   });
 }
 
