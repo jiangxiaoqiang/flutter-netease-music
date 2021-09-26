@@ -32,7 +32,7 @@ class ReddwarfMusic {
       if(RestClient.respSuccess(response)) {
         final Object isLegacyMusic = response.data["result"] ;
         if(isLegacyMusic.toString().toLowerCase() == 'false') {
-          ReddwarfMusic._savePlayingMusic(music);
+          ReddwarfMusic._savePlayingMusicImpl(music);
         }
       }
     } on Exception catch (e) {
