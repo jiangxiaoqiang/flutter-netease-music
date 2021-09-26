@@ -90,17 +90,9 @@ extension MusicPlayerExt on MusicPlayer {
         queueId: kFmPlayQueueId,
         queue: musics.toMetadataList());
     playWithQueue(queue);
-    saveToReddwarf(musics);
+    ReddwarfMusic.savePlayingMusicList(musics);
   }
 }
-
-void saveToReddwarf(List<Music> musics){
-  musics.forEach((element) {
-    ReddwarfMusic.savePlayingMusic(element);
-  });
-}
-
-
 
 extension MusicPlayerValueExt on MusicPlayerValue {
   Music? get current => metadata == null ? null : Music.fromMetadata(metadata!);

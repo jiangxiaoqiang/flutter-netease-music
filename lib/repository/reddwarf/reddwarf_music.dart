@@ -16,9 +16,19 @@ export 'package:quiet/repository/cached_image.dart';
 export 'package:quiet/repository/local_cache_data.dart';
 
 class ReddwarfMusic {
-  static Future<void> savePlayingMusic(Music music) async {
+
+  static Future<void> savePlayingMusicList(List<Music>? musics) async {
+    if(musics == null){
+      return;
+    }
+    for (final element in musics) {
+      ReddwarfMusic._savePlayingMusic(element);
+    }
+  }
+
+  static Future<void> _savePlayingMusic(Music music) async {
     try {
-      Map jsonMap = music.toJson();
+      final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1/save-play-record", jsonMap);
       if (RestClient.respSuccess(response)) {}
     } on Exception catch (e) {

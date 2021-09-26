@@ -421,14 +421,10 @@ class NeteaseRepository {
       throw result.asError!.error;
     }
     final data = result.asValue!.value["data"];
-    final List<Music>? recommand = mapJsonListToMusicList(data as List?);
-    if (recommand != null) {
-      recommand.forEach((element) async {
-        ReddwarfMusic.savePlayingMusic(element);
-      });
-    }
+    final List<Music>? recommend = mapJsonListToMusicList(data as List?);
+    ReddwarfMusic.savePlayingMusicList(recommend);
     //patch();
-    return getAvaliableFmMusics(recommand);
+    return getAvaliableFmMusics(recommend);
   }
 
   Future<void> patch() async {
@@ -440,7 +436,7 @@ class NeteaseRepository {
           final metadata = mapJsonToMusic(song.asValue!.value,
               artistKey: "ar", albumKey: "al")
               .metadata;
-          Music mc = Music.fromMetadata(metadata);
+          final Music mc = Music.fromMetadata(metadata);
           ReddwarfTemp.savePatchMusic(mc);
         }
       }
@@ -451,9 +447,11 @@ class NeteaseRepository {
     final List<Music> resultMusic = List.empty(growable: true);
     if (recommand != null) {
       for (int i = 0; i < recommand.length; i++) {
-        bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommand[i]);
+        final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommand[i]);
         if (!isLegacyMusic) {
           resultMusic.add(recommand[i]);
+        }else{
+          print("legacy music,id:" + recommand[i].id.toString());
         }
       }
     }
