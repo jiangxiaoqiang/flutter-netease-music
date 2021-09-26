@@ -22,11 +22,29 @@ class ReddwarfMusic {
       return;
     }
     for (final element in musics) {
-      ReddwarfMusic._savePlayingMusic(element);
+      _savePlayingMusic(element);
     }
   }
 
   static Future<void> _savePlayingMusic(Music music) async {
+    try {
+      final response = await RestClient.getHttp("/music/songs/v1/exists/${music.id}");
+      if(RestClient.respSuccess(response)) {
+        final Object isLegacyMusic = response.data["result"] ;
+        if(isLegacyMusic.toString().toLowerCase() == 'false') {
+          ReddwarfMusic._savePlayingMusic(music);
+        }
+      }
+    } on Exception catch (e) {
+      // only executed if error is of type Exception
+      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+    } catch (error) {
+      // executed for errors of all types other than Exception
+      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
+    }
+  }
+
+  static Future<void> _savePlayingMusicImpl(Music music) async {
     try {
       final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1/save-play-record", jsonMap);
