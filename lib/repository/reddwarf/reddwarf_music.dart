@@ -29,7 +29,6 @@ class ReddwarfMusic {
 
   static Future<void> _savePlayingMusic(Music music) async {
     try {
-      toast("dd");
       final response = await RestClient.getHttp("/music/songs/v1/exists/${music.id}");
       if(RestClient.respSuccess(response)) {
         final Object isLegacyMusic = response.data["result"] ;
