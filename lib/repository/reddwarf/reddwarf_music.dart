@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:overlay_support/overlay_support.dart';
 import 'package:quiet/model/fav_music.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/model/playlist_detail.dart';
@@ -28,6 +29,7 @@ class ReddwarfMusic {
 
   static Future<void> _savePlayingMusic(Music music) async {
     try {
+      toast("dd");
       final response = await RestClient.getHttp("/music/songs/v1/exists/${music.id}");
       if(RestClient.respSuccess(response)) {
         final Object isLegacyMusic = response.data["result"] ;
@@ -48,7 +50,8 @@ class ReddwarfMusic {
     try {
       final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1/save-play-record", jsonMap);
-      if (RestClient.respSuccess(response)) {}
+      if (RestClient.respSuccess(response)) {
+      }
     } on Exception catch (e) {
       // only executed if error is of type Exception
       AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");

@@ -22,7 +22,6 @@ void playerBackgroundService() {
 void loadRepository() {
   WidgetsFlutterBinding.ensureInitialized();
   GlobalConfig.init(ConfigType.PRO);
-  // 获取播放地址需要使用云音乐 API, 所以需要为此 isolate 初始化一个 repository.
   neteaseRepository = NeteaseRepository();
   runBackgroundService(
     imageLoadInterceptor: BackgroundInterceptors.loadImageInterceptor,
