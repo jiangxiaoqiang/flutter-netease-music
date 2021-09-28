@@ -11,7 +11,7 @@ import 'package:quiet/pages/comments/page_comment.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/objects/music_count.dart';
 import 'package:quiet/repository/objects/music_video_detail.dart';
-import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
+import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
 
 import 'local_cache_data.dart';
@@ -415,7 +415,10 @@ class NeteaseRepository {
   ///
   /// 获取私人 FM 推荐歌曲。一次两首歌曲。
   ///
-  Future<List<Music>?> getPersonalFmMusics() async {
+  Future<List<Music>?> getPersonalFmMusics(int retryTimes) async {
+    if (retryTimes > 3) {
+      return null;
+    }
     final result = await doRequest('/personal_fm');
     if (result.isError) {
       throw result.asError!.error;
@@ -423,19 +426,16 @@ class NeteaseRepository {
     final data = result.asValue!.value["data"];
     final List<Music>? recommend = mapJsonListToMusicList(data as List?);
     ReddwarfMusic.savePlayingMusicList(recommend);
-    //patch();
-    return getAvaliableFmMusics(recommend);
+    return getAvaliableFmMusics(recommend, retryTimes);
   }
 
   Future<void> patch() async {
-    for(int i =0;i<190;i++) {
+    for (int i = 0; i < 190; i++) {
       int mid = await ReddwarfTemp.getPatchMusic();
       if (mid > 0) {
         final song = await neteaseRepository!.getMusicDetail(mid);
         if (song.isValue) {
-          final metadata = mapJsonToMusic(song.asValue!.value,
-              artistKey: "ar", albumKey: "al")
-              .metadata;
+          final metadata = mapJsonToMusic(song.asValue!.value, artistKey: "ar", albumKey: "al").metadata;
           final Music mc = Music.fromMetadata(metadata);
           ReddwarfTemp.savePatchMusic(mc);
         }
@@ -443,15 +443,20 @@ class NeteaseRepository {
     }
   }
 
-  Future<List<Music>?> getAvaliableFmMusics(List<Music>? recommand) async {
+  Future<List<Music>?> getAvaliableFmMusics(List<Music>? recommend, int retryTimes) async {
     final List<Music> resultMusic = List.empty(growable: true);
-    if (recommand != null) {
-      for (int i = 0; i < recommand.length; i++) {
-        final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommand[i]);
-        if (!isLegacyMusic) {
-          resultMusic.add(recommand[i]);
-        }else{
-          print("legacy music,id:" + recommand[i].id.toString());
+    if (recommend == null) {
+      return resultMusic;
+    }
+    for (int i = 0; i < recommend.length; i++) {
+      final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommend[i]);
+      if (!isLegacyMusic) {
+        resultMusic.add(recommend[i]);
+      } else {
+        final retryTimesInner = retryTimes + 1;
+        final musics = await getPersonalFmMusics(retryTimesInner);
+        if (musics != null) {
+          resultMusic.addAll(musics);
         }
       }
     }

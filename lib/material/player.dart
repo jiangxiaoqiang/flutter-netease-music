@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_player/music_player.dart';
 import 'package:quiet/component/netease/netease.dart';
 import 'package:quiet/part/part.dart';
-import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
+import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 
 import 'user.dart';
 

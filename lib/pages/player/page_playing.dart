@@ -11,7 +11,7 @@ import 'package:quiet/pages/comments/page_comment.dart';
 import 'package:quiet/pages/page_playing_list.dart';
 import 'package:quiet/pages/player/page_playing_landscape.dart';
 import 'package:quiet/part/part.dart';
-import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
+import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 
 import 'background.dart';
 import 'cover.dart';

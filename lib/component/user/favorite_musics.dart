@@ -5,7 +5,7 @@ import 'package:quiet/component.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/netease.dart';
-import 'package:quiet/repository/reddwarf/reddwarf_music.dart';
+import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 
 final userFavoriteMusicListProvider =
     StateNotifierProvider<UserFavoriteMusicListNotifier, List<int>>(
