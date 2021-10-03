@@ -408,7 +408,7 @@ class NeteaseRepository {
     }
     return _map(
       result,
-      (t) => UserDetail.fromJsonMap((t as Map).cast()),
+      (t) => UserDetail.fromJsonMap((t! as Map).cast()),
     );
   }
 
