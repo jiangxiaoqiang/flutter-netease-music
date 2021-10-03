@@ -190,6 +190,16 @@ class S {
     );
   }
 
+  /// `Favorite Song List`
+  String get discoverySongList {
+    return Intl.message(
+      'Discovery Song List',
+      name: 'discoverySongList',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The PlayList created by {username}「{title}」: http://music.163.com/playlist/{playlistId}/{userId}/?userid={shareUserId} (From @NeteaseCouldMusic)`
   String playlistShareContent(Object username, Object title, Object playlistId,
       Object userId, Object shareUserId) {
