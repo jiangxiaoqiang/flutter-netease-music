@@ -38,7 +38,7 @@ class PlaylistDetail {
 
   int id;
 
-  int trackCount;
+  int? trackCount;
 
   String? description;
 
