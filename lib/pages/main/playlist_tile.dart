@@ -44,7 +44,7 @@ class PlaylistTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.secondaryNavigator!.push(MaterialPageRoute(
-            builder: (context) => PlaylistDetailPage(playlist!.source, playlist!.id!)));
+            builder: (context) => PlaylistDetailPage(playlist!.source, playlist!.id!, previewData: playlist,)));
       },
       child: SizedBox(
         height: 60,

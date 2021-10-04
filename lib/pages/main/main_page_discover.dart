@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/pages/playlist/music_list.dart';
 import 'package:quiet/pages/playlist/page_playlist_detail.dart';
 import 'package:quiet/part/part.dart';
@@ -190,10 +191,12 @@ class _PlayListItemView extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        PlaylistDetail? playlistDetail = PlaylistDetail.fromMap(playlist);
         context.secondaryNavigator!.push(MaterialPageRoute(builder: (context) {
           return PlaylistDetailPage(
             playlist["source"],
             playlist["id"],
+            previewData: playlistDetail!,
           );
         }));
       },

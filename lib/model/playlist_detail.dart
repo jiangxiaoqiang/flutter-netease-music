@@ -79,6 +79,8 @@ class PlaylistDetail {
       return null;
     }
     List<Music>? musicList = (map['musicList'] as List?)?.cast<Map<String, dynamic>>().map((m) => Music.fromJson(m)).cast<Music>().toList();
+    List<TrackId>? trackIds = (map['trackIds'] as List?)?.cast<Map<String, dynamic>>().map((m) => TrackId.fromJson(m)).cast<TrackId>().toList();
+
     return PlaylistDetail(
         id: map['id'],
         musicList: musicList ?? List.empty(),
@@ -95,7 +97,7 @@ class PlaylistDetail {
         playCount:map['playCount'],
         source:map['source'],
         trackUpdateTime: map['trackUpdateTime']??0,
-        trackIds: map['trackIds']??List.empty());
+        trackIds: trackIds??List.empty());
   }
 
   Map toMap() {

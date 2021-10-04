@@ -29,14 +29,14 @@ const double kHeaderHeight = 280 + kToolbarHeight;
 ///
 /// Playlist : a list of musics by user collected
   class PlaylistDetailPage extends HookWidget {
-  const PlaylistDetailPage(this.source, this.playlistId, {this.previewData});
+  const PlaylistDetailPage(this.source, this.playlistId, {required this.previewData});
 
   final int playlistId;
 
   final int? source;
 
   /// Used to preview playlist information when loading
-  final PlaylistDetail? previewData;
+  final PlaylistDetail previewData;
 
   @override
   Widget build(BuildContext context) {

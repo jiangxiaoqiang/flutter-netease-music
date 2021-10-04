@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loader/loader.dart';
 import 'package:quiet/component/utils/utils.dart';
+import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/netease.dart';
 
@@ -39,10 +40,11 @@ class _PlayListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     String subTitle = "${item["trackCount"]}首 by ${item["creator"]["nickname"]},"
         "播放${getFormattedNumber(item["playCount"])}次";
+    PlaylistDetail? playlistDetail = PlaylistDetail.fromMap(item);
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return PlaylistDetailPage(item["source"], item["id"]);
+          return PlaylistDetailPage(item["source"], item["id"],previewData:playlistDetail!);
         }));
       },
       child: SizedBox(

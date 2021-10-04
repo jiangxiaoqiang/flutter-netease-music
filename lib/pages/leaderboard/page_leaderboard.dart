@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/pages/playlist/page_playlist_detail.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/netease.dart';
@@ -77,8 +78,9 @@ class _ItemLeaderBoard2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        PlaylistDetail? playlistDetail = PlaylistDetail.fromMap(row);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return PlaylistDetailPage(row["source"], row["id"]);
+          return PlaylistDetailPage(row["source"], row["id"], previewData: playlistDetail!,);
         }));
       },
       child: SizedBox(
@@ -141,8 +143,9 @@ class _ItemLeaderboard1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        PlaylistDetail? playlistDetail = PlaylistDetail.fromMap(row);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return PlaylistDetailPage(row["source"], row["id"]);
+          return PlaylistDetailPage(row["source"], row["id"], previewData: playlistDetail!,);
         }));
       },
       child: Container(
