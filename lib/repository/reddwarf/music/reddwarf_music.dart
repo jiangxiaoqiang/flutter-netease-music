@@ -108,6 +108,7 @@ class ReddwarfMusic {
     return false;
   }
 
+
   static Future<void> dislikePlayingMusic(Music music) async {
     try {
       Map jsonMap = music.toJson();
@@ -141,7 +142,7 @@ class ReddwarfMusic {
       AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
     } catch (error) {
       // executed for errors of all types other than Exception
-      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("http error"), error.toString());
     }
     return null;
   }

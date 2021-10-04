@@ -425,7 +425,7 @@ class NeteaseRepository {
   ///
   /// 获取私人 FM 推荐歌曲。一次两首歌曲。
   ///
-  Future<List<Music>?> getPersonalFmMusics(int retryTimes) async {
+  Future<List<Music>?> getPersonalFmMusics(int retryTimes,List<Music> resultMusic) async {
     if (retryTimes > 3) {
       return null;
     }
@@ -436,7 +436,7 @@ class NeteaseRepository {
     final data = result.asValue!.value["data"];
     final List<Music>? recommend = mapJsonListToMusicList(data as List?);
     ReddwarfMusic.savePlayingMusicList(recommend);
-    return getAvaliableFmMusics(recommend, retryTimes);
+    return getAvaliableFmMusics(recommend, retryTimes,resultMusic);
   }
 
   Future<void> patch() async {
@@ -453,7 +453,7 @@ class NeteaseRepository {
     }
   }
 
-  Future<List<Music>?> getAvaliableFmMusics(List<Music>? recommend, int retryTimes) async {
+  Future<List<Music>?> getAvaliableFmMusics(List<Music>? recommend, int retryTimes,List<Music> resultMusic) async {
     final List<Music> resultMusic = List.empty(growable: true);
     if (recommend == null) {
       return resultMusic;
@@ -464,7 +464,7 @@ class NeteaseRepository {
         resultMusic.add(recommend[i]);
       } else {
         final retryTimesInner = retryTimes + 1;
-        final musics = await getPersonalFmMusics(retryTimesInner);
+        final musics = await getPersonalFmMusics(retryTimesInner,resultMusic);
         if (musics != null) {
           resultMusic.addAll(musics);
         }

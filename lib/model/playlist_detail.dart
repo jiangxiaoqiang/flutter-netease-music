@@ -19,6 +19,7 @@ class PlaylistDetail {
     this.commentCount,
     this.shareCount,
     this.playCount,
+    this.source,
     required this.trackUpdateTime,
     required this.trackIds,
   });
@@ -80,7 +81,7 @@ class PlaylistDetail {
     List<Music>? musicList = (map['musicList'] as List?)?.cast<Map<String, dynamic>>().map((m) => Music.fromJson(m)).cast<Music>().toList();
     return PlaylistDetail(
         id: map['id'],
-        musicList: musicList!,
+        musicList: musicList ?? List.empty(),
         creator:map['creator'],
         name:map['name'],
         coverUrl:map['coverUrl'],
@@ -92,8 +93,9 @@ class PlaylistDetail {
         shareCount:map['shareCount'],
         //source: map['source'],
         playCount:map['playCount'],
-        trackUpdateTime: map['trackUpdateTime'],
-        trackIds: map['trackIds']);
+        source:map['source'],
+        trackUpdateTime: map['trackUpdateTime']??0,
+        trackIds: map['trackIds']??List.empty());
   }
 
   Map toMap() {
