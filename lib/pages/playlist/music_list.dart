@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/music_player.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:quiet/component/global/settings.dart';
 import 'package:quiet/component/route.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/pages/artists/page_artist_detail.dart';
@@ -75,7 +76,7 @@ class MusicTileConfiguration extends StatelessWidget {
   //return null if current music is not be playing
   static Widget? _buildPlayingLeading(BuildContext context, Music music) {
     if (MusicTileConfiguration.of(context).token == context.playList.queueId &&
-        music == context.playerValue.current) {
+        music == context.watchPlayerValue.current) {
       return Container(
         margin: const EdgeInsets.only(left: 8, right: 8),
         width: 40,
@@ -167,7 +168,7 @@ class MusicTile extends StatelessWidget {
 
 class _SimpleMusicTile extends StatelessWidget {
   const _SimpleMusicTile(this.music, {Key? key}) : super(key: key);
-  final Music? music;
+  final Music music;
 
   @override
   Widget build(BuildContext context) {
@@ -182,14 +183,14 @@ class _SimpleMusicTile extends StatelessWidget {
             children: <Widget>[
               const Spacer(),
               Text(
-                music!.title!,
+                music.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               const Padding(padding: EdgeInsets.only(top: 3)),
               Text(
-                music!.subTitle,
+                music.subTitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.caption,
@@ -216,7 +217,7 @@ class MusicListHeader extends StatelessWidget implements PreferredSizeWidget {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       child: Material(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: context.colorScheme.background,
         child: InkWell(
           onTap: () {
             final list = MusicTileConfiguration.of(context);
@@ -308,16 +309,16 @@ class _IconMore extends StatelessWidget {
   final Music music;
 
   List<PopupMenuItem> _buildMenu(BuildContext context) {
-    const items = [
-      PopupMenuItem(
+    final items = [
+      const PopupMenuItem(
         value: _MusicAction.addToNext,
         child: Text("下一首播放"),
       ),
-      PopupMenuItem(
+      const PopupMenuItem(
         value: _MusicAction.addToPlaylist,
         child: Text("收藏到歌单"),
       ),
-      PopupMenuItem(
+      const PopupMenuItem(
         value: _MusicAction.comment,
         child: Text("评论"),
       ),

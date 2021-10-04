@@ -48,7 +48,7 @@ class MainPlayListTile extends StatelessWidget {
     this.enableBottomRadius = false,
   }) : super(key: key);
 
-  final PlaylistDetail? data;
+  final PlaylistDetail data;
   final bool enableBottomRadius;
 
   @override
@@ -192,7 +192,7 @@ class _UserPlayListSectionState extends ConsumerState<UserPlayListSection> {
     if (!ref.watch(userProvider).isLogin) {
       return _singleSliver(child: notLogin(context));
     }
-    return Loader<List<PlaylistDetail?>?>(
+    return Loader<List<PlaylistDetail>>(
         initialData: neteaseLocalData.getUserPlaylist(widget.userId),
         loadTask: () {
           return neteaseRepository!.userPlaylist(widget.userId).then((value) => value);
@@ -207,17 +207,19 @@ class _UserPlayListSectionState extends ConsumerState<UserPlayListSection> {
           final created = result!.where((p) => p!.creator!["userId"] == widget.userId && p.source != 3);
           final subscribed = result.where((p) => p!.creator!["userId"] != widget.userId && p.source != 3);
           final reddwarf = result.where((p) => p!.source == 3);
-
           _dividerIndex = 2 + created.length;
           return SliverList(
             key: PlayListSliverKey(createdPosition: 1, favoritePosition: 3 + created.length),
             delegate: SliverChildListDelegate.fixed([
               const SizedBox(height: _kPlayListDividerHeight),
-              PlayListsGroupHeader(name: context.strings.createdSongList, count: created.length),
-              ..._playlistWidget(created),
+              PlayListsGroupHeader(
+                  name: context.strings.createdSongList, count: created.length),
+              ..._playlistWidget(created.toList()),
               SizedBox(height: _kPlayListDividerHeight, key: _dividerKey),
-              PlayListsGroupHeader(name: context.strings.favoriteSongList, count: subscribed.length),
-              ..._playlistWidget(subscribed),
+              PlayListsGroupHeader(
+                  name: context.strings.favoriteSongList,
+                  count: subscribed.length),
+              ..._playlistWidget(subscribed.toList()),
               const SizedBox(height: _kPlayListDividerHeight),
               PlayListsGroupHeader(name: context.strings.discoverySongList, count: reddwarf.length),
               ..._playlistWidget(reddwarf),
@@ -251,8 +253,9 @@ class _UserPlayListSectionState extends ConsumerState<UserPlayListSection> {
     final list = details.toList(growable: false);
     final List<Widget> widgets = <Widget>[];
     for (int i = 0; i < list.length; i++) {
-      widgets.add(MainPlayListTile(data: list[i], enableBottomRadius: i == list.length - 1));
-    }
+      widgets.add(MainPlayListTile(
+          data: list[i]!, enableBottomRadius: i == list.length - 1));
+      }
     return widgets;
   }
 

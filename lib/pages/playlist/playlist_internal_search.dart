@@ -4,8 +4,7 @@ import 'package:quiet/pages/playlist/music_list.dart';
 import 'package:quiet/part/part.dart';
 
 class PlaylistInternalSearchDelegate extends SearchDelegate {
-  PlaylistInternalSearchDelegate(this.playlist)
-      : assert(playlist.musicList != null);
+  PlaylistInternalSearchDelegate(this.playlist);
 
   final PlaylistDetail playlist;
 
@@ -23,7 +22,7 @@ class PlaylistInternalSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildLeading(BuildContext context) {
-    return BackButton();
+    return const BackButton();
   }
 
   @override
@@ -40,8 +39,8 @@ class PlaylistInternalSearchDelegate extends SearchDelegate {
     if (query.isEmpty) {
       return Container();
     }
-    var result = list
-        ?.where((m) => m.title!.contains(query) || m.subTitle.contains(query))
+    final result = list
+        ?.where((m) => m.title.contains(query) || m.subTitle.contains(query))
         .toList();
     if (result == null || result.isEmpty) {
       return _EmptyResultSection(query);
@@ -58,7 +57,7 @@ class _EmptyResultSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 50),
+      padding: const EdgeInsets.only(top: 50),
       child: Center(
         child: Text('未找到与"$query"相关的内容'),
       ),

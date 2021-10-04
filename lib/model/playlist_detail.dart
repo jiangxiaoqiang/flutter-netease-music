@@ -1,23 +1,48 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/repository/netease.dart';
 
+part 'playlist_detail.g.dart';
+
+@JsonSerializable()
 class PlaylistDetail {
-  PlaylistDetail(this.id, this.musicList, this.creator, this.name, this.coverUrl, this.trackCount, this.description,
-      this.subscribed, this.subscribedCount, this.commentCount, this.shareCount, this.source, this.playCount);
+  PlaylistDetail({
+    required this.id,
+    required this.musicList,
+    this.creator,
+    this.name,
+    this.coverUrl,
+    required this.trackCount,
+    this.description,
+    required this.subscribed,
+    this.subscribedCount,
+    this.commentCount,
+    this.shareCount,
+    this.playCount,
+    required this.trackUpdateTime,
+    required this.trackIds,
+  });
+
 
   ///null when playlist not complete loaded
-  final List<Music>? musicList;
+  @JsonKey(name: 'tracks', defaultValue: [])
+  List<Music> musicList;
+
+  @JsonKey(defaultValue: [])
+  List<TrackId> trackIds;
 
   String? name;
 
+  @JsonKey(name: 'coverImgUrl')
   String? coverUrl;
 
-  int? id;
+  int id;
 
-  int? trackCount;
+  int trackCount;
 
   String? description;
 
+  @JsonKey(defaultValue: false)
   bool subscribed;
 
   int? subscribedCount;
@@ -32,6 +57,9 @@ class PlaylistDetail {
 
   bool get loaded => trackCount == 0 || (musicList != null && musicList!.length == trackCount);
 
+  @JsonKey(defaultValue: 0)
+  int trackUpdateTime;
+
   ///tag fro hero transition
   String get heroTag => "playlist_hero_$id";
 
@@ -41,41 +69,31 @@ class PlaylistDetail {
   ///
   final Map<String, dynamic>? creator;
 
-  static PlaylistDetail fromJson(Map playlist) {
-    return PlaylistDetail(
-        playlist["id"],
-        mapJsonListToMusicList(playlist["tracks"], artistKey: "ar", albumKey: "al"),
-        playlist["creator"],
-        playlist["name"],
-        playlist["coverImgUrl"],
-        playlist["trackCount"],
-        playlist["description"],
-        playlist["subscribed"] ?? false,
-        playlist["subscribedCount"],
-        playlist["commentCount"],
-        playlist["shareCount"],
-        playlist["source"],
-        playlist["playCount"]);
+  factory PlaylistDetail.fromJson(Map playlist) {
+    return _$PlaylistDetailFromJson(playlist);
   }
 
   static PlaylistDetail? fromMap(Map? map) {
     if (map == null) {
       return null;
     }
+    List<Music>? musicList = (map['musicList'] as List?)?.cast<Map<String, dynamic>>().map((m) => Music.fromJson(m)).cast<Music>().toList();
     return PlaylistDetail(
-        map['id'],
-        (map['musicList'] as List?)?.cast<Map<String, dynamic>>().map((m) => Music.fromJson(m)).cast<Music>().toList(),
-        map['creator'],
-        map['name'],
-        map['coverUrl'],
-        map['trackCount'],
-        map['description'],
-        map['subscribed'],
-        map['subscribedCount'],
-        map['commentCount'],
-        map['shareCount'],
-        map['source'],
-        map['playCount']);
+        id: map['id'],
+        musicList: musicList!,
+        creator:map['creator'],
+        name:map['name'],
+        coverUrl:map['coverUrl'],
+        trackCount:map['trackCount'],
+        description:map['description'],
+        subscribed:map['subscribed'],
+        subscribedCount:map['subscribedCount'],
+        commentCount:map['commentCount'],
+        shareCount:map['shareCount'],
+        //source: map['source'],
+        playCount:map['playCount'],
+        trackUpdateTime: map['trackUpdateTime'],
+        trackIds: map['trackIds']);
   }
 
   Map toMap() {
@@ -95,4 +113,29 @@ class PlaylistDetail {
       'playCount': playCount
     };
   }
+
+  Map toJson() => _$PlaylistDetailToJson(this);
+}
+
+@JsonSerializable()
+class TrackId {
+  TrackId({
+    required this.id,
+    required this.v,
+    required this.t,
+    required this.at,
+    required this.uid,
+    required this.rcmdReason,
+  });
+
+  factory TrackId.fromJson(Map json) => _$TrackIdFromJson(json);
+
+  final int id;
+  final int v;
+  final int t;
+  final int at;
+  final int uid;
+  final String rcmdReason;
+
+  Map<String, dynamic> toJson() => _$TrackIdToJson(this);
 }

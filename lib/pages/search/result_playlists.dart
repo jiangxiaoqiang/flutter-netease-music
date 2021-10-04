@@ -5,9 +5,8 @@ import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/netease.dart';
 
 class PlaylistResultSection extends StatefulWidget {
-  final String? query;
-
   const PlaylistResultSection({Key? key, this.query}) : super(key: key);
+  final String? query;
 
   @override
   _PlaylistResultSectionState createState() => _PlaylistResultSectionState();
@@ -33,9 +32,8 @@ class _PlaylistResultSectionState extends State<PlaylistResultSection> with Auto
 }
 
 class _PlayListTile extends StatelessWidget {
-  final Map item;
-
   const _PlayListTile(this.item, {Key? key}) : super(key: key);
+  final Map item;
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +45,12 @@ class _PlayListTile extends StatelessWidget {
           return PlaylistDetailPage(item["source"], item["id"]);
         }));
       },
-      child: Container(
+      child: SizedBox(
         height: 64,
         child: Row(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: AspectRatio(
@@ -61,12 +59,12 @@ class _PlayListTile extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.only(left: 4)),
+            const Padding(padding: EdgeInsets.only(left: 4)),
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Spacer(),
+                const Spacer(),
                 Text(item["name"], maxLines: 1),
                 Spacer(),
                 Text(subTitle, maxLines: 1, style: Theme.of(context).textTheme.caption),

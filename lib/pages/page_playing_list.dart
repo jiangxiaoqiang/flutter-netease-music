@@ -41,8 +41,8 @@ class PlayingListDialogState extends State<PlayingListDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final playingList = context.listenPlayerValue.playingList;
-    final music = context.listenPlayerValue.current;
+    final playingList = context.watchPlayerValue.playingList;
+    final music = context.watchPlayerValue.current;
 
     return _PlayingListContainer(
       child: Column(
@@ -134,14 +134,14 @@ class _Header extends StatelessWidget {
       height: 48,
       child: Row(
         children: <Widget>[
-          FlatButton.icon(
+          TextButton.icon(
               onPressed: () {
                 context.transportControls.setPlayMode(playMode.next);
               },
               icon: Icon(playMode.icon),
               label: Text("${playMode.name}($count)")),
           const Spacer(),
-          FlatButton.icon(
+          TextButton.icon(
               onPressed: () async {
                 final ids = context.playList.queue
                     .map((m) => int.parse(m.mediaId))

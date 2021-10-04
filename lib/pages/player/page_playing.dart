@@ -22,7 +22,7 @@ import 'player_progress.dart';
 class PlayingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final current = context.listenPlayerValue.current;
+    final current = context.watchPlayerValue.current;
     if (current == null) {
       WidgetsBinding.instance!.scheduleFrameCallback((_) {
         Navigator.of(context).pop();
@@ -153,7 +153,7 @@ class PlayingOperationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final iconColor = Theme.of(context).primaryIconTheme.color;
 
-    final music = context.listenPlayerValue.current;
+    final music = context.watchPlayerValue.current;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -332,7 +332,7 @@ class PlayingTitle extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              music.title!,
+              music.title,
               style: const TextStyle(fontSize: 17),
             ),
             InkWell(

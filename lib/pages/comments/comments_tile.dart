@@ -19,24 +19,24 @@ class _ItemTitle extends StatelessWidget {
                 return PlaylistDetailPage(
                   playlist.source,
                   playlist.id!,
-                  playlist: playlist,
+                  previewData: playlist,
                 );
               }));
             } else if (commentThreadId.type == CommentType.song) {
               final Music music = payload!.obj;
-              if (context.playerValue.current != music) {
+              if (context.watchPlayerValue.current != music) {
                 final dynamic result = await showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
                         content: Text("开始播放 ${music.title} ?"),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
                               child: const Text("取消")),
-                          FlatButton(
+                          TextButton(
                               onPressed: () {
                                 Navigator.pop(context, true);
                               },
@@ -250,6 +250,7 @@ class _ItemCommentState extends State<_ItemComment> {
                           size: 15,
                           color:
                               widget.comment.liked! ? Theme.of(context).accentColor : Theme.of(context).disabledColor,
+
                         ),
                       )
                     ],

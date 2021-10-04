@@ -16,7 +16,7 @@ class PlaylistTile extends StatelessWidget {
     this.enableHero = true,
   }) : super(key: key);
 
-  final PlaylistDetail? playlist;
+  final PlaylistDetail playlist;
 
   final bool enableMore;
 
@@ -28,7 +28,7 @@ class PlaylistTile extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: FadeInImage(
         placeholder: const AssetImage("assets/playlist_playlist.9.png"),
-        image: CachedImage(playlist!.coverUrl!),
+        image: CachedImage(playlist.coverUrl ?? ''),
         fit: BoxFit.cover,
         height: 50,
         width: 50,
@@ -36,7 +36,7 @@ class PlaylistTile extends StatelessWidget {
     );
     if (enableHero) {
       cover = QuietHero(
-        tag: playlist!.heroTag,
+        tag: playlist.heroTag,
         child: cover,
       );
     }
@@ -44,7 +44,7 @@ class PlaylistTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.secondaryNavigator!.push(MaterialPageRoute(
-            builder: (context) => PlaylistDetailPage(playlist!.source, playlist!.id!, playlist: playlist)));
+            builder: (context) => PlaylistDetailPage(playlist!.source, playlist!.id!)));
       },
       child: SizedBox(
         height: 60,
@@ -59,7 +59,7 @@ class PlaylistTile extends StatelessWidget {
                 children: <Widget>[
                   const Spacer(),
                   Text(
-                    playlist!.name!,
+                    playlist.name!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 15),
