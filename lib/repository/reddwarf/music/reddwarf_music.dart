@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:overlay_support/overlay_support.dart';
 import 'package:quiet/model/fav_music.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/model/playlist_detail.dart';
@@ -10,9 +9,7 @@ import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestApiError, RestClient;
 
-export 'package:async/async.dart' show Result;
-export 'package:async/async.dart' show ValueResult;
-export 'package:async/async.dart' show ErrorResult;
+export 'package:async/async.dart' show Result,ValueResult,ErrorResult;
 export 'package:quiet/repository/cached_image.dart';
 export 'package:quiet/repository/local_cache_data.dart';
 
@@ -79,7 +76,7 @@ class ReddwarfMusic {
 
   static Future<void> likePlayingMusic(Music music) async {
     try {
-      Map jsonMap = music.toJson();
+      final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1/like", jsonMap);
       if (RestClient.respSuccess(response)) {}
     } on Exception catch (e) {
@@ -93,7 +90,7 @@ class ReddwarfMusic {
 
   static Future<bool> incrementPlayCount(Music music) async {
     try {
-      Map jsonMap = music.toJson();
+      final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/songs/v1/playcount/increment/" + music.id.toString(), jsonMap);
       if (RestClient.respSuccess(response)) {
         return true;
@@ -111,7 +108,7 @@ class ReddwarfMusic {
 
   static Future<void> dislikePlayingMusic(Music music) async {
     try {
-      Map jsonMap = music.toJson();
+      final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1/dislike", jsonMap);
       if (RestClient.respSuccess(response)) {}
     } on Exception catch (e) {
@@ -149,10 +146,10 @@ class ReddwarfMusic {
 
   static Future<Result<PlaylistDetail>?> playlistDetail() async {
     try {
-      final response = await RestClient.getHttp("/music/playlist/v1/playlist/detail/1");
+      final response = await RestClient.getHttp("/music/playlist/v1.1/playlist/detail/1");
       if (RestClient.respSuccess(response)) {
-        Map result = (response.data["result"] as Map);
-        PlaylistDetail? detail = PlaylistDetail.fromMap(result);
+        final Map result = response.data["result"] as Map;
+        final PlaylistDetail? detail = PlaylistDetail.fromMap(result);
         return Result.value(detail!);
       }
     } on Exception catch (e) {
@@ -180,7 +177,7 @@ class ReddwarfMusic {
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception
-      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
       // executed for errors of all types other than Exception
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");

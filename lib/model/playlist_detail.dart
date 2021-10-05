@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/repository/netease.dart';
@@ -78,12 +80,17 @@ class PlaylistDetail {
     if (map == null) {
       return null;
     }
-    List<Music>? musicList = (map['musicList'] as List?)?.cast<Map<String, dynamic>>().map((m) => Music.fromJson(m)).cast<Music>().toList();
+    final List<Music> musicListOuter = List.empty(growable: true);
+    List mlist = map.containsKey("musicList")? map['musicList'] as List:List.empty();
+    for (final element in mlist) {
+      Music mc = Music.fromJson(element);
+      musicListOuter.add(mc);
+    }
     List<TrackId>? trackIds = (map['trackIds'] as List?)?.cast<Map<String, dynamic>>().map((m) => TrackId.fromJson(m)).cast<TrackId>().toList();
 
     return PlaylistDetail(
         id: map['id'],
-        musicList: musicList ?? List.empty(),
+        musicList: musicListOuter ?? List.empty(),
         creator:map['creator'],
         name:map['name'],
         coverUrl:map['coverUrl'],
