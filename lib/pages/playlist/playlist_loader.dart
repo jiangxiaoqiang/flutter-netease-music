@@ -17,17 +17,19 @@ AsyncSnapshot<PlaylistDetail> usePlaylistDetail(
     }
 
     final detailResult = await neteaseRepository!.playlistDetailDiffSource(preview!.source,playlistId);
-    final detail = detailResult!.asValue?.value;
-    if (detail != null) {
-      if (local != null && detail.trackUpdateTime == local.trackUpdateTime) {
-        detail.musicList = local.musicList;
-      } else if (detail.musicList.length != detail.trackIds.length) {
-        final musics = await neteaseRepository!
-            .songDetails(detail.trackIds.map((e) => e.id).toList());
-        detail.musicList = musics;
+    if(detailResult != null) {
+      final detail = detailResult!.asValue?.value;
+      if (detail != null) {
+        if (local != null && detail.trackUpdateTime == local.trackUpdateTime) {
+          detail.musicList = local.musicList;
+        } else if (detail.musicList.length != detail.trackIds.length) {
+          final musics = await neteaseRepository!
+              .songDetails(detail.trackIds.map((e) => e.id).toList());
+          detail.musicList = musics;
+        }
+        neteaseLocalData.updatePlaylistDetail(detail);
+        yield detail;
       }
-      neteaseLocalData.updatePlaylistDetail(detail);
-      yield detail;
     }
   }, [playlistId]));
 
