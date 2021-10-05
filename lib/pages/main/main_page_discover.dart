@@ -43,8 +43,7 @@ class _NavigationLine extends StatelessWidget {
               context.secondaryNavigator!.pushNamed(pageFmPlaying);
               return;
             }
-            final List<Music> resultMusic = List.empty(growable: true);
-            showLoaderOverlay(context, neteaseRepository!.getPersonalFmMusics(0,resultMusic)).then((musics) {
+            showLoaderOverlay(context, neteaseRepository!.getPersonalFmMusics()).then((musics) {
               context.player.playFm(musics!);
               context.secondaryNavigator!.pushNamed(pageFmPlaying);
             }).catchError((error, stacktrace) {

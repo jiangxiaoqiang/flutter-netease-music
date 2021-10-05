@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
@@ -48,6 +49,8 @@ enum PlaylistOperation { add, remove }
 const _kCodeSuccess = 200;
 
 const _kCodeNeedLogin = 301;
+
+final ListQueue fmPlayQueue = ListQueue();
 
 ///map a result to any other
 Result<R> _map<T, R>(Result<T> source, R Function(T t) f) {
@@ -422,13 +425,26 @@ class NeteaseRepository {
     );
   }
 
+  List<Music> getPersonalFmMusicsFromQueue() {
+    appendMusic();
+   final Music music = fmPlayQueue.first;
+    final List<Music> musics = List.empty(growable: true);
+    musics.add(music);
+    return musics;
+  }
+
+  void appendMusic() {
+    for(int i=0;i<10;i++){
+      if (fmPlayQueue.length < 20) {
+        getPersonalFmMusics();
+      }
+    }
+  }
+
   ///
   /// 获取私人 FM 推荐歌曲。一次两首歌曲。
   ///
-  Future<List<Music>?> getPersonalFmMusics(int retryTimes,List<Music> resultMusic) async {
-    if (retryTimes > 3) {
-      return null;
-    }
+  Future<List<Music>?> getPersonalFmMusics() async {
     final result = await doRequest('/personal_fm');
     if (result.isError) {
       throw result.asError!.error;
@@ -436,7 +452,7 @@ class NeteaseRepository {
     final data = result.asValue!.value["data"];
     final List<Music>? recommend = mapJsonListToMusicList(data as List?);
     ReddwarfMusic.savePlayingMusicList(recommend);
-    return getAvaliableFmMusics(recommend, retryTimes,resultMusic);
+    return getAvaliableFmMusics(recommend);
   }
 
   Future<void> patch() async {
@@ -453,7 +469,7 @@ class NeteaseRepository {
     }
   }
 
-  Future<List<Music>?> getAvaliableFmMusics(List<Music>? recommend, int retryTimes,List<Music> resultMusic) async {
+  Future<List<Music>?> getAvaliableFmMusics(List<Music>? recommend) async {
     final List<Music> resultMusic = List.empty(growable: true);
     if (recommend == null) {
       return resultMusic;
@@ -462,12 +478,7 @@ class NeteaseRepository {
       final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommend[i]);
       if (!isLegacyMusic) {
         resultMusic.add(recommend[i]);
-      } else {
-        final retryTimesInner = retryTimes + 1;
-        final musics = await getPersonalFmMusics(retryTimesInner,resultMusic);
-        if (musics != null) {
-          resultMusic.addAll(musics);
-        }
+        fmPlayQueue.add(recommend[i]);
       }
     }
     return resultMusic;

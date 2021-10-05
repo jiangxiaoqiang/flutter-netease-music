@@ -44,14 +44,11 @@ class BackgroundInterceptors {
 
 class QuietPlayQueueInterceptor extends PlayQueueInterceptor {
   @override
-  Future<List<MusicMetadata>> fetchMoreMusic(
-      BackgroundPlayQueue queue, PlayMode playMode) async {
+  Future<List<MusicMetadata>> fetchMoreMusic(BackgroundPlayQueue queue, PlayMode playMode) async {
     if (queue.queueId == kFmPlayQueueId) {
-      int retryTimes = 0;
-      final List<Music> resultMusic = List.empty(growable: true);
-      final musics = await (neteaseRepository!.getPersonalFmMusics(retryTimes,resultMusic)
-          as FutureOr<List<Music>>);
-      return musics.toMetadataList();
+      final musics = neteaseRepository!.getPersonalFmMusicsFromQueue() ;
+      final musicListExt= musics.toMetadataList();
+      return musicListExt;
     }
     return super.fetchMoreMusic(queue, playMode);
   }
