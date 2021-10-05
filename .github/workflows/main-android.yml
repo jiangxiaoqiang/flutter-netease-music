@@ -28,8 +28,8 @@ jobs:
       - run: flutter pub run build_runner build --delete-conflicting-outputs
 
       # verify the use of 'dart format' on each commit.
-      - name: Verify formatting
-        run: flutter format --set-exit-if-changed .
+      #- name: Verify formatting
+      #  run: flutter format --set-exit-if-changed .
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Analyze project source
