@@ -32,8 +32,8 @@ jobs:
       #  run: flutter format --set-exit-if-changed .
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: flutter analyze
+      #- name: Analyze project source
+      #  run: flutter analyze
 
       # 跳过单元测试，因为项目重构改动过大，导致原有测试无法通过。目前没有时间去重写单测。
 #       - name: Flutter unit test
