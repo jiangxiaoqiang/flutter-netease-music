@@ -432,7 +432,7 @@ class NeteaseRepository {
   void appendMusic() async {
     try {
       for (int i = 0; i < 10; i++) {
-        if (fmPlayQueue.length < 20) {
+        if (fmPlayQueue.length < 8) {
           getPersonalFmMusics();
         }
       }
