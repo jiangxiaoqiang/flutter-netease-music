@@ -45,7 +45,7 @@ class ReddwarfMusic {
   static Future<void> _savePlayingMusicImpl(Music music) async {
     try {
       final Map jsonMap = music.toJson();
-      final response = await RestClient.postHttp("/music/music/user/v1/save-play-record", jsonMap);
+      final response = await RestClient.postHttp("/music/music/user/v1.1/save-play-record", jsonMap);
       if (RestClient.respSuccess(response)) {
       }
     } on Exception catch (e) {

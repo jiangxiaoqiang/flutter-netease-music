@@ -14,6 +14,7 @@ import 'package:quiet/repository/objects/music_count.dart';
 import 'package:quiet/repository/objects/music_video_detail.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
+import 'package:wheel/wheel.dart';
 
 import 'local_cache_data.dart';
 
@@ -50,7 +51,7 @@ const _kCodeSuccess = 200;
 
 const _kCodeNeedLogin = 301;
 
-final ListQueue fmPlayQueue = ListQueue();
+final ListQueue<Music> fmPlayQueue = ListQueue<Music>();
 
 ///map a result to any other
 Result<R> _map<T, R>(Result<T> source, R Function(T t) f) {
@@ -132,8 +133,7 @@ class NeteaseRepository {
     final response = await doRequest("/user/playlist", {"offset": offset, "uid": userId, "limit": limit});
     final List<PlaylistDetail>? reddwarfPlayList = await ReddwarfMusic.playlist();
     return _map(response, (Map result) {
-      final List<PlaylistDetail> list =
-          (result["playlist"] as List).cast<Map>().map((e) => PlaylistDetail.fromJson(e)).toList();
+      final List<PlaylistDetail> list = (result["playlist"] as List).cast<Map>().map((e) => PlaylistDetail.fromJson(e)).toList();
       if (reddwarfPlayList != null) {
         list.addAll(reddwarfPlayList);
       }
@@ -263,8 +263,7 @@ class NeteaseRepository {
 
   ///check music is available
   Future<bool> checkMusic(int? id) async {
-    final result =
-        await doRequest("https://music.163.com/weapi/song/enhance/player/url", {"ids": "[$id]", "br": 999000});
+    final result = await doRequest("https://music.163.com/weapi/song/enhance/player/url", {"ids": "[$id]", "br": 999000});
     return result.isValue && result.asValue!.value["data"][0]["code"] == 200;
   }
 
@@ -305,11 +304,8 @@ class NeteaseRepository {
   Future<bool> playlistTracksEdit(PlaylistOperation operation, int playlistId, List<int?> musicIds) async {
     assert(musicIds.isNotEmpty);
 
-    final result = await doRequest("https://music.163.com/weapi/playlist/manipulate/tracks", {
-      "op": operation == PlaylistOperation.add ? "add" : "del",
-      "pid": playlistId,
-      "trackIds": "[${musicIds.join(",")}]"
-    });
+    final result = await doRequest("https://music.163.com/weapi/playlist/manipulate/tracks",
+        {"op": operation == PlaylistOperation.add ? "add" : "del", "pid": playlistId, "trackIds": "[${musicIds.join(",")}]"});
     return result.isValue;
   }
 
@@ -427,17 +423,23 @@ class NeteaseRepository {
 
   List<Music> getPersonalFmMusicsFromQueue() {
     appendMusic();
-   final Music music = fmPlayQueue.first;
+    final Music music = fmPlayQueue.removeFirst();
     final List<Music> musics = List.empty(growable: true);
     musics.add(music);
     return musics;
   }
 
-  void appendMusic() {
-    for(int i=0;i<10;i++){
-      if (fmPlayQueue.length < 20) {
-        getPersonalFmMusics();
+  void appendMusic() async {
+    try {
+      for (int i = 0; i < 10; i++) {
+        if (fmPlayQueue.length < 20) {
+          getPersonalFmMusics();
+        }
       }
+    } on Exception catch (e) {
+      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+    } catch (error) {
+      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
     }
   }
 
@@ -475,10 +477,13 @@ class NeteaseRepository {
       return resultMusic;
     }
     for (int i = 0; i < recommend.length; i++) {
-      final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommend[i]);
+      final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(
+          recommend[i]);
       if (!isLegacyMusic) {
         resultMusic.add(recommend[i]);
-        fmPlayQueue.add(recommend[i]);
+        if(!fmPlayQueue.contains(recommend[i])) {
+          fmPlayQueue.add(recommend[i]);
+        }
       }
     }
     return resultMusic;
