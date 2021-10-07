@@ -109,7 +109,7 @@ class ReddwarfMusic {
   static Future<void> dislikePlayingMusic(Music music) async {
     try {
       final Map jsonMap = music.toJson();
-      final response = await RestClient.postHttp("/music/music/user/v1/dislike", jsonMap);
+      final response = await RestClient.postHttp("/music/music/user/v1.1/dislike", jsonMap);
       if (RestClient.respSuccess(response)) {}
     } on Exception catch (e) {
       // only executed if error is of type Exception
