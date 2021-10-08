@@ -477,8 +477,7 @@ class NeteaseRepository {
       return resultMusic;
     }
     for (int i = 0; i < recommend.length; i++) {
-      final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(
-          recommend[i]);
+      final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommend[i]);
       if (!isLegacyMusic) {
         resultMusic.add(recommend[i]);
         if(!fmPlayQueue.contains(recommend[i])) {
