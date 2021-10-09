@@ -432,7 +432,7 @@ class NeteaseRepository {
   void appendMusic() async {
     try {
       for (int i = 0; i < 10; i++) {
-        if (fmPlayQueue.length < 8) {
+        if (fmPlayQueue.length < 20) {
           getPersonalFmMusics();
         }
       }
@@ -441,6 +441,11 @@ class NeteaseRepository {
     } catch (error) {
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");
     }
+  }
+
+  Future<List<Music>?> getPersonalFmMusicsAndFillQueue() async {
+    appendMusic();
+    return getPersonalFmMusics();
   }
 
   ///
