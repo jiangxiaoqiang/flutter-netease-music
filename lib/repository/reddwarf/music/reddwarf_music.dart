@@ -35,7 +35,7 @@ class ReddwarfMusic {
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception
-      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
       // executed for errors of all types other than Exception
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");
@@ -59,7 +59,7 @@ class ReddwarfMusic {
 
   static Future<bool> legacyMusic(Music music) async {
     try {
-      final response = await RestClient.getHttp("/music/songs/v1/jump/"+music.id.toString());
+      final response = await RestClient.getHttp("/music/songs/v1/jump/${music.id}");
       if (RestClient.respSuccess(response)) {
         final Object isLegacyMusic = response.data["result"] ;
         return isLegacyMusic.toString().toLowerCase() == 'true';
@@ -71,7 +71,7 @@ class ReddwarfMusic {
       // executed for errors of all types other than Exception
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");
     }
-    return false;
+    return true;
   }
 
   static Future<void> likePlayingMusic(Music music) async {
@@ -81,7 +81,7 @@ class ReddwarfMusic {
       if (RestClient.respSuccess(response)) {}
     } on Exception catch (e) {
       // only executed if error is of type Exception
-      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
       // executed for errors of all types other than Exception
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");
@@ -113,7 +113,7 @@ class ReddwarfMusic {
       if (RestClient.respSuccess(response)) {}
     } on Exception catch (e) {
       // only executed if error is of type Exception
-      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
       // executed for errors of all types other than Exception
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");

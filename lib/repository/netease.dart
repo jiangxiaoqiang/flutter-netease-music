@@ -426,10 +426,11 @@ class NeteaseRepository {
     final Music music = fmPlayQueue.removeFirst();
     final List<Music> musics = List.empty(growable: true);
     musics.add(music);
+    print("cached songs:"+fmPlayQueue.length.toString());
     return musics;
   }
 
-  void appendMusic() async {
+  void appendMusic() {
     try {
       for (int i = 0; i < 10; i++) {
         if (fmPlayQueue.length < 20) {
@@ -484,6 +485,7 @@ class NeteaseRepository {
     for (int i = 0; i < recommend.length; i++) {
       final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommend[i]);
       if (!isLegacyMusic) {
+        print("songs title:"+recommend[i].title +",legacy:" + isLegacyMusic.toString()+",song id:" + recommend[i].id.toString());
         resultMusic.add(recommend[i]);
         if(!fmPlayQueue.contains(recommend[i])) {
           fmPlayQueue.add(recommend[i]);
