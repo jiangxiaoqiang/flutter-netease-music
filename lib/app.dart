@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
 import 'package:netease_music_api/netease_cloud_music.dart' as api;
@@ -12,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:quiet/component.dart';
 import 'package:quiet/material/app.dart';
 import 'package:quiet/pages/account/account.dart';
+import 'package:quiet/pages/player/page_fm_playing_controller.dart';
 import 'package:quiet/pages/splash/page_splash.dart';
 import 'package:quiet/repository/netease.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -46,11 +49,19 @@ void loadApp(ConfigType configType) {
         },
       ),
     ));
+    Timer.periodic(const Duration(seconds: 10), (Timer t) => updateQueueCount());
     //BackgroundFetch.re
   }, (error, stack) {
     debugPrint('uncaught error : $error $stack');
   });
 }
+
+ void updateQueueCount(){
+   final cartController = Get.isRegistered<PagePlayingFmController>();
+   if(cartController){
+     Get.find<PagePlayingFmController>().updateQueueCount();
+   }
+ }
 
 class MyApp extends ConsumerWidget {
   const MyApp({
