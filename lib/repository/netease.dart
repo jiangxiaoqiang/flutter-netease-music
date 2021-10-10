@@ -422,31 +422,33 @@ class NeteaseRepository {
   }
 
   List<Music> getPersonalFmMusicsFromQueue() {
-    appendMusic();
+    if(fmPlayQueue.isEmpty){
+      return List.empty(growable: false);
+    }
     final Music music = fmPlayQueue.removeFirst();
     final List<Music> musics = List.empty(growable: true);
     musics.add(music);
-    print("cached songs:"+fmPlayQueue.length.toString());
+    print("cached songs:${fmPlayQueue.length}");
     return musics;
   }
 
   void appendMusic() {
     try {
-      for (int i = 0; i < 10; i++) {
+      print("append songs:${fmPlayQueue.length}");
+      for (int i = 0; i < 2; i++) {
         if (fmPlayQueue.length < 20) {
           getPersonalFmMusics();
         }
       }
     } on Exception catch (e) {
-      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
-      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("http error"), error.toString());
     }
   }
 
   Future<List<Music>?> getPersonalFmMusicsAndFillQueue() async {
-    appendMusic();
-    return getPersonalFmMusics();
+    return Future.value(getPersonalFmMusicsFromQueue());
   }
 
   ///
@@ -485,7 +487,7 @@ class NeteaseRepository {
     for (int i = 0; i < recommend.length; i++) {
       final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommend[i]);
       if (!isLegacyMusic) {
-        print("songs title:"+recommend[i].title +",legacy:" + isLegacyMusic.toString()+",song id:" + recommend[i].id.toString());
+        print("songs title:" + recommend[i].title + ",legacy:" + isLegacyMusic.toString() + ",song id:" + recommend[i].id.toString());
         resultMusic.add(recommend[i]);
         if(!fmPlayQueue.contains(recommend[i])) {
           fmPlayQueue.add(recommend[i]);

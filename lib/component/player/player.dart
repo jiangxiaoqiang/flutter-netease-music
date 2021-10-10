@@ -100,8 +100,7 @@ extension MusicPlayerValueExt on MusicPlayerValue {
 
   Music get requireCurrent => current!;
 
-  List<Music> get playingList =>
-      queue.queue.map((e) => Music.fromMetadata(e)).toList();
+  List<Music> get playingList => queue.queue.map((e) => Music.fromMetadata(e)).toList();
 }
 
 extension PlaybackStateExt on PlaybackState {

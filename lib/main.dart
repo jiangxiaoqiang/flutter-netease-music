@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:music_player/music_player.dart';
 import 'package:quiet/app.dart';
@@ -23,6 +25,7 @@ void loadRepository() {
   WidgetsFlutterBinding.ensureInitialized();
   GlobalConfig.init(ConfigType.PRO);
   neteaseRepository = NeteaseRepository();
+  Timer.periodic(const Duration(seconds: 10), (Timer t) => neteaseRepository!.appendMusic());
   runBackgroundService(
     imageLoadInterceptor: BackgroundInterceptors.loadImageInterceptor,
     playUriInterceptor: BackgroundInterceptors.playUriInterceptor,

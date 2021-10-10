@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
-import 'package:music_player/music_player.dart';
 import 'package:netease_music_api/netease_cloud_music.dart' as api;
 import 'package:overlay_support/overlay_support.dart';
 import 'package:path_provider/path_provider.dart';
@@ -47,6 +46,7 @@ void loadApp(ConfigType configType) {
         },
       ),
     ));
+    //BackgroundFetch.re
   }, (error, stack) {
     debugPrint('uncaught error : $error $stack');
   });
