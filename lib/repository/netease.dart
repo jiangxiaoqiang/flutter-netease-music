@@ -4,11 +4,15 @@ import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:netease_music_api/netease_cloud_music.dart' as api;
 import 'package:path_provider/path_provider.dart';
+import 'package:quiet/component/global/netease_global_config.dart';
 import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/model/user_detail_bean.dart';
 import 'package:quiet/pages/comments/page_comment.dart';
+import 'package:quiet/pages/player/page_fm_playing_controller.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/objects/music_count.dart';
 import 'package:quiet/repository/objects/music_video_detail.dart';
@@ -51,7 +55,6 @@ const _kCodeSuccess = 200;
 
 const _kCodeNeedLogin = 301;
 
-final ListQueue<Music> fmPlayQueue = ListQueue<Music>();
 
 ///map a result to any other
 Result<R> _map<T, R>(Result<T> source, R Function(T t) f) {
@@ -422,21 +425,21 @@ class NeteaseRepository {
   }
 
   List<Music> getPersonalFmMusicsFromQueue() {
-    if(fmPlayQueue.isEmpty){
+    if(NeteaseGlobalConfig.fmPlayQueue.isEmpty){
       return List.empty(growable: false);
     }
-    final Music music = fmPlayQueue.removeFirst();
+    final Music music = NeteaseGlobalConfig.fmPlayQueue.removeFirst();
     final List<Music> musics = List.empty(growable: true);
     musics.add(music);
-    print("cached songs:${fmPlayQueue.length}");
+    print("cached songs:${NeteaseGlobalConfig.fmPlayQueue.length}");
     return musics;
   }
 
   void appendMusic() {
     try {
-      print("append songs:${fmPlayQueue.length}");
+      print("append songs:${NeteaseGlobalConfig.fmPlayQueue.length}");
       for (int i = 0; i < 2; i++) {
-        if (fmPlayQueue.length < 20) {
+        if (NeteaseGlobalConfig.fmPlayQueue.length < 20) {
           getPersonalFmMusics();
         }
       }
@@ -450,7 +453,9 @@ class NeteaseRepository {
   Future<List<Music>?> getPersonalFmMusicsAndFillQueue() async {
     return Future.value(getPersonalFmMusicsFromQueue());
   }
-
+  int getQueueSize(){
+    return NeteaseGlobalConfig.fmPlayQueue.length;
+  }
   ///
   /// 获取私人 FM 推荐歌曲。一次两首歌曲。
   ///
@@ -487,10 +492,10 @@ class NeteaseRepository {
     for (int i = 0; i < recommend.length; i++) {
       final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommend[i]);
       if (!isLegacyMusic) {
-        print("songs title:" + recommend[i].title + ",legacy:" + isLegacyMusic.toString() + ",song id:" + recommend[i].id.toString());
+        print("songs title:${recommend[i].title},legacy:$isLegacyMusic,song id:${recommend[i].id}");
         resultMusic.add(recommend[i]);
-        if(!fmPlayQueue.contains(recommend[i])) {
-          fmPlayQueue.add(recommend[i]);
+        if(!NeteaseGlobalConfig.fmPlayQueue.contains(recommend[i])) {
+          NeteaseGlobalConfig.fmPlayQueue.add(recommend[i]);
         }
       }
     }

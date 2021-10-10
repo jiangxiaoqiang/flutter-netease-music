@@ -54,6 +54,7 @@ dependencies:
     git:
       url: https://github.com/jiangxiaoqiang/wheel.git
       ref: main
+  get: 4.3.8
 
 dev_dependencies:
   flutter_test:
