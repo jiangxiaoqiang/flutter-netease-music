@@ -123,7 +123,6 @@ class LikeButton extends ConsumerWidget {
         }
         if (!isLiked) {
           ref.read(userFavoriteMusicListProvider.notifier).likeMusic(music);
-          ReddwarfMusic.likePlayingMusic(music);
         } else {
           ref.read(userFavoriteMusicListProvider.notifier).dislikeMusic(music);
         }

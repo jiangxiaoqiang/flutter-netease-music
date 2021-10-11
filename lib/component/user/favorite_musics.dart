@@ -21,6 +21,7 @@ class UserFavoriteMusicListNotifier extends CacheableStateNotifier<List<int>> {
 
   /// 红心歌曲
   Future<void> likeMusic(Music music) async {
+    ReddwarfMusic.likePlayingMusic(music);
     final succeed = await neteaseRepository!.like(music.id, like: true);
     if (succeed) {
       state = [...state, music.id];

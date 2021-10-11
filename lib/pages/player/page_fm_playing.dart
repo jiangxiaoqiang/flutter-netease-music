@@ -1,10 +1,17 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:quiet/component.dart';
 import 'package:quiet/material.dart';
 import 'package:quiet/pages/artists/page_artist_detail.dart';
 import 'package:quiet/pages/comments/page_comment.dart';
+import 'package:quiet/pages/player/page_fm_playing_controller.dart';
 import 'package:quiet/repository/cached_image.dart';
 import 'package:quiet/repository/netease.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
@@ -14,6 +21,7 @@ import 'player_progress.dart';
 
 /// FM 播放页面
 class PagePlayingFm extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final current = context.watchPlayerValue.current;
@@ -23,30 +31,35 @@ class PagePlayingFm extends StatelessWidget {
       });
       return Container();
     }
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          BlurBackground(music: current),
-          Material(
-            color: Colors.transparent,
-            child: Column(
-              children: <Widget>[
-                AppBar(
-                  title: const Text("私人FM"),
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
+    return GetBuilder<PagePlayingFmController>(
+        init: PagePlayingFmController(),
+        builder:(controller){
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Stack(
+            children: <Widget>[
+              BlurBackground(music: current),
+              Material(
+                color: Colors.transparent,
+                child: Column(
+                  children: <Widget>[
+                    AppBar(
+                      title: Text("私人FM(${controller.queueCount})"),
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                    ),
+                    const _CenterSection(),
+                    const SizedBox(height: 8),
+                    DurationProgressBar(),
+                    _FmControllerBar(),
+                    SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                  ],
                 ),
-                const _CenterSection(),
-                const SizedBox(height: 8),
-                DurationProgressBar(),
-                _FmControllerBar(),
-                SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 }
@@ -222,6 +235,10 @@ class _FmControllerBar extends StatelessWidget {
                 color: color,
               ),
               onPressed: () {
+                var cartController = Get.isRegistered<PagePlayingFmController>();
+                if(cartController){
+                  Get.find<PagePlayingFmController>().updateQueueCount();
+                }
                 context.transportControls.skipToNext();
               }),
           IconButton(

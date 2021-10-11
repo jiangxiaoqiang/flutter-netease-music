@@ -221,8 +221,7 @@ class _UserPlayListSectionState extends ConsumerState<UserPlayListSection> {
                   count: subscribed.length),
               ..._playlistWidget(subscribed.toList()),
               const SizedBox(height: _kPlayListDividerHeight),
-              PlayListsGroupHeader(name: context.strings.discoverySongList, count: reddwarf.length),
-              ..._playlistWidget(reddwarf),
+              PlayListsGroupHeader(name: context.strings.discoverySongList, count: reddwarf.length), ..._playlistWidget(reddwarf),
               const SizedBox(height: _kPlayListDividerHeight),
             ], addAutomaticKeepAlives: false),
           );

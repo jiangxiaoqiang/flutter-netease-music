@@ -24,7 +24,7 @@ class FullScreenMvPlayerState extends State<FullScreenMvPlayer> {
   void dispose() {
     super.dispose();
     //re enable System UI
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack, overlays: const [
+    SystemChrome.setEnabledSystemUIOverlays(const [
       SystemUiOverlay.top,
       SystemUiOverlay.bottom,
     ]);
@@ -60,16 +60,17 @@ class _FullScreenController extends StatelessWidget {
       center: const MvPlayPauseButton(),
       beforeChange: (show) {
         if (show) {
-          SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack,
-              overlays: const [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+          SystemChrome.setEnabledSystemUIOverlays(const [
+            SystemUiOverlay.top,
+            SystemUiOverlay.bottom,
+          ]);
         }
       },
       afterChange: (show) {
         if (!show) {
-          SystemChrome.setEnabledSystemUIMode(
-            SystemUiMode.leanBack,
-            overlays: const [],
-          );
+          SystemChrome.setEnabledSystemUIOverlays(const [
+
+          ]);
         }
       },
     );
