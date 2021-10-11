@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:quiet/model/playlist_detail.dart';
+import 'package:quiet/pages/player/page_fm_playing_controller.dart';
 import 'package:quiet/pages/playlist/music_list.dart';
 import 'package:quiet/pages/playlist/page_playlist_detail.dart';
 import 'package:quiet/part/part.dart';
@@ -11,7 +13,8 @@ class MainPageDiscover extends StatefulWidget {
   State<StatefulWidget> createState() => CloudPageState();
 }
 
-class CloudPageState extends State<MainPageDiscover> with AutomaticKeepAliveClientMixin {
+class CloudPageState extends State<MainPageDiscover>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -33,33 +36,40 @@ class CloudPageState extends State<MainPageDiscover> with AutomaticKeepAliveClie
 class _NavigationLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          _ItemNavigator(Icons.radio, "私人FM", () {
-            if (context.player.queue.isPlayingFm) {
-              context.secondaryNavigator!.pushNamed(pageFmPlaying);
-              return;
-            }
-            showLoaderOverlay(context, neteaseRepository!.getPersonalFmMusicsAndFillQueue()).then((musics) {
-              context.player.playFm(musics!);
-              context.secondaryNavigator!.pushNamed(pageFmPlaying);
-            }).catchError((error, stacktrace) {
-              debugPrint("error to play personal fm : $error $stacktrace");
-              toast('无法获取私人FM数据');
-            });
-          }),
-          _ItemNavigator(Icons.today, "每日推荐", () {
-            context.secondaryNavigator!.pushNamed(pageDaily);
-          }),
-          _ItemNavigator(Icons.show_chart, "排行榜", () {
-            context.secondaryNavigator!.pushNamed(pageLeaderboard);
-          }),
-        ],
-      ),
-    );
+    return GetBuilder<PagePlayingFmController>(
+        init: PagePlayingFmController(),
+        builder: (controller) {
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _ItemNavigator(Icons.radio, "私人FM(${controller.queueCount})", () {
+                  if (context.player.queue.isPlayingFm) {
+                    context.secondaryNavigator!.pushNamed(pageFmPlaying);
+                    return;
+                  }
+                  showLoaderOverlay(context,
+                          neteaseRepository!.getPersonalFmMusicsAndFillQueue())
+                      .then((musics) {
+                    context.player.playFm(musics!);
+                    context.secondaryNavigator!.pushNamed(pageFmPlaying);
+                  }).catchError((error, stacktrace) {
+                    debugPrint(
+                        "error to play personal fm : $error $stacktrace");
+                    toast('无法获取私人FM数据');
+                  });
+                }),
+                _ItemNavigator(Icons.today, "每日推荐", () {
+                  context.secondaryNavigator!.pushNamed(pageDaily);
+                }),
+                _ItemNavigator(Icons.show_chart, "排行榜", () {
+                  context.secondaryNavigator!.pushNamed(pageLeaderboard);
+                }),
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -80,7 +90,10 @@ class _Header extends StatelessWidget {
           const Padding(padding: EdgeInsets.only(left: 8)),
           Text(
             text,
-            style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w800),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1!
+                .copyWith(fontWeight: FontWeight.w800),
           ),
           const Icon(Icons.chevron_right),
         ],
@@ -137,13 +150,16 @@ class _SectionPlaylist extends StatelessWidget {
       builder: (context, result) {
         final List<Map> list = (result["result"] as List).cast();
         return LayoutBuilder(builder: (context, constraints) {
-          assert(constraints.maxWidth.isFinite, "can not layout playlist item in infinite width container.");
+          assert(constraints.maxWidth.isFinite,
+              "can not layout playlist item in infinite width container.");
           final parentWidth = constraints.maxWidth - 8;
           const int count = /* false ? 6 : */ 3;
-          final double width = (parentWidth ~/ count).toDouble().clamp(80.0, 200.0);
+          final double width =
+              (parentWidth ~/ count).toDouble().clamp(80.0, 200.0);
           final double spacing = (parentWidth - width * count) / (count + 1);
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4 + spacing.roundToDouble()),
+            padding:
+                EdgeInsets.symmetric(horizontal: 4 + spacing.roundToDouble()),
             child: Wrap(
               spacing: spacing,
               children: list.map<Widget>((p) {
@@ -213,7 +229,8 @@ class _PlayListItemView extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: FadeInImage(
-                    placeholder: const AssetImage("assets/playlist_playlist.9.png"),
+                    placeholder:
+                        const AssetImage("assets/playlist_playlist.9.png"),
                     image: CachedImage(playlist["picUrl"]),
                     fit: BoxFit.cover,
                   ),
@@ -244,7 +261,10 @@ class _SectionNewSongs extends StatelessWidget {
     return Loader<Map>(
       loadTask: () => neteaseRepository!.personalizedNewSong(),
       builder: (context, result) {
-        final List<Music> songs = (result["result"] as List).cast<Map>().map(_mapJsonToMusic).toList();
+        final List<Music> songs = (result["result"] as List)
+            .cast<Map>()
+            .map(_mapJsonToMusic)
+            .toList();
         return MusicTileConfiguration(
           musics: songs,
           token: 'playlist_main_newsong',
