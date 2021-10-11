@@ -130,7 +130,7 @@ class _FmCover extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 1.0,
               child: Image(
-                image: CachedImage(music.imageUrl!),
+                image: CachedImage(music.album!.coverImageUrl!),
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {
                     child = Container(child: child);
