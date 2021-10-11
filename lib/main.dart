@@ -8,6 +8,7 @@ import 'package:quiet/app.dart';
 import 'package:quiet/component.dart';
 import 'package:quiet/component/global/netease_global_config.dart';
 import 'package:quiet/repository/netease.dart';
+import 'package:quiet/repository/reddwarf/db/fm_music_queue.dart';
 import 'package:wheel/wheel.dart';
 
 void main() {
@@ -59,12 +60,13 @@ void serviceStart() async {
             ..close();
           break;
         case "GET":
+          int musicCount = await FmMusicQueue.getCount();
           request.response
             ..headers.contentType = ContentType.json
             ..write(json.encode({
               "id": "idxxxxxx",
               "title": "GET  response ",
-              "count":NeteaseGlobalConfig.fmPlayQueue.length
+              "count":musicCount
             }))
             ..close();
           break;

@@ -46,7 +46,7 @@ class QuietPlayQueueInterceptor extends PlayQueueInterceptor {
   @override
   Future<List<MusicMetadata>> fetchMoreMusic(BackgroundPlayQueue queue, PlayMode playMode) async {
     if (queue.queueId == kFmPlayQueueId) {
-      final musics = neteaseRepository!.getPersonalFmMusicsFromQueue() ;
+      final musics = await neteaseRepository!.getPersonalFmMusicsFromQueue() ;
       final musicListExt= musics.toMetadataList();
       return musicListExt;
     }

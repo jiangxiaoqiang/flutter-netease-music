@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
@@ -9,6 +10,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:netease_music_api/netease_cloud_music.dart' as api;
 import 'package:path_provider/path_provider.dart';
 import 'package:quiet/component/global/netease_global_config.dart';
+import 'package:quiet/model/fm_music.dart';
 import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/model/user_detail_bean.dart';
 import 'package:quiet/pages/comments/page_comment.dart';
@@ -16,6 +18,7 @@ import 'package:quiet/pages/player/page_fm_playing_controller.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/objects/music_count.dart';
 import 'package:quiet/repository/objects/music_video_detail.dart';
+import 'package:quiet/repository/reddwarf/db/fm_music_queue.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
 import 'package:wheel/wheel.dart';
@@ -424,22 +427,29 @@ class NeteaseRepository {
     );
   }
 
-  List<Music> getPersonalFmMusicsFromQueue() {
-    if(NeteaseGlobalConfig.fmPlayQueue.isEmpty){
+  Future<List<Music>> getPersonalFmMusicsFromQueue() async {
+    FmMusic? fmMusic =  await FmMusicQueue.getFmMusic();
+    if(fmMusic == null){
       return List.empty(growable: false);
     }
-    final Music music = NeteaseGlobalConfig.fmPlayQueue.removeFirst();
+    //var json = jsonEncode(recommend[i].toJson());
+
+    final Music music = Music.fromJson(jsonDecode(fmMusic.musicInfo));
     final List<Music> musics = List.empty(growable: true);
     musics.add(music);
-    print("cached songs:${NeteaseGlobalConfig.fmPlayQueue.length}");
+    int count = await FmMusicQueue.getCount();
+    print("cached songs:${count}");
+    FmMusicQueue.deleteFmMusic(music.id);
     return musics;
   }
 
-  void appendMusic() {
+  Future<void> appendMusic() async {
     try {
-      print("append songs:${NeteaseGlobalConfig.fmPlayQueue.length}");
+      final int countm = await FmMusicQueue.getCount();
+      print("append songs:${countm}");
       for (int i = 0; i < 2; i++) {
-        if (NeteaseGlobalConfig.fmPlayQueue.length < 20) {
+        final int count = await FmMusicQueue.getCount();
+        if (count < 20) {
           getPersonalFmMusics();
         }
       }
@@ -453,9 +463,7 @@ class NeteaseRepository {
   Future<List<Music>?> getPersonalFmMusicsAndFillQueue() async {
     return Future.value(getPersonalFmMusicsFromQueue());
   }
-  int getQueueSize(){
-    return NeteaseGlobalConfig.fmPlayQueue.length;
-  }
+
   ///
   /// 获取私人 FM 推荐歌曲。一次两首歌曲。
   ///
@@ -494,8 +502,15 @@ class NeteaseRepository {
       if (!isLegacyMusic) {
         print("songs title:${recommend[i].title},legacy:$isLegacyMusic,song id:${recommend[i].id}");
         resultMusic.add(recommend[i]);
-        if(!NeteaseGlobalConfig.fmPlayQueue.contains(recommend[i])) {
-          NeteaseGlobalConfig.fmPlayQueue.add(recommend[i]);
+        final FmMusic? cachedFmMusic = await FmMusicQueue.getFmMusicById(recommend[i].id);
+        if(cachedFmMusic == null) {
+          var json = jsonEncode(recommend[i].toJson());
+          final FmMusic fmMusic = FmMusic(
+              id: recommend[i].id,
+              musicInfo: json,
+              createdTime: DateTime.now().toUtc().millisecondsSinceEpoch
+          );
+          FmMusicQueue.insertFmMusic(fmMusic);
         }
       }
     }

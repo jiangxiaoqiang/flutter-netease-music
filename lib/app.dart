@@ -21,6 +21,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel/wheel.dart';
 
+
 void loadApp(ConfigType configType) {
   GlobalConfig.init(configType);
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,11 +51,14 @@ void loadApp(ConfigType configType) {
       ),
     ));
     Timer.periodic(const Duration(seconds: 10), (Timer t) => updateQueueCount());
+
     //BackgroundFetch.re
   }, (error, stack) {
     debugPrint('uncaught error : $error $stack');
   });
 }
+
+
 
  void updateQueueCount(){
    final cartController = Get.isRegistered<PagePlayingFmController>();
