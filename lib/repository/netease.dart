@@ -449,7 +449,7 @@ class NeteaseRepository {
       print("append songs:${countm}");
       for (int i = 0; i < 2; i++) {
         final int count = await FmMusicQueue.getCount();
-        if (count < 20) {
+        if (count < 50) {
           getPersonalFmMusics();
         }
       }
