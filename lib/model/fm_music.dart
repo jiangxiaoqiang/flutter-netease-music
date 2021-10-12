@@ -9,8 +9,8 @@ part 'fm_music.g.dart';
 class FmMusic {
   FmMusic({
     required this.id,
-    required this.musicInfo,
-    required this.createdTime,
+    required this.musicinfo,
+    required this.createdtime,
   });
 
   factory FmMusic.fromMetadata(MusicMetadata metadata) {
@@ -18,15 +18,15 @@ class FmMusic {
   }
 
   factory FmMusic.fromJson(Map<String, dynamic> json) {
-    FmMusic music = _$MusicFromJson(json);
+    FmMusic music = _$FmMusicFromJson(json);
     return music;
   }
 
   final int id;
 
-  final String musicInfo;
+  final String musicinfo;
 
-  final int createdTime;
+  final int createdtime;
 
   @override
   bool operator ==(Object other) =>
@@ -35,7 +35,7 @@ class FmMusic {
   @override
   int get hashCode => id.hashCode;
 
-  Map<String, dynamic> toJson() => _$MusicToJson(this);
+  Map<String, dynamic> toJson() => _$FmMusicToJson(this);
 }
 
 extension MusicListExt on List<Music> {

@@ -6,13 +6,11 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Album _$AlbumFromJson(Map json) {
-  return Album(
-    coverImageUrl: json['picUrl'] as String?,
-    name: json['name'] as String?,
-    id: json['id'] as int?,
-  );
-}
+Album _$AlbumFromJson(Map json) => Album(
+      coverImageUrl: json['picUrl'] as String?,
+      name: json['name'] as String?,
+      id: json['id'] as int?,
+    );
 
 Map<String, dynamic> _$AlbumToJson(Album instance) => <String, dynamic>{
       'picUrl': instance.coverImageUrl,
@@ -20,13 +18,11 @@ Map<String, dynamic> _$AlbumToJson(Album instance) => <String, dynamic>{
       'id': instance.id,
     };
 
-Artist _$ArtistFromJson(Map json) {
-  return Artist(
-    name: json['name'] as String?,
-    id: json['id'] as int?,
-    imageUrl: json['imageUrl'] as String?,
-  );
-}
+Artist _$ArtistFromJson(Map json) => Artist(
+      name: json['name'] as String?,
+      id: json['id'] as int?,
+      imageUrl: json['imageUrl'] as String?,
+    );
 
 Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
       'name': instance.name,

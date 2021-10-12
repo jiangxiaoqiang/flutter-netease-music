@@ -6,18 +6,17 @@ part of 'music_video_detail.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MusicVideoDetailResult _$MusicVideoDetailResultFromJson(Map json) {
-  return MusicVideoDetailResult(
-    loadingPic: json['loadingPic'] as String,
-    bufferPic: json['bufferPic'] as String,
-    loadingPicFS: json['loadingPicFS'] as String,
-    bufferPicFS: json['bufferPicFS'] as String,
-    subscribed: json['subed'] as bool,
-    data: MusicVideoDetail.fromJson(
-        Map<String, dynamic>.from(json['data'] as Map)),
-    code: json['code'] as int,
-  );
-}
+MusicVideoDetailResult _$MusicVideoDetailResultFromJson(Map json) =>
+    MusicVideoDetailResult(
+      loadingPic: json['loadingPic'] as String,
+      bufferPic: json['bufferPic'] as String,
+      loadingPicFS: json['loadingPicFS'] as String,
+      bufferPicFS: json['bufferPicFS'] as String,
+      subscribed: json['subed'] as bool,
+      data: MusicVideoDetail.fromJson(
+          Map<String, dynamic>.from(json['data'] as Map)),
+      code: json['code'] as int,
+    );
 
 Map<String, dynamic> _$MusicVideoDetailResultToJson(
         MusicVideoDetailResult instance) =>
@@ -31,32 +30,30 @@ Map<String, dynamic> _$MusicVideoDetailResultToJson(
       'code': instance.code,
     };
 
-MusicVideoDetail _$MusicVideoDetailFromJson(Map json) {
-  return MusicVideoDetail(
-    artists: (json['artists'] as List<dynamic>)
-        .map((e) => Artist.fromJson(e as Map))
-        .toList(),
-    id: json['id'] as int?,
-    name: json['name'] as String?,
-    artistId: json['artistId'] as int?,
-    artistName: json['artistName'] as String?,
-    briefDesc: json['briefDesc'] as String?,
-    desc: json['desc'] as String?,
-    cover: json['cover'] as String?,
-    coverId: json['coverId'] as int?,
-    playCount: json['playCount'] as int?,
-    subCount: json['subCount'] as int?,
-    shareCount: json['shareCount'] as int?,
-    likeCount: json['likeCount'] as int?,
-    commentCount: json['commentCount'] as int?,
-    duration: json['duration'] as int?,
-    nType: json['nType'] as int?,
-    publishTime: json['publishTime'] as String?,
-    brs: json['brs'] as Map?,
-    isReward: json['isReward'] as bool?,
-    commentThreadId: json['commentThreadId'] as String?,
-  );
-}
+MusicVideoDetail _$MusicVideoDetailFromJson(Map json) => MusicVideoDetail(
+      artists: (json['artists'] as List<dynamic>)
+          .map((e) => Artist.fromJson(e as Map))
+          .toList(),
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      artistId: json['artistId'] as int?,
+      artistName: json['artistName'] as String?,
+      briefDesc: json['briefDesc'] as String?,
+      desc: json['desc'] as String?,
+      cover: json['cover'] as String?,
+      coverId: json['coverId'] as int?,
+      playCount: json['playCount'] as int?,
+      subCount: json['subCount'] as int?,
+      shareCount: json['shareCount'] as int?,
+      likeCount: json['likeCount'] as int?,
+      commentCount: json['commentCount'] as int?,
+      duration: json['duration'] as int?,
+      nType: json['nType'] as int?,
+      publishTime: json['publishTime'] as String?,
+      brs: json['brs'] as Map?,
+      isReward: json['isReward'] as bool?,
+      commentThreadId: json['commentThreadId'] as String?,
+    );
 
 Map<String, dynamic> _$MusicVideoDetailToJson(MusicVideoDetail instance) =>
     <String, dynamic>{

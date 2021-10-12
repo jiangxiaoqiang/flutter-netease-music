@@ -6,16 +6,14 @@ part of 'fm_music.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FmMusic _$MusicFromJson(Map json) {
-  return FmMusic(
-    id: json['id'] as int,
-    musicInfo: json['musicinfo'] as String? ?? '',
-    createdTime: json['createdtime'] as int,
-  );
-}
+FmMusic _$FmMusicFromJson(Map json) => FmMusic(
+      id: json['id'] as int,
+      musicInfo: json['musicInfo'] as String,
+      createdTime: json['createdTime'] as int,
+    );
 
-Map<String, dynamic> _$MusicToJson(FmMusic instance) => <String, dynamic>{
+Map<String, dynamic> _$FmMusicToJson(FmMusic instance) => <String, dynamic>{
       'id': instance.id,
-      'musicinfo': instance.musicInfo,
-      'createdtime': instance.createdTime
+      'musicInfo': instance.musicInfo,
+      'createdTime': instance.createdTime,
     };
