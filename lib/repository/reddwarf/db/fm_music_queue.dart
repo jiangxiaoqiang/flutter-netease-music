@@ -8,13 +8,13 @@ class FmMusicQueue{
 
   static Future<Database> initialDatabase() async{
     final database = openDatabase(
-        join(await getDatabasesPath(),'netease1.db'),
+        join(await getDatabasesPath(),'netease2.db'),
         onCreate: (db,version){
           return db.execute(
             'CREATE TABLE fm_queue(id INTEGER PRIMARY KEY, musicinfo TEXT, createdtime INTEGER)',
           );
         },
-        version: 4
+        version: 1
     );
     return database;
   }

@@ -8,12 +8,12 @@ part of 'fm_music.dart';
 
 FmMusic _$FmMusicFromJson(Map json) => FmMusic(
       id: json['id'] as int,
-      musicInfo: json['musicInfo'] as String,
-      createdTime: json['createdTime'] as int,
+      musicinfo: json['musicinfo'] as String,
+      createdtime: json['createdtime'] as int,
     );
 
 Map<String, dynamic> _$FmMusicToJson(FmMusic instance) => <String, dynamic>{
       'id': instance.id,
-      'musicInfo': instance.musicInfo,
-      'createdTime': instance.createdTime,
+      'musicInfo': instance.musicinfo,
+      'createdTime': instance.createdtime,
     };

@@ -434,7 +434,7 @@ class NeteaseRepository {
     }
     //var json = jsonEncode(recommend[i].toJson());
 
-    final Music music = Music.fromJson(jsonDecode(fmMusic.musicInfo));
+    final Music music = Music.fromJson(jsonDecode(fmMusic.musicinfo));
     final List<Music> musics = List.empty(growable: true);
     musics.add(music);
     int count = await FmMusicQueue.getCount();
@@ -507,8 +507,8 @@ class NeteaseRepository {
           var json = jsonEncode(recommend[i].toJson());
           final FmMusic fmMusic = FmMusic(
               id: recommend[i].id,
-              musicInfo: json,
-              createdTime: DateTime.now().toUtc().millisecondsSinceEpoch
+              musicinfo: json,
+              createdtime: DateTime.now().toUtc().millisecondsSinceEpoch
           );
           FmMusicQueue.insertFmMusic(fmMusic);
         }
