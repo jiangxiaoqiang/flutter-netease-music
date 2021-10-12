@@ -260,8 +260,7 @@ class PlayingLyricView extends StatelessWidget {
   }
 
   Widget _buildLyric(BuildContext context) {
-    final TextStyle style =
-        Theme.of(context).textTheme.bodyText2!.copyWith(height: 2, fontSize: 16, color: Colors.white);
+    final TextStyle style = Theme.of(context).textTheme.bodyText2!.copyWith(height: 2, fontSize: 16, color: Colors.white);
     final playingLyric = PlayingLyric.of(context);
 
     if (playingLyric.hasLyric) {
@@ -375,12 +374,13 @@ class PlayingTitle extends StatelessWidget {
             ),
             onSelected: (result) async {
               if (result == 0) {
-
               } else if (result == 1) {
-                bool success = await ReddwarfMusic.incrementPlayCount(music);
-                if(success){
-                  toast('已成功标记此歌曲');
+                final String success = await ReddwarfMusic.incrementPlayCount(music);
+                if (success == "ok") {
+                  toast('已标记此歌曲');
                   context.transportControls.skipToNext();
+                } else {
+                  toast(success);
                 }
               } else {}
             },

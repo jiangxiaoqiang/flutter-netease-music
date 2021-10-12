@@ -9,14 +9,13 @@ import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestApiError, RestClient;
 
-export 'package:async/async.dart' show Result,ValueResult,ErrorResult;
+export 'package:async/async.dart' show Result, ValueResult, ErrorResult;
 export 'package:quiet/repository/cached_image.dart';
 export 'package:quiet/repository/local_cache_data.dart';
 
 class ReddwarfMusic {
-
   static Future<void> savePlayingMusicList(List<Music>? musics) async {
-    if(musics == null){
+    if (musics == null) {
       return;
     }
     for (final element in musics) {
@@ -27,9 +26,9 @@ class ReddwarfMusic {
   static Future<void> _savePlayingMusic(Music music) async {
     try {
       final response = await RestClient.getHttp("/music/songs/v1/exists/${music.id}");
-      if(RestClient.respSuccess(response)) {
-        final Object isLegacyMusic = response.data["result"] ;
-        if(isLegacyMusic.toString().toLowerCase() == 'false') {
+      if (RestClient.respSuccess(response)) {
+        final Object isLegacyMusic = response.data["result"];
+        if (isLegacyMusic.toString().toLowerCase() == 'false') {
           ReddwarfMusic._savePlayingMusicImpl(music);
         }
       }
@@ -46,8 +45,7 @@ class ReddwarfMusic {
     try {
       final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1.1/save-play-record", jsonMap);
-      if (RestClient.respSuccess(response)) {
-      }
+      if (RestClient.respSuccess(response)) {}
     } on Exception catch (e) {
       // only executed if error is of type Exception
       AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
@@ -61,12 +59,12 @@ class ReddwarfMusic {
     try {
       final response = await RestClient.getHttp("/music/songs/v1/jump/${music.id}");
       if (RestClient.respSuccess(response)) {
-        final Object isLegacyMusic = response.data["result"] ;
+        final Object isLegacyMusic = response.data["result"];
         return isLegacyMusic.toString().toLowerCase() == 'true';
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception
-      AppLogHandler.logError(RestApiError("type exception http error"),e.toString() );
+      AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
       // executed for errors of all types other than Exception
       AppLogHandler.logError(RestApiError("http error"), error.toString());
@@ -88,29 +86,31 @@ class ReddwarfMusic {
     }
   }
 
-  static Future<bool> incrementPlayCount(Music music) async {
+  static Future<String> incrementPlayCount(Music music) async {
+    String result = "ok";
     try {
       final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/songs/v1/playcount/increment/" + music.id.toString(), jsonMap);
       if (RestClient.respSuccess(response)) {
-        return true;
+        return result;
       }
     } on Exception catch (e) {
-      // only executed if error is of type Exception
+      result = e.toString();
       AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
     } catch (error) {
-      // executed for errors of all types other than Exception
+      result = error.toString();
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");
     }
-    return false;
+    return result;
   }
 
-
-  static Future<void> dislikePlayingMusic(Music music) async {
+  static Future<bool> dislikePlayingMusic(Music music) async {
     try {
       final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1.1/dislike", jsonMap);
-      if (RestClient.respSuccess(response)) {}
+      if (RestClient.respSuccess(response)) {
+        return true;
+      }
     } on Exception catch (e) {
       // only executed if error is of type Exception
       AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
@@ -118,6 +118,7 @@ class ReddwarfMusic {
       // executed for errors of all types other than Exception
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");
     }
+    return false;
   }
 
   static Future<List<PlaylistDetail>?> playlist() async {
@@ -170,7 +171,7 @@ class ReddwarfMusic {
         List<int> ids = List.empty(growable: true);
         var lists = json.decode(result);
         lists.forEach((element) {
-          FavMusic favMusic =  FavMusic.fromJson(element);
+          FavMusic favMusic = FavMusic.fromJson(element);
           ids.add(favMusic.sourceId);
         });
         return Result.value(ids);
