@@ -71,7 +71,6 @@ class _PageLoginPasswordState extends ConsumerState<PageLoginPassword> {
     final account = ref.read(userProvider.notifier);
     final result = await showLoaderOverlay(context, account.login(widget.phone, password));
     if (result.isValue) {
-      //退出登录流程,表示我们登录成功了
       ReddwarfUser.login(widget.phone!,password);
       Navigator.of(context, rootNavigator: true).pop(true);
     } else {

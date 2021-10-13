@@ -116,7 +116,7 @@ class NeteaseRepository {
 
   ///使用手机号码登录
   Future<Result<Map>> login(String? phone, String password) async {
-    return await doRequest("/login/cellphone", {"phone": phone, "password": password});
+    return doRequest("/login/cellphone", {"phone": phone, "password": password});
   }
 
   ///刷新登陆状态
@@ -366,11 +366,11 @@ class NeteaseRepository {
   ///获取用户红心歌曲id列表
   Future<Result<List<int>>> likedList(int? userId) async {
     final response = await doRequest("/likelist", {"uid": userId});
-    Result<List<int>>? reddwarf_response = await ReddwarfMusic.likeMusicIdList();
+    final Result<List<int>>? reddwarfResponse = await ReddwarfMusic.likeMusicIdList();
     return _map(response, (dynamic t) {
-      List<int> ids = List.empty(growable: true);
+      final List<int> ids = List.empty(growable: true);
       ids.addAll((t["ids"] as List).cast());
-      ids.addAll(reddwarf_response!.asValue!.value);
+      ids.addAll(reddwarfResponse!.asValue!.value);
       return ids;
     });
   }
@@ -428,7 +428,7 @@ class NeteaseRepository {
   }
 
   Future<List<Music>> getPersonalFmMusicsFromQueue() async {
-    FmMusic? fmMusic =  await FmMusicQueue.getFmMusic();
+    final FmMusic? fmMusic =  await FmMusicQueue.getFmMusic();
     if(fmMusic == null){
       return List.empty(growable: false);
     }
@@ -449,7 +449,7 @@ class NeteaseRepository {
       print("append songs:${countm}");
       for (int i = 0; i < 2; i++) {
         final int count = await FmMusicQueue.getCount();
-        if (count < 50) {
+        if (count < 100) {
           getPersonalFmMusics();
         }
       }
