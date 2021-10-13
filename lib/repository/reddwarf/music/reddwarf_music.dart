@@ -72,18 +72,21 @@ class ReddwarfMusic {
     return true;
   }
 
-  static Future<void> likePlayingMusic(Music music) async {
+  static Future<bool> likePlayingMusic(Music music) async {
     try {
       final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1.1/like", jsonMap);
-      if (RestClient.respSuccess(response)) {}
+      if (RestClient.respSuccess(response)) {
+        return true;
+      }
     } on Exception catch (e) {
       // only executed if error is of type Exception
       AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
       // executed for errors of all types other than Exception
-      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("http error"), error.toString());
     }
+    return false;
   }
 
   static Future<String> incrementPlayCount(Music music) async {
