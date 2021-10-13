@@ -81,9 +81,9 @@ class PlaylistDetail {
       return null;
     }
     final List<Music> musicListOuter = List.empty(growable: true);
-    List mlist = map.containsKey("musicList")? map['musicList'] as List:List.empty();
+    final List mlist = map.containsKey("musicList")? map['musicList'] as List:List.empty();
     for (final element in mlist) {
-      Music mc = Music.fromJson(element);
+      final Music mc = Music.fromJson(element);
       musicListOuter.add(mc);
     }
     List<TrackId>? trackIds = (map['trackIds'] as List?)?.cast<Map<String, dynamic>>().map((m) => TrackId.fromJson(m)).cast<TrackId>().toList();
@@ -96,12 +96,12 @@ class PlaylistDetail {
         coverUrl:map['coverUrl'],
         trackCount:map['trackCount'],
         description:map['description'],
-        subscribed:map['subscribed'],
+        subscribed:map['subscribed']??false,
         subscribedCount:map['subscribedCount'],
         commentCount:map['commentCount'],
         shareCount:map['shareCount'],
         //source: map['source'],
-        playCount:map['playCount'],
+        playCount:int.tryParse(map['playCount'].toString())??0,
         source:map['source'],
         trackUpdateTime: map['trackUpdateTime']??0,
         trackIds: trackIds??List.empty());

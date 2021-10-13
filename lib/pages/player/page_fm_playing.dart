@@ -1,10 +1,5 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:quiet/component.dart';
@@ -175,7 +170,7 @@ class _FmControllerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryIconTheme.color;
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
     final iconPlayPause = PlayingIndicator(
       playing: IconButton(
@@ -237,10 +232,6 @@ class _FmControllerBar extends StatelessWidget {
                 color: color,
               ),
               onPressed: () {
-                var cartController = Get.isRegistered<PagePlayingFmController>();
-                if(cartController){
-                  Get.find<PagePlayingFmController>().updateQueueCount();
-                }
                 context.transportControls.skipToNext();
               }),
           IconButton(
