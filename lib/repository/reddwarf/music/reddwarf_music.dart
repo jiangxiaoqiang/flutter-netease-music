@@ -80,7 +80,6 @@ class ReddwarfMusic {
         return true;
       }
     } on Exception catch (e) {
-      // only executed if error is of type Exception
       AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
       // executed for errors of all types other than Exception
@@ -93,7 +92,7 @@ class ReddwarfMusic {
     String result = "ok";
     try {
       final Map jsonMap = music.toJson();
-      final response = await RestClient.postHttp("/music/songs/v1/playcount/increment/" + music.id.toString(), jsonMap);
+      final response = await RestClient.postHttp("/music/songs/v1/playcount/increment/${music.id}", jsonMap);
       if (RestClient.respSuccess(response)) {
         return result;
       }
