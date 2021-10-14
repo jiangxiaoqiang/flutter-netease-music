@@ -37,11 +37,10 @@ class FmMusicQueue{
     );
   }
 
-  static Future<int> getCount() async {
-    //database connection
+  static Future<int> getFmCachedMusicCount() async {
     Database db = await initialDatabase();
-    var x = await db.rawQuery('SELECT COUNT (*) from fm_queue');
-    int? count = Sqflite.firstIntValue(x);
+    final cachedMusicCount = await db.rawQuery('SELECT COUNT (*) from fm_queue');
+    final int? count = Sqflite.firstIntValue(cachedMusicCount);
     return count ?? 0;
   }
 

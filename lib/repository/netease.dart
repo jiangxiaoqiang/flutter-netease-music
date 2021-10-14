@@ -437,7 +437,7 @@ class NeteaseRepository {
     final Music music = Music.fromJson(jsonDecode(fmMusic.musicinfo));
     final List<Music> musics = List.empty(growable: true);
     musics.add(music);
-    int count = await FmMusicQueue.getCount();
+    int count = await FmMusicQueue.getFmCachedMusicCount();
     print("cached songs:${count}");
     FmMusicQueue.deleteFmMusic(music.id);
     return musics;
@@ -445,10 +445,10 @@ class NeteaseRepository {
 
   Future<void> appendMusic() async {
     try {
-      final int countm = await FmMusicQueue.getCount();
+      final int countm = await FmMusicQueue.getFmCachedMusicCount();
       print("append songs:${countm}");
       for (int i = 0; i < 2; i++) {
-        final int count = await FmMusicQueue.getCount();
+        final int count = await FmMusicQueue.getFmCachedMusicCount();
         if (count < 100) {
           getPersonalFmMusics();
         }
