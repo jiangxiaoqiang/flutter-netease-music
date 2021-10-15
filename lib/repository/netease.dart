@@ -171,7 +171,7 @@ class NeteaseRepository {
   /// [s] 歌单最近的 s 个收藏者
   Future<Result<PlaylistDetail>?> playlistDetailDiffSource(int? source, int id, {int s = 5}) async {
     if (source == 3) {
-      return ReddwarfMusic.playlistDetail();
+      return ReddwarfMusic.playlistDetail(id);
     } else {
       return playlistDetail(id);
     }
@@ -445,8 +445,7 @@ class NeteaseRepository {
 
   Future<void> appendMusic() async {
     try {
-      final int countm = await FmMusicQueue.getFmCachedMusicCount();
-      print("append songs:${countm}");
+      final int musicCount = await FmMusicQueue.getFmCachedMusicCount();
       for (int i = 0; i < 2; i++) {
         final int count = await FmMusicQueue.getFmCachedMusicCount();
         if (count < 100) {

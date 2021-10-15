@@ -139,7 +139,7 @@ class ReddwarfMusic {
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception
-      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+      AppLogHandler.logError(RestApiError("type exception http error"), e.toString());
     } catch (error) {
       // executed for errors of all types other than Exception
       AppLogHandler.logError(RestApiError("http error"), error.toString());
@@ -147,9 +147,9 @@ class ReddwarfMusic {
     return null;
   }
 
-  static Future<Result<PlaylistDetail>?> playlistDetail() async {
+  static Future<Result<PlaylistDetail>?> playlistDetail(int id) async {
     try {
-      final response = await RestClient.getHttp("/music/playlist/v1.1/playlist/detail/1");
+      final response = await RestClient.getHttp("/music/playlist/v1.1/playlist/detail/$id");
       if (RestClient.respSuccess(response)) {
         final Map result = response.data["result"] as Map;
         final PlaylistDetail? detail = PlaylistDetail.fromMap(result);
