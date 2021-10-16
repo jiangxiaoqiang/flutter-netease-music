@@ -21,7 +21,7 @@ class UserFavoriteMusicListNotifier extends CacheableStateNotifier<List<int>> {
 
   /// 红心歌曲
   Future<void> likeMusic(Music music) async {
-    final bool succeed = await ReddwarfMusic.likePlayingMusic(music);
+  final bool succeed = await ReddwarfMusic.likePlayingMusic(music);
     if(succeed){
       state = [...state, music.id];
     }

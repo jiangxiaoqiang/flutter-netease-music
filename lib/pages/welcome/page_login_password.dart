@@ -71,7 +71,10 @@ class _PageLoginPasswordState extends ConsumerState<PageLoginPassword> {
     final account = ref.read(userProvider.notifier);
     final result = await showLoaderOverlay(context, account.login(widget.phone, password));
     if (result.isValue) {
-      ReddwarfUser.login(widget.phone!,password);
+      final Map linkedHashMap = result.asValue!.value;
+      final String nickname = linkedHashMap["profile"]["nickname"];
+      final String avatarUrl = linkedHashMap["profile"]["avatarUrl"];
+      ReddwarfUser.login(widget.phone!, password, nickname, avatarUrl);
       Navigator.of(context, rootNavigator: true).pop(true);
     } else {
       toast('登录失败:${result.asError!.error}');
