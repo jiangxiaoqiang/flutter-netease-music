@@ -170,7 +170,7 @@ class ReddwarfMusic {
       final response = await RestClient.getHttp("/music/user/v1/fav/list");
       if (RestClient.respSuccess(response)) {
         final String result = response.data["result"];
-        List<int> ids = List.empty(growable: true);
+        final List<int> ids = List.empty(growable: true);
         final lists = json.decode(result);
         lists.forEach((element) {
           FavMusic favMusic = FavMusic.fromJson(element);

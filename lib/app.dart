@@ -21,7 +21,6 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel/wheel.dart';
 
-
 void loadApp(ConfigType configType) {
   GlobalConfig.init(configType);
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,14 +57,18 @@ void loadApp(ConfigType configType) {
   });
 }
 
-
-
- void updateQueueCount(){
-   final cartController = Get.isRegistered<PagePlayingFmController>();
-   if(cartController){
-     Get.find<PagePlayingFmController>().updateQueueCount();
-   }
- }
+void updateQueueCount() {
+  try {
+    final cartController = Get.isRegistered<PagePlayingFmController>();
+    if (cartController) {
+      Get.find<PagePlayingFmController>().updateQueueCount();
+    }
+  } on Exception catch (e) {
+    AppLogHandler.logError(RestApiError("type exception cartController error"), e.toString());
+  } catch (error) {
+    AppLogHandler.logError(RestApiError("cartController error"), error.toString());
+  }
+}
 
 class MyApp extends ConsumerWidget {
   const MyApp({
