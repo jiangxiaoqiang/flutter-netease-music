@@ -10,6 +10,7 @@ import 'package:quiet/pages/player/page_fm_playing_controller.dart';
 import 'package:quiet/repository/cached_image.dart';
 import 'package:quiet/repository/netease.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
+import 'package:wheel/wheel.dart';
 
 import 'background.dart';
 import 'player_progress.dart';
@@ -115,6 +116,8 @@ class _FmCover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final music = context.watchPlayerValue.current!;
+    final String defaultCoverUrl = GlobalConfig.getConfig("defaultCoverUrl");
+    final String playMusicUrl = music.album!.coverImageUrl == null?defaultCoverUrl:music.album!.coverImageUrl!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -125,7 +128,7 @@ class _FmCover extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 1.0,
               child: Image(
-                image: CachedImage(music.album!.coverImageUrl!),
+                image: CachedImage(playMusicUrl),
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {
                     child = Container(child: child);
