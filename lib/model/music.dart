@@ -21,7 +21,7 @@ class Music {
   }
 
   factory Music.fromJson(Map<String, dynamic> json) {
-    Music music = _$MusicFromJson(json);
+    final Music music = _$MusicFromJson(json);
     return music;
   }
 
