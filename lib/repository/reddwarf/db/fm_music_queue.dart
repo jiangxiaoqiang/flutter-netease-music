@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:quiet/model/fm_music.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

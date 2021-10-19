@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:quiet/repository/reddwarf/com/engine_communication.dart';
+import 'package:quiet/repository/reddwarf/db/fm_music_queue.dart';
 
 class PagePlayingFmController extends GetxController {
   int get queueCount => _queueCount;
   int _queueCount = 0;
 
   Future<void> updateQueueCount() async {
-    _queueCount = await EngineCommunication.getFmCachedMusicCount();
+    _queueCount = await FmMusicQueue.getFmCachedMusicCount();
     update();
   }
 

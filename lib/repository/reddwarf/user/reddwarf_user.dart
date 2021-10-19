@@ -10,15 +10,16 @@ export 'package:quiet/repository/cached_image.dart';
 export 'package:quiet/repository/local_cache_data.dart';
 
 class ReddwarfUser {
-  static Future<void> login(String username,String password) async {
+  static Future<void> login(String username,String password,String nickname,String avatarUrl) async {
     try {
       final AppLoginRequest loginRequest = AppLoginRequest(
           loginType: LoginType.NETEASE,
           username: username,
-          password: password
+          password: password,
+          nickname: nickname,
+          avatarUrl: avatarUrl
       );
       AuthResult result = await Auth.loginReq(appLoginRequest: loginRequest);
-      var a = 1;
     } on Exception catch (e) {
       // only executed if error is of type Exception
       AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
