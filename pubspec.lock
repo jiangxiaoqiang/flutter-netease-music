@@ -540,7 +540,7 @@ packages:
       name: mime
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   mockito:
     dependency: "direct dev"
     description:
@@ -670,7 +670,7 @@ packages:
       name: process
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.3"
+    version: "4.2.4"
   provider:
     dependency: "direct main"
     description:
@@ -989,7 +989,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "8572c84cd6b306bcffdaea515b171d7733b81a69"
+      resolved-ref: "01f3a3cd3f4d3fbf6bdefe3759d071a251132e4a"
       url: "https://github.com/jiangxiaoqiang/wheel.git"
     source: git
     version: "0.0.1"
