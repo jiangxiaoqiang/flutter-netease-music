@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:quiet/model/model.dart';
 import 'package:quiet/repository/netease.dart';
+import 'package:wheel/wheel.dart';
 
 class BlurBackground extends StatelessWidget {
   const BlurBackground({Key? key, required this.music}) : super(key: key);
@@ -10,11 +11,13 @@ class BlurBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String defaultCoverUrl = GlobalConfig.getConfig("defaultCoverUrl");
+    final String playMusicUrl = music.album!.coverImageUrl == null?defaultCoverUrl:music.album!.coverImageUrl!;
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
         Image(
-          image: CachedImage(music.imageUrl.toString()),
+          image: CachedImage(playMusicUrl),
           fit: BoxFit.cover,
           height: 15,
           width: 15,

@@ -1,4 +1,5 @@
 {
   "baseUrl": "http://10.0.2.2:8000",
-  "appId": 4
+  "appId": 4,
+    "defaultCoverUrl": "https://p1.music.126.net/Ue_B2LOqrDupzKLRcxOlxQ==/109951165445776620.jpg"
 }

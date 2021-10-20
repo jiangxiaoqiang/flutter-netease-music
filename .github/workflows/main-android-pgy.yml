@@ -25,7 +25,7 @@ jobs:
         run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.0.6113669" --sdk_root=${ANDROID_SDK_ROOT}
 
       - run: flutter pub get
-      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      #- run: flutter pub run build_runner build --delete-conflicting-outputs
 
       # verify the use of 'dart format' on each commit.
       #- name: Verify formatting
