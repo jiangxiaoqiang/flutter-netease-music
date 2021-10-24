@@ -556,13 +556,13 @@ Music mapJsonToMusic(Map song, {String artistKey = "artists", String albumKey = 
       id: e["id"],
     );
   }).toList();
-
+  final String defaultCoverUrl = GlobalConfig.getConfig("defaultCoverUrl");
   return Music(
       id: song["id"],
       title: song["name"],
       mvId: song['mv'] ?? 0,
       url: "http://music.163.com/song/media/outer/url?id=${song["id"]}.mp3",
-      album: Album(id: album["id"], name: album["name"], coverImageUrl: album["picUrl"]),
+      album: Album(id: album["id"], name: album["name"], coverImageUrl: album["picUrl"] ?? defaultCoverUrl),
       artist: artists);
 }
 

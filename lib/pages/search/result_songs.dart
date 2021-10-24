@@ -41,7 +41,8 @@ class SongsResultSectionState extends State<SongsResultSection>
           return result as Result<List>;
         },
         builder: (context, dynamic item) {
-          return MusicTile(mapJsonToMusic(item as Map));
+          Music mc =  mapJsonToMusic(item as Map);
+          return MusicTile(mc);
         },
       ),
     );
