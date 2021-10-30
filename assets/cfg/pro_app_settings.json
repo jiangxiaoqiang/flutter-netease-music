@@ -2,5 +2,6 @@
     "baseUrl": "https://music-api.poemhub.top",
     "authUrl": "https://api.poemhub.top",
     "appId": 4,
-    "defaultCoverUrl": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"
+    "defaultCoverUrl": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+    "logUrl": "https://api.poemhub.top"
 }
