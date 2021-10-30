@@ -23,12 +23,6 @@ extension UserDetailExt on UserDetail? {
   UserProfile get profile => userDetail!.profile;
 
   bool get isLogin {
-    if (this == null) {
-      final UserAccount userAccount = UserAccount();
-      SecureStorageUtil.getString("username").then((username) => {
-            SecureStorageUtil.getString("password").then((password) => {userAccount.login(username, password!).whenComplete(() => {})})
-          });
-    }
     return this != null;
   }
 

@@ -59,6 +59,8 @@ void loadApp(ConfigType configType) {
 
 void updateQueueCount() {
   try {
+    //AppLogHandler.lo("ddd","","");
+    AppLogHandler.restLogger("ddddddd");
     final cartController = Get.isRegistered<PagePlayingFmController>();
     if (cartController) {
       Get.find<PagePlayingFmController>().updateQueueCount();
