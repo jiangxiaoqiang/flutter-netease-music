@@ -53,7 +53,7 @@ void loadApp(ConfigType configType) {
 
     //BackgroundFetch.re
   }, (error, stack) {
-    debugPrint('uncaught error : $error $stack');
+    AppLogHandler.restLogger('uncaught error : $error $stack');
   });
 }
 

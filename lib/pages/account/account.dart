@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:quiet/model/user_detail_bean.dart';
 import 'package:quiet/repository/netease.dart';
+import 'package:wheel/wheel.dart';
 
-final userProvider =
-    StateNotifierProvider<UserAccount, UserDetail?>((ref) => UserAccount());
+final userProvider = StateNotifierProvider<UserAccount, UserDetail?>((ref) => UserAccount());
 
 final isLoginProvider = Provider<bool>((ref) {
   return ref.watch(userProvider) != null;
@@ -22,12 +22,10 @@ extension UserDetailExt on UserDetail? {
 
   UserProfile get profile => userDetail!.profile;
 
-  ///当前是否已登录
   bool get isLogin {
     return this != null;
   }
 
-  ///当前登录用户的id
   ///null if not login
   int? get userId {
     if (!isLogin) {
@@ -37,7 +35,6 @@ extension UserDetailExt on UserDetail? {
   }
 }
 
-///登录状态
 class UserAccount extends StateNotifier<UserDetail?> {
   UserAccount() : super(null);
 
@@ -83,7 +80,6 @@ class UserAccount extends StateNotifier<UserDetail?> {
         logger.severe("can not read user: $e");
         neteaseLocalData["neteaseLocalData"] = null;
       }
-      //访问api，刷新登陆状态
       neteaseRepository!.refreshLogin().then((login) async {
         if (!login || state == null) {
           logout();
@@ -105,12 +101,10 @@ class UserAccount extends StateNotifier<UserDetail?> {
 
   UserProfile get profile => userDetail!.profile;
 
-  ///当前是否已登录
   bool get isLogin {
     return state != null;
   }
 
-  ///当前登录用户的id
   ///null if not login
   int? get userId {
     if (!isLogin) {
