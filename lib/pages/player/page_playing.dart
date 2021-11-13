@@ -12,6 +12,7 @@ import 'package:quiet/pages/page_playing_list.dart';
 import 'package:quiet/pages/player/page_playing_landscape.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
+import 'package:wheel/wheel.dart';
 
 import 'background.dart';
 import 'cover.dart';
@@ -375,12 +376,12 @@ class PlayingTitle extends StatelessWidget {
             onSelected: (result) async {
               if (result == 0) {
               } else if (result == 1) {
-                final String success = await ReddwarfMusic.incrementPlayCount(music);
-                if (success == "ok") {
+                final String markResult = await ReddwarfMusic.incrementPlayCount(music);
+                if (markResult == "ok") {
                   toast('已标记此歌曲');
                   context.transportControls.skipToNext();
                 } else {
-                  toast(success);
+                  toast(markResult);
                 }
               } else {}
             },

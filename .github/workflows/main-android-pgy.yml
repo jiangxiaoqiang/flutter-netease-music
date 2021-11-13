@@ -1,4 +1,4 @@
-name: CI-Android
+name: CI-Android-PGY
 
 on:
   push

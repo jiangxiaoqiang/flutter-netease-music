@@ -100,7 +100,7 @@ class ReddwarfMusic {
       }
     } on Exception catch (e) {
       result = e.toString();
-      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
+      AppLogHandler.logErrorException("mark songs error", e);
     } catch (error) {
       result = error.toString();
       AppLogHandler.logError(RestApiError("http error"), "type exception http error");
