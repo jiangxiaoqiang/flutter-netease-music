@@ -78,3 +78,5 @@ build/
 
 
 .fvm
+
+ios/fastlane/report.xml
