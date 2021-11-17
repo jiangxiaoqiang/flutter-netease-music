@@ -3,7 +3,7 @@ import 'package:music_player/music_player.dart';
 
 import 'model.dart';
 
-part 'fav.music.g.dart';
+part 'fav_music.g.dart';
 
 @JsonSerializable()
 class FavMusic {
