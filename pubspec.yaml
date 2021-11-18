@@ -50,6 +50,9 @@ dependencies:
   get: 4.3.8
   sqflite: 2.0.0+4
 
+dependency_overrides:
+  flutter_secure_storage: 4.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
