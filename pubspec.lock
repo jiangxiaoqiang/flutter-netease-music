@@ -546,7 +546,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "306c69666262ea183cd74c8b024243596007c10d"
+      resolved-ref: "4ba553cc894cafe57b80d762f53040385e74eb79"
       url: "https://github.com/jiangxiaoqiang/flutter-music-player.git"
     source: git
     version: "0.0.1"
