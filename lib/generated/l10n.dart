@@ -190,6 +190,7 @@ class S {
     );
   }
 
+  /// `Discovery Song List`
   String get discoverySongList {
     return Intl.message(
       'Discovery Song List',

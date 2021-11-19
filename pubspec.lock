@@ -285,47 +285,12 @@ packages:
     source: hosted
     version: "1.0.0-dev.6"
   flutter_secure_storage:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: flutter_secure_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
-  flutter_secure_storage_linux:
-    dependency: transitive
-    description:
-      name: flutter_secure_storage_linux
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
-  flutter_secure_storage_macos:
-    dependency: transitive
-    description:
-      name: flutter_secure_storage_macos
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
-  flutter_secure_storage_platform_interface:
-    dependency: transitive
-    description:
-      name: flutter_secure_storage_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  flutter_secure_storage_web:
-    dependency: transitive
-    description:
-      name: flutter_secure_storage_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
-  flutter_secure_storage_windows:
-    dependency: transitive
-    description:
-      name: flutter_secure_storage_windows
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.2"
+    version: "4.2.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -552,9 +517,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "7ba0513153853f769e3789b37f9ef630c85740f6"
-      resolved-ref: "7ba0513153853f769e3789b37f9ef630c85740f6"
-      url: "https://github.com/boyan01/flutter-music-player.git"
+      ref: "1de6ef45072df39f93582806d020de3958e6b29f"
+      resolved-ref: "1de6ef45072df39f93582806d020de3958e6b29f"
+      url: "https://github.com/jiangxiaoqiang/flutter-music-player.git"
     source: git
     version: "0.0.1"
   nested:
