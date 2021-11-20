@@ -11,10 +11,10 @@ PODS:
     - Flutter
   - music_player (0.0.1):
     - Flutter
-    - SwiftAudioEx (~> 0.14.2)
+    - SwiftAudioEx (~> 0.14.6)
   - path_provider_ios (0.0.1):
     - Flutter
-  - shared_preferences (0.0.1):
+  - shared_preferences_ios (0.0.1):
     - Flutter
   - sqflite (0.0.2):
     - Flutter
@@ -34,7 +34,7 @@ DEPENDENCIES:
   - in_app_purchase_ios (from `.symlinks/plugins/in_app_purchase_ios/ios`)
   - music_player (from `.symlinks/plugins/music_player/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
-  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - system_clock (from `.symlinks/plugins/system_clock/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -58,8 +58,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/music_player/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
-  shared_preferences:
-    :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   system_clock:
@@ -75,9 +75,9 @@ SPEC CHECKSUMS:
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   in_app_purchase_ios: 04ed55fdd1012db54095d6801335b5f5de0a475f
-  music_player: fd3f262b5f08ceb5454a6a5287c0dcff22f529b0
+  music_player: d964d104a63d935d6168210b6eab6043c28191e3
   path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
-  shared_preferences: 5033afbb22d372e15aff8ff766df9021b845f273
+  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftAudioEx: 9f18322c1064c1bab3eaf0c91e58be76209c7fb3
   system_clock: 3efb51d18e565092e2a97bc605c6255f328bd13a
