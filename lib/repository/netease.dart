@@ -9,19 +9,17 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:netease_music_api/netease_cloud_music.dart' as api;
 import 'package:path_provider/path_provider.dart';
-import 'package:quiet/component/global/netease_global_config.dart';
 import 'package:quiet/model/fm_music.dart';
 import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/model/user_detail_bean.dart';
 import 'package:quiet/pages/comments/page_comment.dart';
-import 'package:quiet/pages/player/page_fm_playing_controller.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/objects/music_count.dart';
 import 'package:quiet/repository/objects/music_video_detail.dart';
 import 'package:quiet/repository/reddwarf/db/fm_music_queue.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
-import 'package:wheel/wheel.dart';
+import 'package:wheel/wheel.dart' show RestApiError,AppLogHandler,GlobalConfig;
 
 import 'local_cache_data.dart';
 

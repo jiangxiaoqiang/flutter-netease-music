@@ -127,7 +127,7 @@ class _Appbar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playlist = playlistDetail;
-    if (playlist == null) {
+    if (playlist == null || playlist.musicList.isEmpty) {
       return const SliverAppBar(
         elevation: 0,
         pinned: true,

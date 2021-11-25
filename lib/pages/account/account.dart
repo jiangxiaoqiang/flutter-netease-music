@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:quiet/model/user_detail_bean.dart';
 import 'package:quiet/repository/netease.dart';
-import 'package:wheel/wheel.dart';
 
 final userProvider = StateNotifierProvider<UserAccount, UserDetail?>((ref) => UserAccount());
 
