@@ -446,7 +446,7 @@ class NeteaseRepository {
       final int musicCount = await FmMusicQueue.getFmCachedMusicCount();
       for (int i = 0; i < 2; i++) {
         final int count = await FmMusicQueue.getFmCachedMusicCount();
-        if (count < 100) {
+        if (count < 500) {
           getPersonalFmMusics();
         }
       }
