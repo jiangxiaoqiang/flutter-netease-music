@@ -1,7 +1,8 @@
 name: CI-Android-Legacy
 
 on:
-  push
+  push:
+    branches: [ android ]
 
 jobs:
   build:
