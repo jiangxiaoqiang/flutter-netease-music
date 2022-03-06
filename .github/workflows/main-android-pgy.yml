@@ -1,7 +1,8 @@
 name: CI-Android-PGY
 
 on:
-  push
+  push: 
+    branches: [ android ]
 
 jobs:
   build:
