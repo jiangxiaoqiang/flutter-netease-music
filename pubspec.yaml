@@ -30,7 +30,7 @@ dependencies:
   netease_music_api:
     git:
       url: https://github.com/boyan01/NeteaseCloudMusicApi.git
-      ref: e007ba78565d9094959d9e50336ea734fc8d4f64
+      ref: master
   overlay_support: ^1.2.1
   music_player:
     git:
@@ -51,6 +51,7 @@ dependencies:
 
 dependency_overrides:
   flutter_secure_storage: 4.2.1
+  platform: ^3.1.0
 
 dev_dependencies:
   flutter_test:

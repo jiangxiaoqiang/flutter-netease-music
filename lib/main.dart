@@ -18,7 +18,7 @@ void main() {
 void playerBackgroundService() {
   CommonUtils.initialApp(ConfigType.PRO).whenComplete(() => {
     loadRepository()
-  });
+  },);
 }
 
 void loadRepository() {
