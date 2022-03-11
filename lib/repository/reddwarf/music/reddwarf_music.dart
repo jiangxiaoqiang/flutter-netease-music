@@ -2,11 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:quiet/model/fav_music.dart';
-import 'package:quiet/model/model.dart';
 import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/part/part.dart';
-import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
-import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestApiError, RestClient;
 
 export 'package:async/async.dart' show Result, ValueResult, ErrorResult;
@@ -31,6 +28,8 @@ class ReddwarfMusic {
         if (isLegacyMusic.toString().toLowerCase() == 'false') {
           ReddwarfMusic._savePlayingMusicImpl(music);
         }
+      }else{
+        AppLogHandler.logError(RestApiError("http error"), "type exception http error");
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception
@@ -45,7 +44,9 @@ class ReddwarfMusic {
     try {
       final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1.1/save-play-record", jsonMap);
-      if (RestClient.respSuccess(response)) {}
+      if (RestClient.respSuccess(response)) {}else{
+
+      }
     } on Exception catch (e) {
       // only executed if error is of type Exception
       AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
