@@ -10,8 +10,7 @@ export 'package:quiet/repository/cached_image.dart';
 export 'package:quiet/repository/local_cache_data.dart';
 
 class ReddwarfUser {
-  static Future<void> login(String username,String password,String nickname,String avatarUrl) async {
-    try {
+  static Future<AuthResult> login(String username,String password,String nickname,String avatarUrl) async {
       final AppLoginRequest loginRequest = AppLoginRequest(
           loginType: LoginType.NETEASE,
           username: username,
@@ -19,14 +18,8 @@ class ReddwarfUser {
           nickname: nickname,
           avatarUrl: avatarUrl
       );
-      AuthResult result = await Auth.loginReq(appLoginRequest: loginRequest);
-    } on Exception catch (e) {
-      // only executed if error is of type Exception
-      AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
-    } catch (error) {
-      // executed for errors of all types other than Exception
-      AppLogHandler.logError(RestApiError("http error"), "type exception http error");
-    }
+      final AuthResult result = await Auth.loginReq(appLoginRequest: loginRequest);
+      return result;
   }
 
   static Future<bool> legacyMusic(Music music) async {

@@ -19,7 +19,7 @@ import 'package:quiet/repository/objects/music_video_detail.dart';
 import 'package:quiet/repository/reddwarf/db/fm_music_queue.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 import 'package:quiet/repository/reddwarf/temp/reddwarf_temp.dart';
-import 'package:wheel/wheel.dart' show RestApiError,AppLogHandler,GlobalConfig;
+import 'package:wheel/wheel.dart' show AppLogHandler, Auth, GlobalConfig, RestApiError;
 
 import 'local_cache_data.dart';
 
@@ -443,6 +443,10 @@ class NeteaseRepository {
 
   Future<void> appendMusic() async {
     try {
+      final bool login = await Auth.isLoggedIn();
+      if(!login){
+        return;
+      }
       final int musicCount = await FmMusicQueue.getFmCachedMusicCount();
       for (int i = 0; i < 2; i++) {
         final int count = await FmMusicQueue.getFmCachedMusicCount();
