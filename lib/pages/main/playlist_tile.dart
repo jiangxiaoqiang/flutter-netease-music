@@ -44,7 +44,7 @@ class PlaylistTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.secondaryNavigator!.push(MaterialPageRoute(
-            builder: (context) => PlaylistDetailPage(playlist!.source, playlist!.id!, previewData: playlist,)));
+            builder: (context) => PlaylistDetailPage(playlist.source, playlist.id, previewData: playlist,)));
       },
       child: SizedBox(
         height: 60,
@@ -65,7 +65,7 @@ class PlaylistTile extends StatelessWidget {
                     style: const TextStyle(fontSize: 15),
                   ),
                   const Padding(padding: EdgeInsets.only(top: 4)),
-                  Text("${playlist!.trackCount}首", style: Theme.of(context).textTheme.caption),
+                  Text("${playlist.trackCount}首", style: Theme.of(context).textTheme.caption),
                   const Spacer(),
                 ],
               ),

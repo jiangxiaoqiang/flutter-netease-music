@@ -58,7 +58,7 @@ class PlaylistDetail {
 
   int? playCount;
 
-  bool get loaded => trackCount == 0 || (musicList != null && musicList!.length == trackCount);
+  bool get loaded => trackCount == 0 || (musicList.length == trackCount);
 
   @JsonKey(defaultValue: 0)
   int trackUpdateTime;
@@ -90,7 +90,7 @@ class PlaylistDetail {
 
     return PlaylistDetail(
         id: map['id'],
-        musicList: musicListOuter ?? List.empty(),
+        musicList: musicListOuter,
         creator:map['creator'],
         name:map['name'],
         coverUrl:map['coverUrl'],
@@ -110,7 +110,7 @@ class PlaylistDetail {
   Map toMap() {
     return {
       'id': id,
-      'musicList': musicList?.map((m) => m.toJson()).toList(),
+      'musicList': musicList.map((m) => m.toJson()).toList(),
       'creator': creator,
       'name': name,
       'coverUrl': coverUrl,

@@ -204,9 +204,9 @@ class _UserPlayListSectionState extends ConsumerState<UserPlayListSection> {
           return _singleSliver(child: Loader.buildSimpleFailedWidget(context, result));
         },
         builder: (context, result) {
-          final created = result!.where((p) => p!.creator!["userId"] == widget.userId && p.source != 3);
-          final subscribed = result.where((p) => p!.creator!["userId"] != widget.userId && p.source != 3);
-          final reddwarf = result.where((p) => p!.source == 3);
+          final created = result.where((p) => p.creator!["userId"] == widget.userId && p.source != 3);
+          final subscribed = result.where((p) => p.creator!["userId"] != widget.userId && p.source != 3);
+          final reddwarf = result.where((p) => p.source == 3);
           _dividerIndex = 2 + created.length;
           return SliverList(
             key: PlayListSliverKey(createdPosition: 1, favoritePosition: 3 + created.length),
