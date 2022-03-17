@@ -78,6 +78,10 @@ class _PageLoginPasswordState extends ConsumerState<PageLoginPassword> {
       final String avatarUrl = linkedHashMap["profile"]["avatarUrl"];
       final AuthResult loginResult = await ReddwarfUser.login(widget.phone!, password, nickname, avatarUrl);
       if(loginResult.result == Result.Result.ok) {
+        /**
+         * https://dart-lang.github.io/linter/lints/use_build_context_synchronously.html
+         */
+        if (!mounted) return;
         Navigator.of(context, rootNavigator: true).pop(true);
       }
     } else {
