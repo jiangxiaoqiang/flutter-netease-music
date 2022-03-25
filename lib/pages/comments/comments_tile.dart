@@ -18,7 +18,7 @@ class _ItemTitle extends StatelessWidget {
                 final playlist = payload!.obj as PlaylistDetail;
                 return PlaylistDetailPage(
                   playlist.source,
-                  playlist.id!,
+                  playlist.id,
                   previewData: playlist,
                 );
               }));

@@ -40,7 +40,7 @@ class PlaylistDetailPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    assert(previewData == null || playlistId == previewData?.id);
+    assert(playlistId == previewData.id);
 
     final detail = usePlaylistDetail(playlistId, preview: previewData);
 
@@ -207,7 +207,7 @@ class _PlaylistBodyState extends ConsumerState<_MusicList> {
           ? null
           : (music) async {
         final result = await neteaseRepository!.playlistTracksEdit(
-            PlaylistOperation.remove, widget.playlist.id!, [music.id]);
+            PlaylistOperation.remove, widget.playlist.id, [music.id]);
         if (result) {
           setState(() {
             widget.playlist.musicList.remove(music);
@@ -529,7 +529,7 @@ class _PlayListHeaderContent extends ConsumerWidget {
         onCommentTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return CommentPage(
-              threadId: CommentThreadId(playlist.id!, CommentType.playlist,
+              threadId: CommentThreadId(playlist.id, CommentType.playlist,
                   payload: CommentThreadPayload.playlist(playlist)),
             );
           }));
@@ -544,7 +544,7 @@ class _PlayListHeaderContent extends ConsumerWidget {
                   onDelete: (selected) async {
                     return neteaseRepository!.playlistTracksEdit(
                         PlaylistOperation.remove,
-                        playlist.id!,
+                        playlist.id,
                         selected.map((m) => m.id).toList());
                   });
             }));
