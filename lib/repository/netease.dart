@@ -501,11 +501,10 @@ class NeteaseRepository {
     for (int i = 0; i < recommend.length; i++) {
       final bool isLegacyMusic = await ReddwarfMusic.legacyMusic(recommend[i]);
       if (!isLegacyMusic) {
-        print("songs title:${recommend[i].title},legacy:$isLegacyMusic,song id:${recommend[i].id}");
         resultMusic.add(recommend[i]);
         final FmMusic? cachedFmMusic = await FmMusicQueue.getFmMusicById(recommend[i].id);
         if(cachedFmMusic == null) {
-          var json = jsonEncode(recommend[i].toJson());
+          final json = jsonEncode(recommend[i].toJson());
           final FmMusic fmMusic = FmMusic(
               id: recommend[i].id,
               musicinfo: json,
@@ -536,8 +535,8 @@ class NeteaseRepository {
       _saveCookies(result.cookie);
     }
     assert(() {
-      debugPrint('api request: $path $param');
-      debugPrint('api response: ${result.status} ${result.body}');
+      //debugPrint('api request: $path $param');
+      //debugPrint('api response: ${result.status} ${result.body}');
       return true;
     }());
     if (map['code'] == _kCodeNeedLogin) {
