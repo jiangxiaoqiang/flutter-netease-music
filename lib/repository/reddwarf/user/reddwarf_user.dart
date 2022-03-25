@@ -18,7 +18,7 @@ class ReddwarfUser {
           nickname: nickname,
           avatarUrl: avatarUrl
       );
-      final AuthResult result = await Auth.loginReq(appLoginRequest: loginRequest);
+      final AuthResult result = await Auth.login(appLoginRequest: loginRequest);
       return result;
   }
 
