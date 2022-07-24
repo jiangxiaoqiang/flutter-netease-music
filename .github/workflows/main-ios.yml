@@ -20,6 +20,10 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
+      # the 2.5.0 above version flutter is not friendly with the entry point
+      # upgrade to new version of flutter will make the music play broken
+      # more info: https://github.com/flutter/flutter/issues/91841
+      # https://github.com/boyan01/flutter-netease-music/pull/91
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.10.3'
@@ -42,7 +46,7 @@ jobs:
           pod install
           pod repo update
 
-      - run: flutter build ios --no-codesign --release --no-sound-null-safety
+      - run: flutter build ios --no-codesign --release
       - name: Deploy to TestFlight/PGY
         run: |
           cd ./ios
