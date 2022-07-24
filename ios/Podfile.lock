@@ -24,7 +24,7 @@ PODS:
     - Flutter
   - url_launcher_ios (0.0.1):
     - Flutter
-  - video_player_avfoundation (0.0.1):
+  - video_player (0.0.1):
     - Flutter
 
 DEPENDENCIES:
@@ -38,7 +38,7 @@ DEPENDENCIES:
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - system_clock (from `.symlinks/plugins/system_clock/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
-  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
+  - video_player (from `.symlinks/plugins/video_player/ios`)
 
 SPEC REPOS:
   trunk:
@@ -66,8 +66,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/system_clock/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
-  video_player_avfoundation:
-    :path: ".symlinks/plugins/video_player_avfoundation/ios"
+  video_player:
+    :path: ".symlinks/plugins/video_player/ios"
 
 SPEC CHECKSUMS:
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
@@ -76,14 +76,14 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   in_app_purchase_ios: 04ed55fdd1012db54095d6801335b5f5de0a475f
   music_player: d964d104a63d935d6168210b6eab6043c28191e3
-  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
-  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
+  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftAudioEx: 9f18322c1064c1bab3eaf0c91e58be76209c7fb3
   system_clock: 3efb51d18e565092e2a97bc605c6255f328bd13a
-  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
-  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
+  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
+  video_player: 7e9dad9437c238a97648819f6dd443c8854cf0c7
 
 PODFILE CHECKSUM: 27152799be7ccd57275cfd23b35294c9fe041246
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

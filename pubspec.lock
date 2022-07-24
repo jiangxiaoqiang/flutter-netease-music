@@ -35,7 +35,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.1"
+    version: "2.8.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -105,7 +105,7 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   charcode:
     dependency: transitive
     description:
@@ -135,12 +135,12 @@ packages:
     source: hosted
     version: "4.1.0"
   collection:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.15.0"
+    version: "1.16.0"
   convert:
     dependency: transitive
     description:
@@ -489,7 +489,7 @@ packages:
       path: "."
       ref: e1ef2d9957bc8615c7f19f989d4fcfc142e20e93
       resolved-ref: e1ef2d9957bc8615c7f19f989d4fcfc142e20e93
-      url: "https://github.com/boyan01/loader.git"
+      url: "https://github.com/jiangxiaoqiang/loader.git"
     source: git
     version: "0.0.1"
   logger:
@@ -512,7 +512,14 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10"
+    version: "0.12.11"
+  material_color_utilities:
+    dependency: transitive
+    description:
+      name: material_color_utilities
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   meta:
     dependency: transitive
     description:
@@ -554,9 +561,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: master
-      resolved-ref: "8bdb36f3efda3cefa57efc8e2190c188d9a05a86"
-      url: "https://github.com/boyan01/NeteaseCloudMusicApi.git"
+      ref: "851c3fab0638881b39f7094b0c98bedd98192a44"
+      resolved-ref: "851c3fab0638881b39f7094b0c98bedd98192a44"
+      url: "https://github.com/jiangxiaoqiang/NeteaseCloudMusicApi.git"
     source: git
     version: "1.0.0"
   overlay_support:
@@ -629,13 +636,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.11.1"
   platform:
     dependency: "direct overridden"
     description:
@@ -892,7 +892,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.8"
   timeago:
     dependency: transitive
     description:
@@ -983,7 +983,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   video_player:
     dependency: "direct main"
     description:
@@ -1050,5 +1050,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.14.0 <3.0.0"
+  dart: ">=2.15.0 <3.0.0"
   flutter: ">=2.5.0"

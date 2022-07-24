@@ -4,7 +4,7 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.15.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -24,13 +24,13 @@ dependencies:
   scoped_model: ^2.0.0-nullsafety.0
   loader:
     git:
-      url: https://github.com/boyan01/loader.git
+      url: https://github.com/jiangxiaoqiang/loader.git
       ref: e1ef2d9957bc8615c7f19f989d4fcfc142e20e93
   encrypt: ^5.0.0
   netease_music_api:
     git:
-      url: https://github.com/boyan01/NeteaseCloudMusicApi.git
-      ref: master
+      url: https://github.com/jiangxiaoqiang/NeteaseCloudMusicApi.git
+      ref: 851c3fab0638881b39f7094b0c98bedd98192a44
   overlay_support: ^1.2.1
   music_player:
     git:
@@ -52,6 +52,7 @@ dependencies:
 dependency_overrides:
   flutter_secure_storage: 4.2.1
   platform: ^3.1.0
+  collection: ^1.16.0
 
 dev_dependencies:
   flutter_test:
