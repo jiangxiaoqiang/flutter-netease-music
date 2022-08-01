@@ -79,6 +79,7 @@ final Map<String, WidgetBuilder> routes = {
   pageSettingTheme: (context) => SettingThemePage(),
   pageWelcome: (context) => PageWelcome(),
   pageFmPlaying: (context) => PagePlayingFm(),
+  "login": (BuildContext context) => LoginNavigator(),
 };
 
 Route<dynamic>? routeFactory(RouteSettings settings) {
