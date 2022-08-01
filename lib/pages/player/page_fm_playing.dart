@@ -17,7 +17,6 @@ import 'player_progress.dart';
 
 /// FM 播放页面
 class PagePlayingFm extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final current = context.watchPlayerValue.current;
@@ -29,34 +28,34 @@ class PagePlayingFm extends StatelessWidget {
     }
     return GetBuilder<PagePlayingFmController>(
         init: PagePlayingFmController(),
-        builder:(controller){
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: <Widget>[
-              BlurBackground(music: current),
-              Material(
-                color: Colors.transparent,
-                child: Column(
-                  children: <Widget>[
-                    AppBar(
-                      title: Text("私人FM(${controller.queueCount})"),
-                      elevation: 0,
-                      backgroundColor: Colors.transparent,
-                    ),
-                    const _CenterSection(),
-                    const SizedBox(height: 8),
-                    DurationProgressBar(),
-                    _FmControllerBar(),
-                    SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
-                  ],
+        builder: (controller) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Stack(
+              children: <Widget>[
+                BlurBackground(music: current),
+                Material(
+                  color: Colors.transparent,
+                  child: Column(
+                    children: <Widget>[
+                      AppBar(
+                        title: Text("私人FM(${controller.queueCount})"),
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                      ),
+                      const _CenterSection(),
+                      const SizedBox(height: 8),
+                      DurationProgressBar(),
+                      _FmControllerBar(),
+                      SizedBox(
+                          height: MediaQuery.of(context).viewInsets.bottom),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
-      }
-    );
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -74,8 +73,10 @@ class _CenterSectionState extends State<_CenterSection> {
   Widget build(BuildContext context) {
     return Expanded(
       child: AnimatedCrossFade(
-        crossFadeState: _showLyric ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild, Key bottomChildKey) {
+        crossFadeState:
+            _showLyric ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild,
+            Key bottomChildKey) {
           return Stack(
             clipBehavior: Clip.none,
             children: <Widget>[
@@ -117,7 +118,9 @@ class _FmCover extends StatelessWidget {
   Widget build(BuildContext context) {
     final music = context.watchPlayerValue.current!;
     final String defaultCoverUrl = GlobalConfig.getConfig("defaultCoverUrl");
-    final String playMusicUrl = music.album!.coverImageUrl == null?defaultCoverUrl:music.album!.coverImageUrl!;
+    final String playMusicUrl = music.album!.coverImageUrl == null
+        ? defaultCoverUrl
+        : music.album!.coverImageUrl!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -155,12 +158,17 @@ class _FmCover extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 200),
                 child: Text(
                   music.artistString,
-                  style: Theme.of(context).primaryTextTheme.caption!.copyWith(fontSize: 13),
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .caption!
+                      .copyWith(fontSize: 13),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Icon(Icons.chevron_right, size: 17, color: Theme.of(context).primaryTextTheme.caption!.color),
+              Icon(Icons.chevron_right,
+                  size: 17,
+                  color: Theme.of(context).primaryTextTheme.caption!.color),
             ],
           ),
         )
@@ -220,8 +228,10 @@ class _FmControllerBar extends StatelessWidget {
                 color: color,
               ),
               onPressed: () async {
-                final bool dislikeResult = await ReddwarfMusic.dislikePlayingMusic(context.player.value.current!);
-                if(dislikeResult) {
+                final bool dislikeResult =
+                    await ReddwarfMusic.dislikePlayingMusic(
+                        context.player.value.current!);
+                if (dislikeResult) {
                   toast('已加入不喜欢列表，以后将减少类似的推荐。');
                   context.transportControls.skipToNext();
                 }
@@ -249,7 +259,8 @@ class _FmControllerBar extends StatelessWidget {
                           threadId: CommentThreadId(
                             context.player.value.current!.id,
                             CommentType.song,
-                            payload: CommentThreadPayload.music(context.player.value.current!),
+                            payload: CommentThreadPayload.music(
+                                context.player.value.current!),
                           ),
                         )));
               }),

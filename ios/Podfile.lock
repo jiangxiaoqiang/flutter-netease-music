@@ -4,6 +4,9 @@ PODS:
   - Flutter (1.0.0)
   - flutter_secure_storage (3.3.1):
     - Flutter
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -19,9 +22,10 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - SwiftAudioEx (0.14.6)
+  - SwiftAudioEx (0.14.7)
   - system_clock (0.0.1):
     - Flutter
+  - Toast (4.0.0)
   - url_launcher_ios (0.0.1):
     - Flutter
   - video_player (0.0.1):
@@ -31,6 +35,7 @@ DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - in_app_purchase_ios (from `.symlinks/plugins/in_app_purchase_ios/ios`)
   - music_player (from `.symlinks/plugins/music_player/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
@@ -44,6 +49,7 @@ SPEC REPOS:
   trunk:
     - FMDB
     - SwiftAudioEx
+    - Toast
 
 EXTERNAL SOURCES:
   device_info_plus:
@@ -52,6 +58,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
   in_app_purchase_ios:
     :path: ".symlinks/plugins/in_app_purchase_ios/ios"
   music_player:
@@ -73,14 +81,16 @@ SPEC CHECKSUMS:
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
+  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   in_app_purchase_ios: 04ed55fdd1012db54095d6801335b5f5de0a475f
   music_player: d964d104a63d935d6168210b6eab6043c28191e3
   path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
   shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  SwiftAudioEx: 9f18322c1064c1bab3eaf0c91e58be76209c7fb3
+  SwiftAudioEx: 3a4024e48f3b3e45dac6bf2668d7adbe7b83f50e
   system_clock: 3efb51d18e565092e2a97bc605c6255f328bd13a
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
   video_player: 7e9dad9437c238a97648819f6dd443c8854cf0c7
 

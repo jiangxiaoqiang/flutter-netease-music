@@ -15,7 +15,7 @@ dependencies:
   json_annotation: any
   dio: 4.0.0
   dio_cookie_manager: 2.0.0
-  path_provider: ^2.0.2
+  path_provider: 2.0.9
   shared_preferences: ^2.0.6
   video_player: ^2.1.10
   url_launcher: ^6.0.9
@@ -35,6 +35,7 @@ dependencies:
   music_player:
     git:
       url: https://github.com/jiangxiaoqiang/flutter-music-player.git
+      ref: 68c0244c5d1b426808f32916a1d9c1624803ff4e
   provider: ^5.0.0
   scrollable_positioned_list: ^0.2.0-nullsafety.0
   hive: ^2.0.4
@@ -45,14 +46,16 @@ dependencies:
   wheel:
     git:
       url: https://github.com/jiangxiaoqiang/wheel.git
-      ref: main
-  get: 4.3.8
+      ref: 2.5.0
+  get: 4.6.5
   sqflite: 2.0.0+4
 
 dependency_overrides:
   flutter_secure_storage: 4.2.1
   platform: ^3.1.0
   collection: ^1.16.0
+  device_info_plus: 3.2.1
+  get: 4.5.0
 
 dev_dependencies:
   flutter_test:
