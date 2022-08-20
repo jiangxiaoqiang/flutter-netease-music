@@ -1,4 +1,3 @@
-import 'package:overlay_support/overlay_support.dart';
 import 'package:path/path.dart';
 import 'package:quiet/model/fm_music.dart';
 import 'package:sqflite/sqflite.dart';
@@ -25,15 +24,11 @@ class FmMusicQueue {
 
   static Future<bool> deleteFmMusic(int id) async {
     final db = await initialDatabase();
-    var affectRows = await db.delete(
+    await db.delete(
       'fm_queue',
       where: 'id = ?',
       whereArgs: [id],
     );
-    if (affectRows != 1) {
-      toast("delete music failed: $id");
-      return false;
-    }
     return true;
   }
 

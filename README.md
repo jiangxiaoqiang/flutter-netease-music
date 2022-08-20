@@ -20,6 +20,7 @@ Imitation of [NeteaseMusic](https://music.163.com/#/download).
   3. build & run
  ```bash
  flutter run --profile
+ 
  ```
 
 ## Dependency backend

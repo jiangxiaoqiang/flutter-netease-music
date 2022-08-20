@@ -233,13 +233,15 @@ class _FmControllerBar extends StatelessWidget {
                     await ReddwarfMusic.dislikePlayingMusic(
                         context.player.value.current!);
                 if (dislikeResult) {
-                  toast('已加入不喜欢列表，以后将减少类似的推荐。');
                   if (await FmMusicQueue.deleteFmMusic(
                       context.player.value.current!.id)) {
                     neteaseRepository!
                         .fmTrash(context.player.value.current!.id);
+                    toast('已加入不喜欢列表，以后将减少类似的推荐。');
+                    context.transportControls.skipToNext();
+                  } else {
+                    toast('移入垃圾箱失败');
                   }
-                  context.transportControls.skipToNext();
                 }
               }),
           LikeButton.current(context),
