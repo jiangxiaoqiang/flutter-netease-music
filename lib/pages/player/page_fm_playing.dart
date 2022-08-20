@@ -9,6 +9,7 @@ import 'package:quiet/pages/comments/page_comment.dart';
 import 'package:quiet/pages/player/page_fm_playing_controller.dart';
 import 'package:quiet/repository/cached_image.dart';
 import 'package:quiet/repository/netease.dart';
+import 'package:quiet/repository/reddwarf/db/fm_music_queue.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 import 'package:wheel/wheel.dart';
 
@@ -233,6 +234,7 @@ class _FmControllerBar extends StatelessWidget {
                         context.player.value.current!);
                 if (dislikeResult) {
                   toast('已加入不喜欢列表，以后将减少类似的推荐。');
+                  FmMusicQueue.deleteFmMusic(context.player.value.current!.id);
                   context.transportControls.skipToNext();
                 }
               }),
