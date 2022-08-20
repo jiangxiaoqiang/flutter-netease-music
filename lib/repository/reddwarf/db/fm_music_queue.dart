@@ -3,8 +3,6 @@ import 'package:path/path.dart';
 import 'package:quiet/model/fm_music.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../netease.dart';
-
 class FmMusicQueue {
   static Future<Database> initialDatabase() async {
     final database = openDatabase(join(await getDatabasesPath(), 'netease2.db'),
@@ -25,7 +23,7 @@ class FmMusicQueue {
     );
   }
 
-  static Future<void> deleteFmMusic(int id) async {
+  static Future<bool> deleteFmMusic(int id) async {
     final db = await initialDatabase();
     var affectRows = await db.delete(
       'fm_queue',
@@ -34,8 +32,9 @@ class FmMusicQueue {
     );
     if (affectRows != 1) {
       toast("delete music failed: $id");
+      return false;
     }
-    neteaseRepository!.fmTrash(id);
+    return true;
   }
 
   static Future<int> getFmCachedMusicCount() async {

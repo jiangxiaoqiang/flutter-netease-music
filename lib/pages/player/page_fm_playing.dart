@@ -234,7 +234,11 @@ class _FmControllerBar extends StatelessWidget {
                         context.player.value.current!);
                 if (dislikeResult) {
                   toast('已加入不喜欢列表，以后将减少类似的推荐。');
-                  FmMusicQueue.deleteFmMusic(context.player.value.current!.id);
+                  if (await FmMusicQueue.deleteFmMusic(
+                      context.player.value.current!.id)) {
+                    neteaseRepository!
+                        .fmTrash(context.player.value.current!.id);
+                  }
                   context.transportControls.skipToNext();
                 }
               }),
