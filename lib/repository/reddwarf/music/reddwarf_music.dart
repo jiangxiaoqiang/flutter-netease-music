@@ -67,6 +67,8 @@ class ReddwarfMusic {
         }
         final FavMusic item = FavMusic.fromJson(isLegacyMusic[0]);
         if (item.like_status == 1) {
+          final int songId = item.sourceId;
+          neteaseRepository!.like(songId, like: true);
           return true;
         }
         if (item.like_status == -1) {
