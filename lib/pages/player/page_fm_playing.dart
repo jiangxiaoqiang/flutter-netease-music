@@ -48,8 +48,7 @@ class PagePlayingFm extends StatelessWidget {
                       const SizedBox(height: 8),
                       DurationProgressBar(),
                       _FmControllerBar(),
-                      SizedBox(
-                          height: MediaQuery.of(context).viewInsets.bottom),
+                      SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                     ],
                   ),
                 ),
@@ -74,10 +73,8 @@ class _CenterSectionState extends State<_CenterSection> {
   Widget build(BuildContext context) {
     return Expanded(
       child: AnimatedCrossFade(
-        crossFadeState:
-            _showLyric ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild,
-            Key bottomChildKey) {
+        crossFadeState: _showLyric ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild, Key bottomChildKey) {
           return Stack(
             clipBehavior: Clip.none,
             children: <Widget>[
@@ -119,9 +116,7 @@ class _FmCover extends StatelessWidget {
   Widget build(BuildContext context) {
     final music = context.watchPlayerValue.current!;
     final String defaultCoverUrl = GlobalConfig.getConfig("defaultCoverUrl");
-    final String playMusicUrl = music.album!.coverImageUrl == null
-        ? defaultCoverUrl
-        : music.album!.coverImageUrl!;
+    final String playMusicUrl = music.album!.coverImageUrl == null ? defaultCoverUrl : music.album!.coverImageUrl!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -159,17 +154,12 @@ class _FmCover extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 200),
                 child: Text(
                   music.artistString,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .caption!
-                      .copyWith(fontSize: 13),
+                  style: Theme.of(context).primaryTextTheme.caption!.copyWith(fontSize: 13),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Icon(Icons.chevron_right,
-                  size: 17,
-                  color: Theme.of(context).primaryTextTheme.caption!.color),
+              Icon(Icons.chevron_right, size: 17, color: Theme.of(context).primaryTextTheme.caption!.color),
             ],
           ),
         )
@@ -229,14 +219,10 @@ class _FmControllerBar extends StatelessWidget {
                 color: color,
               ),
               onPressed: () async {
-                final bool dislikeResult =
-                    await ReddwarfMusic.dislikePlayingMusic(
-                        context.player.value.current!);
+                final bool dislikeResult = await ReddwarfMusic.dislikePlayingMusic(context.player.value.current!);
                 if (dislikeResult) {
-                  if (await FmMusicQueue.deleteFmMusic(
-                      context.player.value.current!.id)) {
-                    neteaseRepository!
-                        .fmTrash(context.player.value.current!.id);
+                  if (await FmMusicQueue.deleteFmMusic(context.player.value.current!.id)) {
+                    neteaseRepository!.fmTrash(context.player.value.current!.id);
                     toast('已加入不喜欢列表，以后将减少类似的推荐。');
                     context.transportControls.skipToNext();
                   } else {
@@ -267,8 +253,7 @@ class _FmControllerBar extends StatelessWidget {
                           threadId: CommentThreadId(
                             context.player.value.current!.id,
                             CommentType.song,
-                            payload: CommentThreadPayload.music(
-                                context.player.value.current!),
+                            payload: CommentThreadPayload.music(context.player.value.current!),
                           ),
                         )));
               }),

@@ -10,7 +10,8 @@ class FavMusic {
   FavMusic({
     required this.id,
     required this.sourceId,
-  }) ;
+    required this.like_status,
+  });
 
   factory FavMusic.fromMetadata(MusicMetadata metadata) {
     return FavMusic.fromJson(metadata.extras!.cast<String, dynamic>());
@@ -25,6 +26,8 @@ class FavMusic {
   ///歌曲mv id,当其为0时,表示没有mv
   final int sourceId;
 
+  final int like_status;
+
   MusicMetadata? _metadata;
 
   MusicMetadata get metadata {
@@ -36,8 +39,7 @@ class FavMusic {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is FavMusic && id == other.id;
+  bool operator ==(Object other) => identical(this, other) || other is FavMusic && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

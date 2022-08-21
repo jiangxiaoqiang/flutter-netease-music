@@ -6,6 +6,8 @@ import 'package:quiet/model/playlist_detail.dart';
 import 'package:quiet/part/part.dart';
 import 'package:wheel/wheel.dart' show AppLogHandler, RestApiError, RestClient;
 
+import '../../netease.dart';
+
 export 'package:async/async.dart' show Result, ValueResult, ErrorResult;
 export 'package:quiet/repository/cached_image.dart';
 export 'package:quiet/repository/local_cache_data.dart';
@@ -28,7 +30,7 @@ class ReddwarfMusic {
         if (isLegacyMusic.toString().toLowerCase() == 'false') {
           ReddwarfMusic._savePlayingMusicImpl(music);
         }
-      }else{
+      } else {
         AppLogHandler.logError(RestApiError("http error"), "type exception http error");
       }
     } on Exception catch (e) {
@@ -44,9 +46,8 @@ class ReddwarfMusic {
     try {
       final Map jsonMap = music.toJson();
       final response = await RestClient.postHttp("/music/music/user/v1.1/save-play-record", jsonMap);
-      if (RestClient.respSuccess(response)) {}else{
-
-      }
+      if (RestClient.respSuccess(response)) {
+      } else {}
     } on Exception catch (e) {
       // only executed if error is of type Exception
       AppLogHandler.logError(RestApiError("type exception http error"), "type exception http error");
@@ -58,10 +59,22 @@ class ReddwarfMusic {
 
   static Future<bool> legacyMusic(Music music) async {
     try {
-      final response = await RestClient.getHttp("/music/songs/v1/jump/${music.id}");
+      final response = await RestClient.getHttp("/music/songs/v1/collect/${music.id}");
       if (RestClient.respSuccess(response)) {
-        final Object isLegacyMusic = response.data["result"];
-        return isLegacyMusic.toString().toLowerCase() == 'true';
+        final List isLegacyMusic = response.data["result"] as List;
+        if (isLegacyMusic.isEmpty) {
+          return false;
+        }
+        final FavMusic item = FavMusic.fromJson(isLegacyMusic[0]);
+        if (item.like_status == 1) {
+          return true;
+        }
+        if (item.like_status == -1) {
+          final int songId = item.sourceId;
+          neteaseRepository!.fmTrash(songId);
+          return true;
+        }
+        return false;
       }
     } on Exception catch (e) {
       // only executed if error is of type Exception
