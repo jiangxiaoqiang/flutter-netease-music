@@ -17,6 +17,7 @@ import 'package:quiet/pages/account/page_user_detail.dart';
 import 'package:quiet/pages/comments/page_comment.dart';
 import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/netease.dart';
+import 'package:wheel/wheel.dart';
 
 import 'music_list.dart';
 import 'page_playlist_detail_selection.dart';
@@ -142,9 +143,7 @@ class _Appbar extends ConsumerWidget {
     Future<bool> _doSubscribeChanged(bool subscribe) async {
       bool succeed;
       try {
-        succeed = await showLoaderOverlay(
-            context,
-            neteaseRepository!.playlistSubscribe(playlist.id, !subscribe));
+        succeed = await showLoaderOverlay(context, neteaseRepository!.playlistSubscribe(playlist.id, !subscribe));
       } catch (e) {
         succeed = false;
       }
@@ -152,32 +151,38 @@ class _Appbar extends ConsumerWidget {
       if (succeed) {
         showSimpleNotification(Text("$action成功"));
       } else {
-        showSimpleNotification(Text("$action失败"),
-            background: Theme.of(context).errorColor);
+        showSimpleNotification(Text("$action失败"), background: Theme.of(context).errorColor);
       }
       return succeed ? !subscribe : subscribe;
     }
 
-    Widget? subscribeIcon;
-
-    final bool owner =
-        playlist.creator!["userId"] == ref.watch(userProvider).userId;
-    if (!owner) {
-      subscribeIcon = _SubscribeButton(
-        subscribed: playlist.subscribed,
-        subscribedCount: playlist.subscribedCount,
-        doSubscribeChanged: _doSubscribeChanged,
-      );
+    Future<Widget?> getSubscribeIcon() async {
+      Widget? subscribeIcon;
+      final bool owner = playlist.creator!["userId"] == await SecureStorageUtil.getString("userId");
+      print("is owner:" + owner.toString());
+      if (!owner) {
+        subscribeIcon = _SubscribeButton(
+          subscribed: playlist.subscribed,
+          subscribedCount: playlist.subscribedCount,
+          doSubscribeChanged: _doSubscribeChanged,
+        );
+      }
+      return subscribeIcon;
     }
 
-    return SliverAppBar(
-      elevation: 0,
-      pinned: true,
-      automaticallyImplyLeading: false,
-      backgroundColor: Colors.transparent,
-      expandedHeight: kHeaderHeight,
-      bottom: MusicListHeader(playlist.musicList.length, tail: subscribeIcon),
-      flexibleSpace: _PlaylistDetailHeader(playlist),
+    return FutureBuilder(
+      builder: (BuildContext ctx, AsyncSnapshot<Widget?> snapshot) {
+        return SliverAppBar(
+          elevation: 0,
+          pinned: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          expandedHeight: kHeaderHeight,
+          bottom: MusicListHeader(playlist.musicList.length, tail: snapshot.data),
+          flexibleSpace: _PlaylistDetailHeader(playlist),
+        );
+      },
+      future: getSubscribeIcon(),
     );
   }
 }
@@ -202,25 +207,23 @@ class _PlaylistBodyState extends ConsumerState<_MusicList> {
     return MusicTileConfiguration(
       token: "playlist_${widget.playlist.id}",
       musics: widget.musicList,
-      remove: widget.playlist.creator!["userId"] !=
-          ref.read(userProvider).userId
+      remove: widget.playlist.creator!["userId"] != ref.read(userProvider).userId
           ? null
           : (music) async {
-        final result = await neteaseRepository!.playlistTracksEdit(
-            PlaylistOperation.remove, widget.playlist.id, [music.id]);
-        if (result) {
-          setState(() {
-            widget.playlist.musicList.remove(music);
-          });
-        }
-        toast(result ? '删除成功' : '删除失败');
-      },
+              final result = await neteaseRepository!.playlistTracksEdit(PlaylistOperation.remove, widget.playlist.id, [music.id]);
+              if (result) {
+                setState(() {
+                  widget.playlist.musicList.remove(music);
+                });
+              }
+              toast(result ? '删除成功' : '删除失败');
+            },
       onMusicTap: MusicTileConfiguration.defaultOnTap,
       leadingBuilder: MusicTileConfiguration.indexedLeadingBuilder,
       trailingBuilder: MusicTileConfiguration.defaultTrailingBuilder,
       child: SliverList(
         delegate: SliverChildBuilderDelegate(
-              (context, index) => MusicTile(widget.musicList[index]),
+          (context, index) => MusicTile(widget.musicList[index]),
           childCount: widget.musicList.length,
         ),
       ),
@@ -264,10 +267,7 @@ class _SubscribeButtonState extends State<_SubscribeButton> {
         child: Container(
           height: 40,
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Theme.of(context).primaryColor.withOpacity(0.5),
-                Theme.of(context).primaryColor
-              ])),
+              gradient: LinearGradient(colors: [Theme.of(context).primaryColor.withOpacity(0.5), Theme.of(context).primaryColor])),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
@@ -280,8 +280,7 @@ class _SubscribeButtonState extends State<_SubscribeButton> {
               child: Row(
                 children: <Widget>[
                   const SizedBox(width: 16),
-                  Icon(Icons.add,
-                      color: Theme.of(context).primaryIconTheme.color),
+                  Icon(Icons.add, color: Theme.of(context).primaryIconTheme.color),
                   const SizedBox(width: 4),
                   Text(
                     "收藏(${getFormattedNumber(widget.subscribedCount!)})",
@@ -303,12 +302,8 @@ class _SubscribeButtonState extends State<_SubscribeButton> {
                   return AlertDialog(
                     content: const Text("确定不再收藏此歌单吗?"),
                     actions: <Widget>[
-                      TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text("取消")),
-                      TextButton(
-                          onPressed: () => Navigator.pop(context, true),
-                          child: const Text("不再收藏"))
+                      TextButton(onPressed: () => Navigator.pop(context), child: const Text("取消")),
+                      TextButton(onPressed: () => Navigator.pop(context, true), child: const Text("不再收藏"))
                     ],
                   );
                 });
@@ -324,14 +319,9 @@ class _SubscribeButtonState extends State<_SubscribeButton> {
             child: Row(
               children: <Widget>[
                 const SizedBox(width: 16),
-                Icon(Icons.folder_special,
-                    size: 20, color: Theme.of(context).disabledColor),
+                Icon(Icons.folder_special, size: 20, color: Theme.of(context).disabledColor),
                 const SizedBox(width: 4),
-                Text(getFormattedNumber(widget.subscribedCount!),
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption!
-                        .copyWith(fontSize: 14)),
+                Text(getFormattedNumber(widget.subscribedCount!), style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14)),
                 const SizedBox(width: 16),
               ],
             ),
@@ -379,8 +369,7 @@ class _HeaderAction extends StatelessWidget {
 
 ///播放列表头部背景
 class PlayListHeaderBackground extends StatelessWidget {
-  const PlayListHeaderBackground({Key? key, required this.imageUrl})
-      : super(key: key);
+  const PlayListHeaderBackground({Key? key, required this.imageUrl}) : super(key: key);
 
   final String? imageUrl;
 
@@ -389,11 +378,7 @@ class PlayListHeaderBackground extends StatelessWidget {
     return Stack(
       fit: StackFit.passthrough,
       children: <Widget>[
-        Image(
-            image: CachedImage(imageUrl!),
-            fit: BoxFit.cover,
-            width: 120,
-            height: 1),
+        Image(image: CachedImage(imageUrl!), fit: BoxFit.cover, width: 120, height: 1),
         RepaintBoundary(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
@@ -410,13 +395,13 @@ class PlayListHeaderBackground extends StatelessWidget {
 class DetailHeader extends StatelessWidget {
   const DetailHeader(
       {Key? key,
-        required this.content,
-        this.onCommentTap,
-        this.onShareTap,
-        this.onSelectionTap,
-        int? commentCount = 0,
-        int? shareCount = 0,
-        this.background})
+      required this.content,
+      this.onCommentTap,
+      this.onShareTap,
+      this.onSelectionTap,
+      int? commentCount = 0,
+      int? shareCount = 0,
+      this.background})
       : commentCount = commentCount ?? 0,
         shareCount = shareCount ?? 0,
         super(key: key);
@@ -439,8 +424,7 @@ class DetailHeader extends StatelessWidget {
       Material(
         color: Colors.transparent,
         child: Container(
-          padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + kToolbarHeight),
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
           child: Column(
             children: <Widget>[
               content,
@@ -449,14 +433,8 @@ class DetailHeader extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  _HeaderAction(
-                      Icons.comment,
-                      commentCount > 0 ? commentCount.toString() : "评论",
-                      onCommentTap),
-                  _HeaderAction(
-                      Icons.share,
-                      shareCount > 0 ? shareCount.toString() : "分享",
-                      onShareTap),
+                  _HeaderAction(Icons.comment, commentCount > 0 ? commentCount.toString() : "评论", onCommentTap),
+                  _HeaderAction(Icons.share, shareCount > 0 ? shareCount.toString() : "分享", onShareTap),
                   const _HeaderAction(Icons.file_download, '下载', null),
                   _HeaderAction(Icons.check_box, "多选", onSelectionTap),
                 ],
@@ -484,9 +462,7 @@ class _PlaylistDetailHeader extends StatelessWidget {
       builder: (context, t) => AppBar(
         leading: context.isLandscape ? null : const BackButton(),
         automaticallyImplyLeading: false,
-        title: Text(t > 0.5
-            ? playlist.name ?? context.strings.playlist
-            : context.strings.playlist),
+        title: Text(t > 0.5 ? playlist.name ?? context.strings.playlist : context.strings.playlist),
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleSpacing: 16,
@@ -495,9 +471,7 @@ class _PlaylistDetailHeader extends StatelessWidget {
               icon: const Icon(Icons.search),
               tooltip: "歌单内搜索",
               onPressed: () {
-                showSearch(
-                    context: context,
-                    delegate: PlaylistInternalSearchDelegate(playlist));
+                showSearch(context: context, delegate: PlaylistInternalSearchDelegate(playlist));
               }),
           LandscapeWidgetSwitcher(
             landscape: (context) {
@@ -529,8 +503,7 @@ class _PlayListHeaderContent extends ConsumerWidget {
         onCommentTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return CommentPage(
-              threadId: CommentThreadId(playlist.id, CommentType.playlist,
-                  payload: CommentThreadPayload.playlist(playlist)),
+              threadId: CommentThreadId(playlist.id, CommentType.playlist, payload: CommentThreadPayload.playlist(playlist)),
             );
           }));
         },
@@ -542,10 +515,7 @@ class _PlayListHeaderContent extends ConsumerWidget {
               return PlaylistSelectionPage(
                   list: musicList,
                   onDelete: (selected) async {
-                    return neteaseRepository!.playlistTracksEdit(
-                        PlaylistOperation.remove,
-                        playlist.id,
-                        selected.map((m) => m.id).toList());
+                    return neteaseRepository!.playlistTracksEdit(PlaylistOperation.remove, playlist.id, selected.map((m) => m.id).toList());
                   });
             }));
           }
@@ -553,12 +523,8 @@ class _PlayListHeaderContent extends ConsumerWidget {
         onShareTap: () {
           Clipboard.setData(
             ClipboardData(
-              text: context.strings.playlistShareContent(
-                  playlist.creator!["nickname"],
-                  playlist.name!,
-                  playlist.id.toString(),
-                  playlist.creator!["userId"].toString(),
-                  ref.read(userProvider).userId.toString()),
+              text: context.strings.playlistShareContent(playlist.creator!["nickname"], playlist.name!, playlist.id.toString(),
+                  playlist.creator!["userId"].toString(), ref.read(userProvider).userId.toString()),
             ),
           );
           toast(context.strings.shareContentCopied);
@@ -578,21 +544,16 @@ class _PlayListHeaderContent extends ConsumerWidget {
                     const SizedBox(height: 10),
                     Text(
                       playlist.name!,
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .headline6!
-                          .copyWith(fontSize: 17),
+                      style: Theme.of(context).primaryTextTheme.headline6!.copyWith(fontSize: 17),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                              return UserDetailPage(
-                                  userId: creator['userId'] as int?);
-                            }));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return UserDetailPage(userId: creator['userId'] as int?);
+                        }));
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4, bottom: 4),
@@ -603,16 +564,13 @@ class _PlayListHeaderContent extends ConsumerWidget {
                               height: 24,
                               width: 24,
                               child: ClipOval(
-                                child: Image(
-                                    image: CachedImage(
-                                        creator["avatarUrl"] as String)),
+                                child: Image(image: CachedImage(creator["avatarUrl"] as String)),
                               ),
                             ),
                             const Padding(padding: EdgeInsets.only(left: 4)),
                             Text(
                               creator["nickname"] as String,
-                              style:
-                              Theme.of(context).primaryTextTheme.bodyText2,
+                              style: Theme.of(context).primaryTextTheme.bodyText2,
                             ),
                             Icon(
                               Icons.chevron_right,
@@ -658,28 +616,20 @@ class _PlaylistImage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(4),
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black54,
-                        Colors.black26,
-                        Colors.transparent,
-                        Colors.transparent,
-                      ])),
+                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                Colors.black54,
+                Colors.black26,
+                Colors.transparent,
+                Colors.transparent,
+              ])),
               child: Align(
                 alignment: Alignment.topRight,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Icon(Icons.headset,
-                        color: Theme.of(context).primaryIconTheme.color,
-                        size: 12),
+                    Icon(Icons.headset, color: Theme.of(context).primaryIconTheme.color, size: 12),
                     Text(getFormattedNumber(playlist.playCount!),
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .bodyText2!
-                            .copyWith(fontSize: 11))
+                        style: Theme.of(context).primaryTextTheme.bodyText2!.copyWith(fontSize: 11))
                   ],
                 ),
               ),
