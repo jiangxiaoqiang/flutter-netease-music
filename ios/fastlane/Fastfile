@@ -45,8 +45,7 @@ platform :ios do
     )
 
     pgyer(
-        api_key: ENV['PGY_API_KEY'],
-        user_key: ENV['PGY_USER_KEY']
+        api_key: ENV['PGY_API_KEY']
     )
     # add actions here: https://docs.fastlane.tools/actions
   end
