@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_player/music_player.dart';
 import 'package:quiet/component/netease/netease.dart';
 import 'package:quiet/part/part.dart';
-import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 
 import 'user.dart';
 
@@ -14,8 +13,7 @@ import 'user.dart';
 /// an widget which indicator player is Playing/Pausing/Buffering
 ///
 class PlayingIndicator extends StatefulWidget {
-  const PlayingIndicator({Key? key, this.playing, this.pausing, this.buffering})
-      : super(key: key);
+  const PlayingIndicator({Key? key, this.playing, this.pausing, this.buffering}) : super(key: key);
 
   ///show when player is playing
   final Widget? playing;
@@ -62,8 +60,7 @@ class _PlayingIndicatorState extends State<PlayingIndicator> {
     final target = _playerState;
     if (target == _index) return;
 
-    final action =
-        CancelableOperation.fromFuture(Future.delayed(_durationDelay));
+    final action = CancelableOperation.fromFuture(Future.delayed(_durationDelay));
     _changeStateOperations.add(action);
     action.value.whenComplete(() {
       if (target == _playerState) _changeState(target);
@@ -122,9 +119,9 @@ class LikeButton extends ConsumerWidget {
           }
         }
         if (!isLiked) {
-          ref.read(userFavoriteMusicListProvider.notifier).likeMusic(music);
+          ref.read(userFavoriteMusicListProvider.notifier).likeMusic(music, 1);
         } else {
-          ref.read(userFavoriteMusicListProvider.notifier).dislikeMusic(music);
+          ref.read(userFavoriteMusicListProvider.notifier).likeMusic(music, 0);
         }
       },
     );

@@ -7,8 +7,7 @@ import 'package:quiet/part/part.dart';
 import 'package:quiet/repository/netease.dart';
 import 'package:quiet/repository/reddwarf/music/reddwarf_music.dart';
 
-final userFavoriteMusicListProvider =
-    StateNotifierProvider<UserFavoriteMusicListNotifier, List<int>>(
+final userFavoriteMusicListProvider = StateNotifierProvider<UserFavoriteMusicListNotifier, List<int>>(
   (ref) => UserFavoriteMusicListNotifier(ref.watch(userProvider).userId),
 );
 
@@ -20,15 +19,15 @@ class UserFavoriteMusicListNotifier extends CacheableStateNotifier<List<int>> {
   final int? userId;
 
   /// 红心歌曲
-  Future<void> likeMusic(Music music) async {
-  final bool succeed = await ReddwarfMusic.likePlayingMusic(music);
-    if(succeed){
+  Future<void> likeMusic(Music music, int likeStatus) async {
+    final bool succeed = await ReddwarfMusic.likePlayingMusic(music, likeStatus);
+    if (succeed) {
       state = [...state, music.id];
     }
     neteaseRepository!.like(music.id, like: true);
   }
 
-  ///取消红心歌曲
+  ///不喜欢歌曲
   Future<void> dislikeMusic(Music music) async {
     final succeed = await ReddwarfMusic.dislikePlayingMusic(music);
     if (succeed) {
@@ -47,8 +46,7 @@ class UserFavoriteMusicListNotifier extends CacheableStateNotifier<List<int>> {
   }
 
   @override
-  Future<List<int>?> loadFromCache() async =>
-      (await neteaseLocalData[_keyLikedSongList] as List?)?.cast<int>();
+  Future<List<int>?> loadFromCache() async => (await neteaseLocalData[_keyLikedSongList] as List?)?.cast<int>();
 
   @override
   void saveToCache(List<int> value) {

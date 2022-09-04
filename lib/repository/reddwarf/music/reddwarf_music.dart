@@ -88,11 +88,12 @@ class ReddwarfMusic {
     return true;
   }
 
-  static Future<bool> likePlayingMusic(Music music) async {
+  static Future<bool> likePlayingMusic(Music music, int likeStatus) async {
     try {
       final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
       final Map jsonMap = music.toJson();
       jsonMap.putIfAbsent("timeStamp", () => currentTimestamp);
+      jsonMap.putIfAbsent("like_status", () => likeStatus);
       final response = await RestClient.postHttp("/music/music/user/v1.1/like", jsonMap);
       if (RestClient.respSuccess(response)) {
         return true;
