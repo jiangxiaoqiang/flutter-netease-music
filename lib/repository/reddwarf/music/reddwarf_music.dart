@@ -130,6 +130,7 @@ class ReddwarfMusic {
       final Map jsonMap = music.toJson();
       final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
       jsonMap.putIfAbsent("timeStamp", () => currentTimestamp);
+      jsonMap.putIfAbsent("like_status", () => -1);
       final response = await RestClient.postHttp("/music/music/user/v1.1/dislike", jsonMap);
       if (RestClient.respSuccess(response)) {
         return true;
