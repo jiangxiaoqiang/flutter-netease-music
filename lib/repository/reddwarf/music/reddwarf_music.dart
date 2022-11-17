@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:quiet/model/fav_music.dart';
@@ -110,7 +111,7 @@ class ReddwarfMusic {
   static Future<String> incrementPlayCount(Music music) async {
     String result = "ok";
     try {
-      final Map jsonMap = music.toJson();
+      final Map jsonMap = new HashMap();
       final response = await RestClient.postHttp("/music/songs/v1/playcount/increment/${music.id}", jsonMap);
       if (RestClient.respSuccess(response)) {
         return result;
