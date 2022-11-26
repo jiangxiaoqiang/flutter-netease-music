@@ -16,4 +16,5 @@ export FLUTTER_STORAGE_BASE_URL=https://mirrors.tuna.tsinghua.edu.cn/flutter
 
 USER=`whoami`
 
-/Users/${USER}/fvm/versions/2.8.0/bin/flutter pub upgrade --verbose
+# /Users/${USER}/fvm/versions/2.8.0/bin/flutter pub upgrade --verbose
+/Users/${USER}/fvm/versions/2.8.0/bin/flutter pub upgrade
