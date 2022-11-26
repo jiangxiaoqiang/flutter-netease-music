@@ -16,9 +16,9 @@ void main() {
 /// avoid Tree Shaking
 @pragma('vm:entry-point')
 void playerBackgroundService() {
-  CommonUtils.initialApp(ConfigType.PRO).whenComplete(() => {
-    loadRepository()
-  },);
+  CommonUtils.initialApp(ConfigType.PRO).whenComplete(
+    () => {loadRepository()},
+  );
 }
 
 void loadRepository() {
@@ -33,5 +33,3 @@ void loadRepository() {
     playQueueInterceptor: QuietPlayQueueInterceptor(),
   );
 }
-
-
