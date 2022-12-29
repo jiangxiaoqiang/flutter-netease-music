@@ -50,6 +50,7 @@ Imitation of [NeteaseMusic](https://music.163.com/#/download).
 
 ```bash
 ~/fvm/versions/{version}/bin/flutter build ipa --export-options-plist=/Users/xiaoqiangjiang/source/reddwarf/frontend/flutter-netease-music/ios/Runner/Info.plist --release
+~/fvm/versions/2.5.0/bin/flutter build ipa --export-options-plist=/Users/xiaoqiangjiang/source/reddwarf/frontend/flutter-netease-music/ios/Runner/Info.plist --release
 ```
 
 以上命令注意替换路径为本地实际路径。在设备上运行应用，可以断开USB线：

@@ -30,7 +30,7 @@ dependencies:
   netease_music_api:
     git:
       url: https://github.com/jiangxiaoqiang/NeteaseCloudMusicApi.git
-      ref: 851c3fab0638881b39f7094b0c98bedd98192a44
+      ref: 123d5bc3cac00e485913676548f2a4b53e132359
   overlay_support: ^1.2.1
   music_player:
     git:
